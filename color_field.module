@@ -109,30 +109,30 @@ function color_field_field_widget_info() {
   );
 }
 
-
+/**
+ * Implements hook_field_widget_form().
+ */
 function color_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : '#DDDDDD';
+  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : '#FFFFFF';
 
   $widget = $element;
   $widget['#delta'] = $delta;
-  
+
   $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
   $settings['id'] = $id;
   $settings['value'] = $value;
-  
-  switch ($instance['widget']['type']) {
 
+  switch ($instance['widget']['type']) {
 	case 'color_field_default_widget':
-	  
       $widget += array(
-        '#suffix' => '<div class="mc-custom-color-picker">1</div>',
+        '#suffix' => '<div class="mc-custom-color-picker"></div>',
         '#attached' => array(
           'js' => array(
-            drupal_get_path('module', 'color_field') . '/colorpicker.js',
+            drupal_get_path('module', 'color_field') . '/color_field.js',
             drupal_get_path('module', 'color_field') . '/color_field.jquery.js',
             array(
               'data' => array('color_field' => $settings),
-  			  'type' => 'setting',			
+  		      'type' => 'setting',			
 			),
           ),
           'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
@@ -163,7 +163,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
  */
 function color_field_widget_error($element, $error, $form, &$form_state) {
   switch ($error['error']) {
-    case 'field_example_invalid':
+    case 'color_field_invalid':
       form_error($element, $error['message']);
       break;
   }
