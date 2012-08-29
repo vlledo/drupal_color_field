@@ -1,0 +1,170 @@
+<?php
+/**
+ * @file
+ * An color field with a custom color picker using the Field Types API.
+ */
+
+
+/**
+ * Implements hook_field_info().
+ */
+function color_field_field_info() {
+  return array(
+    // We name our field as the associative name of the array.
+    'color_field_rgb' => array(
+      'label' => t('Color Field'),
+      'description' => t('Field using a hexadecimal notation.'),
+      'default_widget' => 'color_field_default_widget',
+      'default_formatter' => 'color_field_default_formatter',
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_field_validate().
+ *
+ * We want to verify that the items only contain RGB hex values like
+ * this: #RRGGBB. If the item validates, we do nothing. If it doesn't
+ * validate, we add our own error notification to the $errors parameter.
+ *
+ * @see color_field_widget_error()
+ */
+function color_field_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  foreach ($items as $delta => $item) {
+    if (!empty($item['rgb'])) {
+      if (! preg_match('@^#[0-9a-fA-F]{6}$@', $item['rgb'])) {
+        $errors[$field['field_name']][$langcode][$delta][] = array(
+          'error' => 'color_field_invalid',
+          'message' => t('Color must be in the hexadecimal format #abcdef.'),
+        );
+      }
+    }
+  }
+}
+
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function color_field_field_is_empty($item, $field) {
+  return empty($item['rgb']);
+}
+
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * @see color_field_field_formatter_view()
+ */
+function color_field_field_formatter_info() {
+  return array(
+    // This formatter changes the background color of the content region.
+    'color_field_default_formatter' => array(
+      'label' => t('Plain text color'),
+      'field types' => array('color_field_rgb'),
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * Two formatters are implemented.
+ * - field_example_simple_text just outputs markup indicating the color that
+ *   was entered and uses an inline style to set the text color to that value.
+ * - field_example_color_background does the same but also changes the
+ *   background color of div.region-content.
+ *
+ * @see color_field_formatter_info()
+ */
+function color_field_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  switch ($display['type']) {
+
+    case 'color_field_default_formatter':
+      foreach ($items as $delta => $item) {
+        $element[$delta]['#markup']= $item['rgb'];
+      }
+      break;
+  }
+
+  return $element;
+}
+
+
+/**
+ * Implements hook_field_widget_info().
+ *
+ * @see color_field_field_widget_form()
+ */
+function color_field_field_widget_info() {
+  return array(
+    'color_field_default_widget' => array(
+      'label' => t('Color Field'),
+      'field types' => array('color_field_rgb'),
+    ),
+  );
+}
+
+
+function color_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : '#DDDDDD';
+
+  $widget = $element;
+  $widget['#delta'] = $delta;
+  
+  $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
+  $settings['id'] = $id;
+  $settings['value'] = $value;
+  
+  switch ($instance['widget']['type']) {
+
+	case 'color_field_default_widget':
+	  
+      $widget += array(
+        '#suffix' => '<div class="mc-custom-color-picker">1</div>',
+        '#attached' => array(
+          'js' => array(
+            drupal_get_path('module', 'color_field') . '/colorpicker.js',
+            drupal_get_path('module', 'color_field') . '/color_field.jquery.js',
+            array(
+              'data' => array('color_field' => $settings),
+  			  'type' => 'setting',			
+			),
+          ),
+          'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
+        )
+      );
+
+      $widget += array(
+        '#attributes' => array('class' => array('hide')),
+        '#type' => 'textfield',
+        '#default_value' => $value,
+        '#size' => 7,
+        '#maxlength' => 7,
+      );
+      break;
+
+  }
+
+  $element['rgb'] = $widget;
+  return $element;
+}
+
+
+/**
+ * Implements hook_field_widget_error().
+ *
+ * @see color_field_validate()
+ * @see form_error()
+ */
+function color_field_widget_error($element, $error, $form, &$form_state) {
+  switch ($error['error']) {
+    case 'field_example_invalid':
+      form_error($element, $error['message']);
+      break;
+  }
+}

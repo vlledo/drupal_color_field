@@ -1,0 +1,14 @@
+.ColorBlotch {
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 1.2em;
+    margin: 0 5px;
+    padding: 0 8px;
+}
+.ColorBlotch:hover {
+  padding: 5px 12px;
+}
+.ColorBlotch.active {
+  padding: 5px 12px;
+}
