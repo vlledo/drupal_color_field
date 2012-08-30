@@ -7,12 +7,12 @@
     attach: function (context) {
       $.each(Drupal.settings.color_field, function (selector) {
         $(selector).empty().addColorPicker({
-    	  currentColor:this.value,
-    	  clickCallback: function(c) {
-        	id = selector;
-        	id = id.replace("#div","edit");
-    	    $('#' + id).val(c);
-    	  }
+          currentColor:this.value,
+          clickCallback: function(c) {
+            id = selector;
+            id = id.replace("#div","edit");
+            $('#' + id).val(c);
+          }
         });
       });
     }

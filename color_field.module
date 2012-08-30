@@ -30,7 +30,7 @@ function color_field_field_info() {
 function color_field_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
   foreach ($items as $delta => $item) {
     if (!empty($item['rgb'])) {
-      if (! preg_match('@^#[0-9a-fA-F]{6}$@', $item['rgb'])) {
+      if (!preg_match('@^#[0-9a-fA-F]{6}$@', $item['rgb'])) {
         $errors[$field['field_name']][$langcode][$delta][] = array(
           'error' => 'color_field_invalid',
           'message' => t('Color must be in the hexadecimal format #abcdef.'),
@@ -77,10 +77,10 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
   $element = array();
 
   switch ($display['type']) {
-    
+
     case 'color_field_default_formatter':
       foreach ($items as $delta => $item) {
-        $element[$delta]['#markup']= $item['rgb'];
+        $element[$delta]['#markup'] = $item['rgb'];
       }
       break;
   }
@@ -120,7 +120,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
   $settings['id'] = $id;
 
   switch ($instance['widget']['type']) {
-	case 'color_field_default_widget':
+    case 'color_field_default_widget':
       $widget += array(
         '#suffix' => '<label>' . $instance['label'] . '</label><div id=' . $divid . '></div>',
         '#attached' => array(
@@ -130,7 +130,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
             array(
               'data' => array('color_field' => array('#' . $divid => $settings)),
   		      'type' => 'setting',		
-			),
+     	    ),
           ),
           'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
         )
@@ -143,7 +143,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#size' => 7,
         '#maxlength' => 7,
       );
-      break;
+    break;
   }
 
   $element['rgb'] = $widget;
