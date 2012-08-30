@@ -12,3 +12,6 @@
 .colorBox.active {
   padding: 5px 12px;
 }
+.hide_input {
+	diplay:none;
+}

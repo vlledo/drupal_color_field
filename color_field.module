@@ -106,7 +106,9 @@ function color_field_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function color_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : '#FFFFFF';
+
+  $default_value = isset($instance['default_value'][0]['rgb']) ? $instance['default_value'][0]['rgb'] : '#AC725E';
+  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : $default_value;
 
   $widget = $element;
   $widget['#delta'] = $delta;
@@ -120,7 +122,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
   switch ($instance['widget']['type']) {
 	case 'color_field_default_widget':
       $widget += array(
-        '#suffix' => '<div id=' . $divid . '></div>',
+        '#suffix' => '<label>' . $instance['label'] . '</label><div id=' . $divid . '></div>',
         '#attached' => array(
           'js' => array(
             drupal_get_path('module', 'color_field') . '/color_field.js',
@@ -135,8 +137,8 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       );
 
       $widget += array(
-        '#attributes' => array('class' => array('hide')),
-        '#type' => 'textfield',
+        '#attributes' => array('class' => array('hide_input'),'id' => $id),
+        '#type' => 'token',
         '#default_value' => $value,
         '#size' => 7,
         '#maxlength' => 7,
