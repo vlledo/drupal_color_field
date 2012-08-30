@@ -4,13 +4,12 @@
  * 
  */
 (function ($) {
-
 jQuery.fn.addColorPicker = function( props ) {
   if( ! props ) { props = []; }
     props = jQuery.extend({
 		currentColor:'',
 		blotchElemType: 'span',
-		blotchClass:'ColorBlotch',
+		blotchClass:'colorBox',
 		clickCallback: function(ignoredColor) {},
 		iterationCallback: null,
 		fillString: '&nbsp;',
@@ -32,12 +31,11 @@ jQuery.fn.addColorPicker = function( props ) {
 			.css( 'background-color',color); // jq bug: chaining here fails if color is null b/c .css() returns (new String('transparent'))!
 		if( props.currentColor == color ) elem.addClass( 'active');
 		if( props.clickCallback ) {
-			elem.click( function() { jQuery('.ColorBlotch').removeClass('active'); ; jQuery(this).addClass( 'active'); props.clickCallback(jQuery(this).attr('color')); });
+			elem.click( function() { jQuery('.colorBox').removeClass('active'); ; jQuery(this).addClass( 'active'); props.clickCallback(jQuery(this).attr('color')); });
 		}
 		this.append( elem );
 		if( props.iterationCallback ) props.iterationCallback( this, elem, color, i );
 	}
 	return this;
 };
-
 })(jQuery);
