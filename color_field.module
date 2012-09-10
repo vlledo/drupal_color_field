@@ -48,6 +48,34 @@ function color_field_field_is_empty($item, $field) {
 }
 
 /**
+ * Implements hook_field_settings_form().
+ *
+ * Handle the parameters for a field.
+ */
+function color_field_field_settings_form($field, $instance, $has_data) {
+  $settings = $field['settings'];
+  $form = array();
+  switch ($instance['widget']['type']) {
+    case 'color_field_default_widget':
+      $form['default_colors'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Default colors'),
+        '#default_value' => isset($settings['default_colors']) ? $settings['default_colors'] : '
+#AC725E,#D06B64,#F83A22,#FA573C,#FF7537,#FFAD46
+#42D692,#16A765,#7BD148,#B3DC6C,#FBE983
+#92E1C0,#9FE1E7,#9FC6E7,#4986E7,#9A9CFF
+#B99AFF,#C2C2C2,#CABDBF,#CCA6AC,#F691B2
+#CD74E6,#A47AE2
+        ',
+        '#required' => TRUE,
+        '#description' => t('Default colors for pre-selected color boxes'),
+      );
+    break;
+  }
+  return $form;
+}
+
+/**
  * Implements hook_field_formatter_info().
  *
  * @see color_field_field_formatter_view()
@@ -132,6 +160,13 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       $divid = 'div-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
       $settings['value'] = $value;
       $settings['id'] = $id;
+
+      $default_colors = $field['settings']['default_colors'];
+      preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
+      foreach($default_colors as $color) {
+        $settings['colors'][] = $color[0];
+      }
+
       $widget += array(
         '#suffix' => '<label>' . $instance['label'] . '</label><div id=' . $divid . '></div>',
         '#attached' => array(
