@@ -95,8 +95,12 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
  */
 function color_field_field_widget_info() {
   return array(
+    'color_field_plain_text' => array(
+      'label' => t('Plain text (RGB value as #ffffff)'),
+      'field types' => array('color_field_rgb'),
+    ),
     'color_field_default_widget' => array(
-      'label' => t('Color Field'),
+      'label' => t('Pre-selected Color Boxes'),
       'field types' => array('color_field_rgb'),
     ),
   );
@@ -107,20 +111,27 @@ function color_field_field_widget_info() {
  */
 function color_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
 
-  $default_value = isset($instance['default_value'][0]['rgb']) ? $instance['default_value'][0]['rgb'] : '#AC725E';
-  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : $default_value;
-
   $widget = $element;
   $widget['#delta'] = $delta;
 
-  $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
-  $divid = 'div-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
-
-  $settings['value'] = $value;
-  $settings['id'] = $id;
+  $default_value = isset($instance['default_value'][0]['rgb']) ? $instance['default_value'][0]['rgb'] : '';
+  $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : $default_value;
 
   switch ($instance['widget']['type']) {
+    case 'color_field_plain_text':
+      $widget += array(
+        '#type' => 'textfield',
+        '#description' => t('Format #FFFFFF'),
+        '#default_value' => $value,
+        '#size' => 7,
+        '#maxlength' => 7,
+      );
+    break;
     case 'color_field_default_widget':
+      $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
+      $divid = 'div-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
+      $settings['value'] = $value;
+      $settings['id'] = $id;
       $widget += array(
         '#suffix' => '<label>' . $instance['label'] . '</label><div id=' . $divid . '></div>',
         '#attached' => array(

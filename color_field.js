@@ -21,6 +21,7 @@ jQuery.fn.addColorPicker = function( props ) {
       '#92E1C0', '#9FE1E7', '#9FC6E7', '#4986E7','#9A9CFF', // browns/oranges/yellows
       '#B99AFF','#C2C2C2','#CABDBF','#CCA6AC','#F691B2', // greens
       '#CD74E6','#A47AE2', // blues
+      '',
     ]
   }, props);
 
