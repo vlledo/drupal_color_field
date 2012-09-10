@@ -1,16 +1,28 @@
 .colorBox {
-  border: 1px solid #FFFFFF;
-  cursor: pointer;
-  font-family: monospace;
-  font-size: 1.2em;
-  margin: 0 5px;
-  padding: 0 8px;
+    border: 1px solid #FFFFFF;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 1.2em;
+    margin: 0 3px;
+    padding: 2px 8px;
 }
-.colorBox:hover {
-  padding: 5px 12px;
-}
+.colorBox:hover, 
 .colorBox.active {
-  padding: 5px 12px;
+    padding: 9px 16px;
+}
+.transparentBox {
+    background-image: url("./images/transparentBox16.gif");
+    background-position: 0 3px;
+    background-repeat: no-repeat;
+    margin: 0 3px;
+    padding: 2px 8px;
+}
+.transparentBox:hover,
+.transparentBox.active {
+  background-position: 0 3px;
+  padding: 10px 16px;
+  background-repeat: no-repeat;
+  background-image: url(./images/transparentBox32.gif);
 }
 .hide_input {
 	diplay:none;

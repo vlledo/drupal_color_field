@@ -21,7 +21,6 @@ jQuery.fn.addColorPicker = function( props ) {
       '#92E1C0', '#9FE1E7', '#9FC6E7', '#4986E7','#9A9CFF', // browns/oranges/yellows
       '#B99AFF','#C2C2C2','#CABDBF','#CCA6AC','#F691B2', // greens
       '#CD74E6','#A47AE2', // blues
-      '',
     ]
   }, props);
 
@@ -43,6 +42,22 @@ jQuery.fn.addColorPicker = function( props ) {
     this.append( elem );
     if( props.iterationCallback ) props.iterationCallback( this, elem, color, i );
   }
+
+  var elem = jQuery('<'+props.blotchElemType+'/>')
+    .addClass( 'transparentBox' )
+    .attr('color','')
+    .css( 'background-color','');
+  if( props.currentColor == '' ) elem.addClass( 'active');
+  if( props.clickCallback ) {
+    elem.click( function() {
+      jQuery(this).parent().children('.colorBox').removeClass('active');
+      jQuery(this).addClass('active');
+      props.clickCallback(jQuery(this).attr('color'));
+    });
+  }
+  this.append( elem );
+  if( props.iterationCallback ) props.iterationCallback( this, elem, color, i );
+
   return this;
 };
 
