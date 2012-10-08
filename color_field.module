@@ -5,6 +5,22 @@
  */
 
 /**
+ * Implements hook_library().
+ */
+function color_field_library() {
+  $path = libraries_get_path('jquery-simple-color');
+  $libraries['jquery-simple-color'] = array(
+    'title' => 'color_field_jquery_simple_color',
+    'website' => 'http://recursive-design.com/projects/jquery-simple-color/',
+    'version' => 'Master',
+    'js' => array(
+      $path . '/jquery.simple-color.min.js' => array(),
+    ),
+  );
+  return $libraries;
+}
+
+/**
  * Implements hook_field_info().
  */
 function color_field_field_info() {
@@ -14,6 +30,28 @@ function color_field_field_info() {
       'description' => t('Field using a hexadecimal notation.'),
       'default_widget' => 'color_field_default_widget',
       'default_formatter' => 'color_field_default_formatter',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ *
+ * @see color_field_field_widget_form()
+ */
+function color_field_field_widget_info() {
+  return array(
+    'color_field_default_widget' => array(
+      'label' => t('Pre-selected Color Boxes'),
+      'field types' => array('color_field_rgb'),
+    ),
+    'color_field_simple_color' => array(
+      'label' => t('Simple Color-Picker'),
+      'field types' => array('color_field_rgb'),
+    ),
+    'color_field_plain_text' => array(
+      'label' => t('Plain text (RGB value as #ffffff)'),
+      'field types' => array('color_field_rgb'),
     ),
   );
 }
@@ -56,6 +94,50 @@ function color_field_field_settings_form($field, $instance, $has_data) {
   $settings = $field['settings'];
   $form = array();
   switch ($instance['widget']['type']) {
+    case 'color_field_simple_color':
+      $form['cell_width'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Cell width'),
+        '#default_value' => isset($settings['cell_width']) ? $settings['cell_width'] : 10,
+        '#required' => TRUE,
+        '#description' => t('Width of each individual color cell.'),
+      );
+      $form['cell_height'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Height width'),
+        '#default_value' => isset($settings['cell_height']) ? $settings['cell_height'] : 10,
+        '#required' => TRUE,
+        '#description' => t('Height of each individual color cell.'),
+      );
+      $form['cell_margin'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Cell margin'),
+        '#default_value' => isset($settings['cell_margin']) ? $settings['cell_margin'] : 1,
+        '#required' => TRUE,
+        '#description' => t('Margin of each individual color cell.'),
+      );
+      $form['box_width'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Box width'),
+        '#default_value' => isset($settings['box_width']) ? $settings['box_width'] : 115,
+        '#required' => TRUE,
+        '#description' => t('Width of the color display box.'),
+      );
+      $form['box_height'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Box height'),
+        '#default_value' => isset($settings['box_height']) ? $settings['box_height'] : 20,
+        '#required' => TRUE,
+        '#description' => t('Height of the color display box.'),
+      );
+      $form['columns'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Columns number'),
+        '#default_value' => isset($settings['columns']) ? $settings['columns'] : 16,
+        '#required' => TRUE,
+        '#description' => t('Number of columns to display. Color order may look strange if this is altered.'),
+      );
+    break;
     case 'color_field_default_widget':
       $form['default_colors'] = array(
         '#type' => 'textarea',
@@ -117,24 +199,6 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
 }
 
 /**
- * Implements hook_field_widget_info().
- *
- * @see color_field_field_widget_form()
- */
-function color_field_field_widget_info() {
-  return array(
-    'color_field_plain_text' => array(
-      'label' => t('Plain text (RGB value as #ffffff)'),
-      'field types' => array('color_field_rgb'),
-    ),
-    'color_field_default_widget' => array(
-      'label' => t('Pre-selected Color Boxes'),
-      'field types' => array('color_field_rgb'),
-    ),
-  );
-}
-
-/**
  * Implements hook_field_widget_form().
  */
 function color_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
@@ -146,6 +210,39 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
   $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : $default_value;
 
   switch ($instance['widget']['type']) {
+    case 'color_field_simple_color':
+
+      // Add library.
+      drupal_add_library('color_field', 'jquery-simple-color');
+
+      $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
+
+      $settings['cell_width'] = ($field['settings']['cell_width'] != '') ? $field['settings']['cell_width'] : 10;
+      $settings['cell_height'] = ($field['settings']['cell_height'] != '') ? $field['settings']['cell_height'] : 10;
+      $settings['cell_margin'] = ($field['settings']['cell_margin'] != '') ? $field['settings']['cell_margin'] : 1;
+      $settings['box_width'] = ($field['settings']['box_width'] != '') ? $field['settings']['box_width'] . 'px' : '115px';
+      $settings['box_height'] = ($field['settings']['box_height'] != '') ? $field['settings']['box_height'] . 'px' : '20px';
+      $settings['columns'] = ($field['settings']['columns'] != '') ? $field['settings']['columns'] : '16';
+
+      $widget += array(
+        '#attached' => array(
+          'js' => array(
+            drupal_get_path('module', 'color_field') . '/color_field_jquery_simple_color/color_field_jquery_simple_color.jquery.js',
+            array(
+              'data' => array('color_field_jquery_simple_color' => array('#' . $id => $settings)),
+  		      'type' => 'setting',		
+     	    ),
+          ),
+          'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
+        )
+      );
+      $widget += array(
+        '#type' => 'textfield',
+        '#default_value' => $value,
+        '#size' => 7,
+        '#maxlength' => 7,
+      );
+    break;
     case 'color_field_plain_text':
       $widget += array(
         '#type' => 'textfield',
