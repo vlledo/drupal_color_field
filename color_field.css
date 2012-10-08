@@ -1,21 +1,21 @@
 .colorBox {
-    border: 1px solid #FFFFFF;
-    cursor: pointer;
-    font-family: monospace;
-    font-size: 1.2em;
-    margin: 0 3px;
-    padding: 2px 8px;
+  border: 1px solid #FFFFFF;
+  cursor: pointer;
+  font-family: monospace;
+  font-size: 1.2em;
+  margin: 0 3px;
+  padding: 2px 8px;
 }
 .colorBox:hover, 
 .colorBox.active {
-    padding: 9px 16px;
+  padding: 9px 16px;
 }
 .transparentBox {
-    background-image: url("./images/transparentBox16.gif");
-    background-position: 0 3px;
-    background-repeat: no-repeat;
-    margin: 0 3px;
-    padding: 2px 8px;
+  background-image: url("./images/transparentBox16.gif");
+  background-position: 0 3px;
+  background-repeat: no-repeat;
+  margin: 0 3px;
+  padding: 2px 8px;
 }
 .transparentBox:hover,
 .transparentBox.active {
@@ -25,5 +25,5 @@
   background-image: url(./images/transparentBox32.gif);
 }
 .hide_input {
-	diplay:none;
+  diplay:none;
 }
