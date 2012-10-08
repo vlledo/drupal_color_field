@@ -1,7 +1,5 @@
 /**
- *
  * Color Field jQuery
- * 
  */
 (function ($) {
 jQuery.fn.addColorPicker = function( props ) {

@@ -11,7 +11,6 @@
  * Schema API.
  *
  * The data we will store here is just one 7-character element.
- *
  */
 function color_field_field_schema($field) {
   $columns = array(

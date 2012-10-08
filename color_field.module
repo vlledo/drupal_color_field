@@ -138,6 +138,7 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#description' => t('Number of columns to display. Color order may look strange if this is altered.'),
       );
     break;
+
     case 'color_field_default_widget':
       $form['default_colors'] = array(
         '#type' => 'textarea',
@@ -211,7 +212,6 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
 
   switch ($instance['widget']['type']) {
     case 'color_field_simple_color':
-
       // Add library.
       drupal_add_library('color_field', 'jquery-simple-color');
 
@@ -230,8 +230,8 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
             drupal_get_path('module', 'color_field') . '/color_field_jquery_simple_color/color_field_jquery_simple_color.jquery.js',
             array(
               'data' => array('color_field_jquery_simple_color' => array('#' . $id => $settings)),
-  		      'type' => 'setting',		
-     	    ),
+  	          'type' => 'setting',		
+            ),
           ),
           'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
         )
@@ -243,6 +243,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#maxlength' => 7,
       );
     break;
+
     case 'color_field_plain_text':
       $widget += array(
         '#type' => 'textfield',
@@ -252,6 +253,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#maxlength' => 7,
       );
     break;
+
     case 'color_field_default_widget':
       $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
       $divid = 'div-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
