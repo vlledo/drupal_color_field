@@ -57,11 +57,11 @@ function drush_color_field_color_fied_plugin_jsc($path = 'sites/all/libraries') 
 
   $filename = 'jquery-simple-color.1.0.1.zip';
   //return drush_set_error(dt($filename));
-  
+
   $dirname = 'jquery-simple-color';
   //return drush_set_error(dt($dirname));
 
-  // Remove any existing Field Timetable plugin directory.
+  // Remove any existing jQuery Simple Color plugin directory.
   if (is_dir($dirname)) {
     drush_log(dt('A existing jQuery Simple Color plugin was overwritten at @path', array('@path' => $path)), 'notice');
   }
@@ -86,9 +86,7 @@ function drush_color_field_color_fied_plugin_jsc($path = 'sites/all/libraries') 
     }
     // Remove the zip archive.
     drush_op('unlink', $filename);
-    
-    //drush_shell_exec('mv jquery-simple-color timetable');
-    //drush_shell_exec('rm -rf targoo-timetable-2a9d18c');
+
   }
 
   // Set working directory back to the previous working directory.
