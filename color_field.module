@@ -137,7 +137,7 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#required' => TRUE,
         '#description' => t('Number of columns to display. Color order may look strange if this is altered.'),
       );
-    break;
+      break;
 
     case 'color_field_default_widget':
       $form['default_colors'] = array(
@@ -153,7 +153,7 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#required' => TRUE,
         '#description' => t('Default colors for pre-selected color boxes'),
       );
-    break;
+      break;
   }
   return $form;
 }
@@ -242,7 +242,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#size' => 7,
         '#maxlength' => 7,
       );
-    break;
+      break;
 
     case 'color_field_plain_text':
       $widget += array(
@@ -252,7 +252,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#size' => 7,
         '#maxlength' => 7,
       );
-    break;
+      break;
 
     case 'color_field_default_widget':
       $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
@@ -274,11 +274,11 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
             drupal_get_path('module', 'color_field') . '/color_field.jquery.js',
             array(
               'data' => array('color_field' => array('#' . $divid => $settings)),
-  		      'type' => 'setting',		
-     	    ),
+  	          'type' => 'setting',
+            ),
           ),
           'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
-        )
+        ),
       );
 
       $widget += array(
@@ -288,7 +288,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#size' => 7,
         '#maxlength' => 7,
       );
-    break;
+      break;
   }
 
   $element['rgb'] = $widget;

@@ -25,8 +25,8 @@ jQuery.fn.addColorPicker = function( props ) {
   var count = props.colors.length;
   for( var i = 0; i < count; ++i ) {
     var color = props.colors[i];
-    var elem = jQuery('<'+props.blotchElemType+'/>')
-      .addClass( props.blotchClass )
+    var elem = jQuery('<' + props.blotchElemType + '/>')
+      .addClass(props.blotchClass)
       .attr('color',color)
       .css( 'background-color',color); // jq bug: chaining here fails if color is null b/c .css() returns (new String('transparent'))!
     if( props.currentColor == color ) elem.addClass( 'active');
