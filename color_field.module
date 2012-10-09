@@ -12,7 +12,7 @@ function color_field_library() {
   $libraries['jquery-simple-color'] = array(
     'title' => 'color_field_jquery_simple_color',
     'website' => 'http://recursive-design.com/projects/jquery-simple-color/',
-    'version' => 'Master',
+    'version' => '1.0.1',
     'js' => array(
       $path . '/jquery.simple-color.min.js' => array(),
     ),
@@ -40,20 +40,33 @@ function color_field_field_info() {
  * @see color_field_field_widget_form()
  */
 function color_field_field_widget_info() {
-  return array(
-    'color_field_default_widget' => array(
-      'label' => t('Pre-selected Color Boxes'),
-      'field types' => array('color_field_rgb'),
-    ),
-    'color_field_simple_color' => array(
+  // Check if jquery-simple-color is enable so widget can be used.
+  $jquery_simple_color_enable = TRUE;
+  $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'jquery-simple-color');
+  foreach ($color_field_library_jquery_simple_color['js'] as $path => $js) {
+    if (!file_exists($path)) {
+      $jquery_simple_color_enable = FALSE;
+    }
+  }
+
+  $widgets = array();
+  $widgets['color_field_default_widget'] = array(
+    'label' => t('Pre-selected Color Boxes'),
+    'field types' => array('color_field_rgb'),
+  );
+
+  if ($jquery_simple_color_enable) {
+    $widgets['color_field_simple_color'] = array(
       'label' => t('Simple Color-Picker'),
       'field types' => array('color_field_rgb'),
-    ),
-    'color_field_plain_text' => array(
-      'label' => t('Plain text (RGB value as #ffffff)'),
-      'field types' => array('color_field_rgb'),
-    ),
+    );
+  }
+
+  $widgets['color_field_plain_text'] = array(
+    'label' => t('Plain text (RGB value as #ffffff)'),
+    'field types' => array('color_field_rgb'),
   );
+  return $widgets;
 }
 
 /**
