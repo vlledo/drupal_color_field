@@ -55,6 +55,11 @@ function color_field_field_widget_info() {
     'field types' => array('color_field_rgb'),
   );
 
+  $widgets['color_field_farbtastic_widget'] = array(
+    'label' => t('Farbtastic Color-Picker'),
+    'field types' => array('color_field_rgb'),
+  );
+
   if ($jquery_simple_color_enable) {
     $widgets['color_field_simple_color'] = array(
       'label' => t('Simple Color-Picker'),
@@ -254,6 +259,52 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#default_value' => $value,
         '#size' => 7,
         '#maxlength' => 7,
+      );
+      break;
+
+    case 'color_field_farbtastic_widget':
+      $base = drupal_get_path('module', 'color');
+      $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
+      $settings['id'] = $id;
+      $settings['picker_id'] = $id . '_picker';
+      $widget += array(
+        '#type' => 'textfield',
+        '#description' => t('Format #FFFFFF'),
+        '#default_value' => $value,
+        '#size' => 7,
+        '#maxlength' => 7,
+        '#prefix' => '<div id=' . $settings['picker_id'] . '></div>',
+        '#attached' => array(
+          // Add Farbtastic color picker.
+          'library' => array(
+            array('system', 'farbtastic'),
+          ),
+          'js' => array(
+            drupal_get_path('module', 'color_field') . '/color_field_farbtastic/color_field_farbtastic.jquery.js',
+            array(
+              'data' => array('color_field_farbtastic' => array($id => $settings)),
+  	          'type' => 'setting',		
+            ),
+          ),
+          'css' => array(
+            $base . '/color.css' => array(),
+          ),
+          /*// Add custom CSS.
+          // Add custom JavaScript.
+          'js' => array(
+            $base . '/color.js',
+            array(
+              'data' => array(
+                'color' => array(
+                  'reference' => color_get_palette($theme, TRUE),
+                  'schemes' => $schemes,
+                ),
+                'gradients' => $info['gradients'],
+              ),
+              'type' => 'setting',
+            ),
+          ),*/
+        ),
       );
       break;
 
