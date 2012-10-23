@@ -2,7 +2,7 @@
  * Color Field jQuery
  */
 (function ($) {
-jQuery.fn.addColorPicker = function( props ) {
+jQuery.fn.addColorPicker = function (props) {
   if( ! props ) { props = []; }
 
   props = jQuery.extend({
@@ -45,8 +45,8 @@ jQuery.fn.addColorPicker = function( props ) {
     .addClass( 'transparentBox' )
     .attr('color','')
     .css( 'background-color','');
-  if( props.currentColor == '' ) elem.addClass( 'active');
-  if( props.clickCallback ) {
+  if (props.currentColor == '') elem.addClass( 'active');
+  if (props.clickCallback) {
     elem.click( function() {
       jQuery(this).parent().children('.colorBox').removeClass('active');
       jQuery(this).addClass('active');
@@ -54,7 +54,7 @@ jQuery.fn.addColorPicker = function( props ) {
     });
   }
   this.append( elem );
-  if( props.iterationCallback ) props.iterationCallback( this, elem, color, i );
+  if (props.iterationCallback) props.iterationCallback( this, elem, color, i );
 
   return this;
 };

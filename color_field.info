@@ -4,5 +4,3 @@ package = Fields
 core = 7.x
 
 dependencies[] = libraries
-
-files[] = color_field.test

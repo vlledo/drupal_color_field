@@ -38,7 +38,7 @@ function color_field_requirements($phase) {
       if (!file_exists($path)) {
         $requirements['jquery-simple-color'] = array(
           'severity' => REQUIREMENT_WARNING,
-          'title' => t('Color Field (jquery simple color)'),
+          'title' => $t('Color Field (jquery simple color)'),
           'value' => $t('Missing'),
           'description' => $t('The jquery simple color library isn\'t available so this Color Field Module will not support the jQuery Simple Color widget. Please download the plugin (%version) from !website.', array(
             '!website' => l($color_field_library['website'], $color_field_library['website']),
