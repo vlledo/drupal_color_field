@@ -56,10 +56,8 @@ function drush_color_field_color_fied_plugin_jsc($path = 'sites/all/libraries') 
   chdir($path);
 
   $filename = 'jquery-simple-color.1.0.1.zip';
-  // return drush_set_error(dt($filename));
 
   $dirname = 'jquery-simple-color';
-  // return drush_set_error(dt($dirname));
 
   // Remove any existing jQuery Simple Color plugin directory.
   if (is_dir($dirname)) {
@@ -75,14 +73,11 @@ function drush_color_field_color_fied_plugin_jsc($path = 'sites/all/libraries') 
     drush_shell_exec('curl -kOL ' . COLOR_FIELD_JQUERY_SIMPLE_COLOR_DOWNLOAD_URI);
   }
 
-  // drush_print($filename);
-
   if (is_file($filename)) {
     // Decompress the zip archive.
     drush_shell_exec('unzip -qq -o ' . $filename);
     // Remove old librairy.
     if (is_dir('jquery-simple-color')) {
-      //drush_shell_exec('rm -rf jquery-simple-color');
     }
     // Remove the zip archive.
     drush_op('unlink', $filename);

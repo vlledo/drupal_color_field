@@ -19,11 +19,11 @@
 }
 .transparentBox.active,
 .transparentBox:hover {
-  background-position: 0 3px;
-  padding: 10px 16px;
-  background-repeat: no-repeat;
   background-image: url(./images/transparentBox32.gif);
+  background-position: 0 3px;
+  background-repeat: no-repeat;
+  padding: 10px 16px;
 }
 .hide_input {
-  diplay:none;
+  diplay: none;
 }
