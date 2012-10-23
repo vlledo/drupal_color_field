@@ -51,6 +51,7 @@ function color_field_field_widget_info() {
   }
 
   $widgets = array();
+
   $widgets['color_field_default_widget'] = array(
     'label' => t('Pre-selected Color Boxes'),
     'field types' => array('color_field_rgb'),
@@ -189,7 +190,60 @@ function color_field_field_formatter_info() {
       'label' => t('Plain text color'),
       'field types' => array('color_field_rgb'),
     ),
+    'color_field_css_declaration' => array(
+      'label' => t('CSS Declaration'),
+      'field types' => array('color_field_rgb'),
+      'settings' => array(
+        'selector' => 'body',
+        'property' => 'background-color',
+        'important' => TRUE,
+      ),
+    ),
   );
+}
+
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ *
+ * @see color_field_field_formatter_view()
+ */
+function color_field_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = array();
+
+  switch ($display['type']) {
+    case 'color_field_css_declaration':
+      $element['selector'] = array(
+        '#title' => t('Selector'),
+        '#type' => 'textarea',
+        '#default_value' => $settings['selector'],
+        '#required' => TRUE,
+        '#description' => t('A valid CSS selector such as <code>.links > li > a, #logo</code>.'),
+      );
+      $element['property'] = array(
+        '#title' => t('Property'),
+        '#type' => 'select',
+        '#default_value' => $settings['property'],
+        '#required' => TRUE,
+        '#options' => array(
+          'background-color' => t('Background color'),
+          'color' => t('Text color'),
+        ),
+      );
+      $element['important'] = array(
+        '#title' => t('Important'),
+        '#type' => 'checkbox',
+        '#default_value' => $settings['important'],
+        '#description' => t('Whenever this declaration is more important than others.'),
+      );
+      break;
+  }
+
+  return $element;
+
 }
 
 /**
@@ -205,12 +259,20 @@ function color_field_field_formatter_info() {
  */
 function color_field_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+  $settings = $display['settings'];
 
   switch ($display['type']) {
-
     case 'color_field_default_formatter':
       foreach ($items as $delta => $item) {
         $element[$delta]['#markup'] = $item['rgb'];
+      }
+      break;
+
+    case 'color_field_css_declaration':
+      foreach ($items as $delta => $item) {
+        $important = ($settings['important']) ? ' !Important' : '';
+        $inline_css = $settings['selector'] . '{' . $settings['property'] . ':' . $item['rgb'] . $important . '}';
+        drupal_add_css($inline_css, 'inline');
       }
       break;
   }
@@ -249,7 +311,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
             drupal_get_path('module', 'color_field') . '/color_field_jquery_simple_color/color_field_jquery_simple_color.jquery.js',
             array(
               'data' => array('color_field_jquery_simple_color' => array('#' . $id => $settings)),
-  	          'type' => 'setting',		
+              'type' => 'setting',
             ),
           ),
           'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
@@ -284,7 +346,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
             drupal_get_path('module', 'color_field') . '/color_field_farbtastic/color_field_farbtastic.jquery.js',
             array(
               'data' => array('color_field_farbtastic' => array($id => $settings)),
-  	          'type' => 'setting',		
+              'type' => 'setting',
             ),
           ),
           'css' => array(
