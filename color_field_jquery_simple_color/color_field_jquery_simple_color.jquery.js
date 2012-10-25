@@ -10,9 +10,8 @@
           cellWidth: this.cell_width,
           cellHeight: this.cell_height,
           cellMargin: this.cell_margin,
-          boxWidth: this.box_height,
-          boxHeight: this.box_width,
-          columns: this.columns
+          boxWidth: this.box_width,
+          boxHeight: this.box_height
         });
       });
     }
