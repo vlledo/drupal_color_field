@@ -205,8 +205,6 @@ function color_field_field_formatter_info() {
 
 /**
  * Implements hook_field_formatter_settings_form().
- *
- * @see color_field_field_formatter_view()
  */
 function color_field_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   dpm('color_field_field_formatter_settings_form');
@@ -245,6 +243,26 @@ function color_field_field_formatter_settings_form($field, $instance, $view_mode
 
   return $element;
 
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function color_field_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = array();
+
+  switch ($display['type']) {
+    case 'color_field_css_declaration':
+      $summary[] = t('CSS selector') . ': ' . $settings['selector'];
+      $summary[] = t('CSS property') . ': ' . $settings['property'];
+      $summary[] = t('!important declaration') . ': ' . (($settings['important']) ? t('Yes') : t('No'));
+      break;
+  }
+
+  return implode('<br />', $summary);
 }
 
 /**
