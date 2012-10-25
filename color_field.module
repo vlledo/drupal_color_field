@@ -209,6 +209,7 @@ function color_field_field_formatter_info() {
  * @see color_field_field_formatter_view()
  */
 function color_field_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  dpm('color_field_field_formatter_settings_form');
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
@@ -250,10 +251,10 @@ function color_field_field_formatter_settings_form($field, $instance, $view_mode
  * Implements hook_field_formatter_view().
  *
  * Two formatters are implemented.
- * - field_example_simple_text just outputs markup indicating the color that
+ * - color_field_default_formatter just outputs markup indicating the color that
  *   was entered and uses an inline style to set the text color to that value.
- * - field_example_color_background does the same but also changes the
- *   background color of div.region-content.
+ * - color_field_css_declaration does the same but also changes the
+ *   background color or color of a region defined by the selector.
  *
  * @see color_field_formatter_info()
  */
@@ -270,7 +271,7 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
 
     case 'color_field_css_declaration':
       foreach ($items as $delta => $item) {
-        $important = ($settings['important']) ? ' !Important' : '';
+        $important = ($settings['important']) ? ' !important' : '';
         $inline_css = $settings['selector'] . '{' . $settings['property'] . ':' . $item['rgb'] . $important . '}';
         drupal_add_css($inline_css, 'inline');
       }
