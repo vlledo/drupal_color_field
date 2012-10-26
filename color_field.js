@@ -34,23 +34,27 @@ jQuery.fn.addColorPicker = function (props) {
       elem.addClass('active');
     }
     if (props.clickCallback) {
-      elem.click( function() {
+      elem.click(function() {
         jQuery(this).parent().children('.colorBox').removeClass('active');
         jQuery(this).addClass('active');
         props.clickCallback(jQuery(this).attr('color'));
       });
     }
     this.append(elem);
-    if (props.iterationCallback) props.iterationCallback(this, elem, color, i);
+    if (props.iterationCallback) {
+      props.iterationCallback(this, elem, color, i);
+    }
   }
 
   var elem = jQuery('<' + props.blotchElemType + '/>')
     .addClass('transparentBox')
     .attr('color', '')
     .css('background-color', '');
-  if (props.currentColor == '') elem.addClass('active');
+  if (props.currentColor == '') {
+    elem.addClass('active');  
+  }
   if (props.clickCallback) {
-    elem.click( function() {
+    elem.click(function() {
       jQuery(this).parent().children('.colorBox').removeClass('active');
       jQuery(this).addClass('active');
       props.clickCallback(jQuery(this).attr('color'));
@@ -58,7 +62,7 @@ jQuery.fn.addColorPicker = function (props) {
   }
   this.append(elem);
   if (props.iterationCallback) {
-    props.iterationCallback( this, elem, color, i );
+    props.iterationCallback(this, elem, color, i);
   }
 
   return this;
