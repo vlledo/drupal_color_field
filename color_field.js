@@ -28,9 +28,11 @@ jQuery.fn.addColorPicker = function (props) {
     var elem = jQuery('<' + props.blotchElemType + '/>')
       .addClass(props.blotchClass)
       .attr('color',color)
-      .css('background-color',color); 
+      .css('background-color',color);
     // jq bug: chaining here fails if color is null b/c .css() returns (new String('transparent'))!
-    if (props.currentColor == color) elem.addClass('active');
+    if (props.currentColor == color) {
+      elem.addClass('active');
+    }
     if (props.clickCallback) {
       elem.click( function() {
         jQuery(this).parent().children('.colorBox').removeClass('active');
@@ -46,7 +48,7 @@ jQuery.fn.addColorPicker = function (props) {
     .addClass('transparentBox')
     .attr('color', '')
     .css('background-color', '');
-  if (props.currentColor == '') elem.addClass( 'active');
+  if (props.currentColor == '') elem.addClass('active');
   if (props.clickCallback) {
     elem.click( function() {
       jQuery(this).parent().children('.colorBox').removeClass('active');
@@ -55,7 +57,9 @@ jQuery.fn.addColorPicker = function (props) {
     });
   }
   this.append(elem);
-  if (props.iterationCallback) props.iterationCallback( this, elem, color, i );
+  if (props.iterationCallback) {
+    props.iterationCallback( this, elem, color, i );
+  }
 
   return this;
 };
