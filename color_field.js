@@ -23,29 +23,29 @@ jQuery.fn.addColorPicker = function (props) {
   }, props);
 
   var count = props.colors.length;
-  for (var i = 0 ; i < count ; ++i) {
+  for (var i = 0; i < count; ++i) {
     var color = props.colors[i];
     var elem = jQuery('<' + props.blotchElemType + '/>')
       .addClass(props.blotchClass)
       .attr('color',color)
-      .css( 'background-color',color); 
+      .css('background-color',color); 
     // jq bug: chaining here fails if color is null b/c .css() returns (new String('transparent'))!
-    if( props.currentColor == color ) elem.addClass( 'active');
-    if( props.clickCallback ) {
+    if (props.currentColor == color) elem.addClass('active');
+    if (props.clickCallback) {
       elem.click( function() {
         jQuery(this).parent().children('.colorBox').removeClass('active');
         jQuery(this).addClass('active');
         props.clickCallback(jQuery(this).attr('color'));
       });
     }
-    this.append( elem );
-    if( props.iterationCallback ) props.iterationCallback( this, elem, color, i );
+    this.append(elem);
+    if (props.iterationCallback) props.iterationCallback(this, elem, color, i);
   }
 
   var elem = jQuery('<' + props.blotchElemType + '/>')
-    .addClass( 'transparentBox' )
-    .attr('color','')
-    .css('background-color','');
+    .addClass('transparentBox')
+    .attr('color', '')
+    .css('background-color', '');
   if (props.currentColor == '') elem.addClass( 'active');
   if (props.clickCallback) {
     elem.click( function() {
