@@ -57,10 +57,11 @@ function color_field_field_widget_info() {
     'field types' => array('color_field_rgb'),
   );
 
-  $widgets['color_field_farbtastic_widget'] = array(
+  // color_field_farbtastic_widget need more work before release.
+  /*$widgets['color_field_farbtastic_widget'] = array(
     'label' => t('Farbtastic Color-Picker'),
     'field types' => array('color_field_rgb'),
-  );
+  );*/
 
   if ($jquery_simple_color_enable) {
     $widgets['color_field_simple_color'] = array(
