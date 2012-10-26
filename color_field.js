@@ -51,7 +51,7 @@ jQuery.fn.addColorPicker = function (props) {
     .attr('color', '')
     .css('background-color', '');
   if (props.currentColor == '') {
-    elem.addClass('active');  
+    elem.addClass('active');
   }
   if (props.clickCallback) {
     elem.click(function() {
