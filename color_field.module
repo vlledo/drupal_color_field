@@ -42,11 +42,29 @@ function color_field_field_info() {
  */
 function color_field_field_widget_info() {
   // Check if jquery-simple-color is enable so widget can be used.
-  $jquery_simple_color_enable = TRUE;
+  $jquery_simple_color_picker_enable = TRUE;
   $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'jquery-simple-color');
   foreach ($color_field_library_jquery_simple_color['js'] as $path => $js) {
     if (!file_exists($path)) {
-      $jquery_simple_color_enable = FALSE;
+      $jquery_simple_color_picker_enable = FALSE;
+    }
+  }
+
+  // Check if jquery_dematte_color_picker_enable is enable so widget can be used.
+  $jquery_dematte_color_picker_enable = TRUE;
+  $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'jquery-simple-color');
+  foreach ($color_field_library_jquery_simple_color['js'] as $path => $js) {
+    if (!file_exists($path)) {
+      $jquery_dematte_color_picker_enable = FALSE;
+    }
+  }
+
+  // Check if jquery_eyecon_color_picker_enable is enable so widget can be used.
+  $jquery_eyecon_color_picker_enable = TRUE;
+  $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'jquery-simple-color');
+  foreach ($color_field_library_jquery_simple_color['js'] as $path => $js) {
+    if (!file_exists($path)) {
+      $jquery_eyecon_color_picker_enable = FALSE;
     }
   }
 
@@ -63,8 +81,25 @@ function color_field_field_widget_info() {
     'field types' => array('color_field_rgb'),
   );*/
 
-  if ($jquery_simple_color_enable) {
-    $widgets['color_field_simple_color'] = array(
+  // color_field_dematte_widget need more work before release.
+  if ($jquery_dematte_color_picker_enable) {
+    $widgets['color_field_dematte_widget'] = array(
+      'label' => t('Dematte Color-Picker'),
+      'field types' => array('color_field_rgb'),
+    );
+  }
+
+  // color_field_eyecon_widget need more work before release.
+  if ($jquery_eyecon_color_picker_enable) {
+    $widgets['color_field_eyecon_widget'] = array(
+      'label' => t('Eyecon Color-Picker'),
+      'field types' => array('color_field_rgb'),
+    );
+  }
+
+  // check if color_field_simple_color can become color_field_simple_widget
+  if ($jquery_simple_color_picker_enable) {
+    $widgets['color_field_simple_widget'] = array(
       'label' => t('Simple Color-Picker'),
       'field types' => array('color_field_rgb'),
     );
