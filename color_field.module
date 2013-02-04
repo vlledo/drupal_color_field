@@ -436,8 +436,12 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       break;
 
     case 'color_field_default_widget':
-      $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
-      $divid = 'div-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
+      $field_id = str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta;
+      // Support field collection module.
+      isset($element['#field_parents']) ? $bundle_id = implode('-', $element['#field_parents']) : $bundle_id = '';
+      $divid = 'div-' . $field_id . '-' . $bundle_id . '-rgb';
+      $id = 'edit-' . $field_id . '-' . $bundle_id . '-rgb';
+
       $settings['value'] = $value;
       $settings['id'] = $id;
 
@@ -451,19 +455,19 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#suffix' => '<label>' . $instance['label'] . '</label><div id=' . $divid . '></div>',
         '#attached' => array(
           'js' => array(
-            drupal_get_path('module', 'color_field') . '/color_field.js',
-            drupal_get_path('module', 'color_field') . '/color_field.jquery.js',
+            drupal_get_path('module', 'color_field') . '/color_field_default/color_field.js',
+            drupal_get_path('module', 'color_field') . '/color_field_default/color_field.jquery.js',
             array(
               'data' => array('color_field' => array('#' . $divid => $settings)),
               'type' => 'setting',
             ),
           ),
-          'css' => array(drupal_get_path('module', 'color_field') . '/color_field.css'),
+          'css' => array(drupal_get_path('module', 'color_field') . '/color_field_default/color_field.css'),
         ),
       );
 
       $widget += array(
-        '#attributes' => array('class' => array('hide_input'),'id' => $id),
+        '#attributes' => array('class' => array('element-invisible'),'id' => $id),
         '#type' => 'token',
         '#default_value' => $value,
         '#size' => 7,
