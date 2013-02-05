@@ -9,12 +9,28 @@
  */
 function color_field_library() {
   $path = libraries_get_path('jquery-simple-color');
-  $libraries['jquery-simple-color'] = array(
+  $libraries['jquery-simple-color'] = array (
     'title' => 'color_field_jquery_simple_color',
     'website' => 'http://recursive-design.com/projects/jquery-simple-color/',
     'version' => '1.0.1',
     'js' => array(
       $path . '/jquery.simple-color.min.js' => array(),
+    ),
+  );
+  $libraries['dematte_colorpicker'] = array (
+    'title' => 'color_field_dematte_color_picker',
+    'website' => 'http://recursive-design.com/projects/jquery-simple-color/',
+    'version' => '1.0.1',
+    'js' => array(
+      $path . '/colorPicker.js' => array(),
+    ),
+  );
+  $libraries['eyecon_colorpicker'] = array (
+    'title' => 'color_field_eyecon_color_picker',
+    'website' => 'http://recursive-design.com/projects/jquery-simple-color/',
+    'version' => '1.0.1',
+    'js' => array(
+      $path . '/js/colorpicker.js' => array(),
     ),
   );
   return $libraries;
@@ -52,7 +68,7 @@ function color_field_field_widget_info() {
 
   // Check if jquery_dematte_color_picker_enable is enable so widget can be used.
   $jquery_dematte_color_picker_enable = TRUE;
-  $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'jquery-simple-color');
+  $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'dematte_color_picker');
   foreach ($color_field_library_jquery_simple_color['js'] as $path => $js) {
     if (!file_exists($path)) {
       $jquery_dematte_color_picker_enable = FALSE;
@@ -61,7 +77,7 @@ function color_field_field_widget_info() {
 
   // Check if jquery_eyecon_color_picker_enable is enable so widget can be used.
   $jquery_eyecon_color_picker_enable = TRUE;
-  $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'jquery-simple-color');
+  $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'eyecon_color_picker');
   foreach ($color_field_library_jquery_simple_color['js'] as $path => $js) {
     if (!file_exists($path)) {
       $jquery_eyecon_color_picker_enable = FALSE;
@@ -81,22 +97,6 @@ function color_field_field_widget_info() {
     'field types' => array('color_field_rgb'),
   );*/
 
-  // color_field_dematte_widget need more work before release.
-  if ($jquery_dematte_color_picker_enable) {
-    $widgets['color_field_dematte_widget'] = array(
-      'label' => t('Dematte Color-Picker'),
-      'field types' => array('color_field_rgb'),
-    );
-  }
-
-  // color_field_eyecon_widget need more work before release.
-  if ($jquery_eyecon_color_picker_enable) {
-    $widgets['color_field_eyecon_widget'] = array(
-      'label' => t('Eyecon Color-Picker'),
-      'field types' => array('color_field_rgb'),
-    );
-  }
-
   // check if color_field_simple_color can become color_field_simple_widget
   if ($jquery_simple_color_picker_enable) {
     $widgets['color_field_simple_widget'] = array(
@@ -105,10 +105,27 @@ function color_field_field_widget_info() {
     );
   }
 
+  // color_field_dematte_widget need more work before release.
+  /*if ($jquery_dematte_color_picker_enable) {
+    $widgets['color_field_dematte_widget'] = array(
+      'label' => t('Dematte Color-Picker'),
+      'field types' => array('color_field_rgb'),
+    );
+  }*/
+
+  // color_field_eyecon_widget need more work before release.
+  /*if ($jquery_eyecon_color_picker_enable) {
+    $widgets['color_field_eyecon_widget'] = array(
+      'label' => t('Eyecon Color-Picker'),
+      'field types' => array('color_field_rgb'),
+    );
+  }*/
+
   $widgets['color_field_plain_text'] = array(
     'label' => t('Plain text (RGB value as #ffffff)'),
     'field types' => array('color_field_rgb'),
   );
+
   return $widgets;
 }
 
@@ -150,7 +167,7 @@ function color_field_field_settings_form($field, $instance, $has_data) {
   $settings = $field['settings'];
   $form = array();
   switch ($instance['widget']['type']) {
-    case 'color_field_simple_color':
+    case 'color_field_simple_widget':
       $form['cell_width'] = array(
         '#type' => 'textfield',
         '#title' => t('Cell width'),
