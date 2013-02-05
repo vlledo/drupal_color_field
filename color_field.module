@@ -346,18 +346,21 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
   $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : $default_value;
 
   switch ($instance['widget']['type']) {
-    case 'color_field_simple_color':
+    case 'color_field_simple_widget':
       // Add library.
       drupal_add_library('color_field', 'jquery-simple-color');
+      
+      $field_id = $field['field_name'] . '-' . $langcode . '-' . $delta;
+      // Support field collection module.
+      isset($element['#field_parents']) ? $bundle_id = implode('-', $element['#field_parents']) : $bundle_id = '';
+      $id = str_replace("_", "-", 'edit-' . $bundle_id . '-' . $field_id . '-rgb');
 
-      $id = 'edit-' . str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta . '-rgb';
-
-      $settings['cell_width'] = ($field['settings']['cell_width'] != '') ? (int) $field['settings']['cell_width'] : 10;
-      $settings['cell_height'] = ($field['settings']['cell_height'] != '') ? (int) $field['settings']['cell_height'] : 10;
-      $settings['cell_margin'] = ($field['settings']['cell_margin'] != '') ? (int) $field['settings']['cell_margin'] : 1;
-      $settings['box_width'] = ($field['settings']['box_width'] != '') ? $field['settings']['box_width'] . 'px' : '115px';
-      $settings['box_height'] = ($field['settings']['box_height'] != '') ? $field['settings']['box_height'] . 'px' : '20px';
-      $settings['columns'] = ($field['settings']['columns'] != '') ? $field['settings']['columns'] : '16';
+      $settings['cell_width'] = (isset($field['settings']['cell_width']) && $field['settings']['cell_width'] != '') ? (int) $field['settings']['cell_width'] : 10;
+      $settings['cell_height'] = (isset($field['settings']['cell_height']) && $field['settings']['cell_height'] != '') ? (int) $field['settings']['cell_height'] : 10;
+      $settings['cell_margin'] = (isset($field['settings']['cell_margin']) && $field['settings']['cell_margin'] != '') ? (int) $field['settings']['cell_margin'] : 1;
+      $settings['box_width'] = (isset($field['settings']['box_width']) && $field['settings']['box_width'] != '') ? $field['settings']['box_width'] . 'px' : '115px';
+      $settings['box_height'] = (isset($field['settings']['box_height']) && $field['settings']['box_height'] != '') ? $field['settings']['box_height'] . 'px' : '20px';
+      $settings['columns'] = (isset($field['settings']['columns']) && $field['settings']['columns'] != '') ? $field['settings']['columns'] : '16';
 
       $widget += array(
         '#attached' => array(
