@@ -284,6 +284,11 @@ function color_field_field_formatter_settings_form($field, $instance, $view_mode
         '#required' => TRUE,
         '#description' => t('A valid CSS selector such as <code>.links > li > a, #logo</code>.'),
       );
+      $element['token'] = array(
+        '#theme' => 'token_tree',
+        '#token_types' => array($instance['entity_type']),
+        '#dialog' => TRUE,
+      );
       $element['property'] = array(
         '#title' => t('Property'),
         '#type' => 'select',
@@ -371,8 +376,10 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
 
     case 'color_field_css_declaration':
       foreach ($items as $delta => $item) {
+        $selector = token_replace($settings['selector'], array($entity_type => $entity), array('clear' => TRUE));
         $important = ($settings['important']) ? ' !important' : '';
         $inline_css = $settings['selector'] . '{' . $settings['property'] . ':' . $item['rgb'] . $important . '}';
+        $inline_css = $selector . '{ ' . $settings['property'] . ': ' . $item['rgb'] . $important . '; }';
         drupal_add_css($inline_css, 'inline');
       }
       break;
