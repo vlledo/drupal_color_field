@@ -17,7 +17,7 @@ function color_field_library() {
       $path . '/jquery.simple-color.min.js' => array(),
     ),
   );
-  $libraries['dematte_colorpicker'] = array (
+  $libraries['dematte-color-picker'] = array (
     'title' => 'color_field_dematte_color_picker',
     'website' => 'http://www.dematte.at/colorPicker/',
     'version' => '0.9',
@@ -25,7 +25,7 @@ function color_field_library() {
       $path . '/colorPicker.js' => array(),
     ),
   );
-  $libraries['eyecon_colorpicker'] = array (
+  $libraries['eyecon-color-picker'] = array (
     'title' => 'color_field_eyecon_color_picker',
     'website' => 'http://www.eyecon.ro/colorpicker/',
     'version' => 'latest',
@@ -71,7 +71,7 @@ function color_field_field_widget_info() {
 
   // Check if jquery_dematte_color_picker_enable is enable so widget can be used.
   $jquery_dematte_color_picker_enable = TRUE;
-  $color_field_library_dematte_color = drupal_get_library('color_field', 'dematte_color_picker');
+  $color_field_library_dematte_color = drupal_get_library('color_field', 'dematte-color-picker');
   foreach ($color_field_library_dematte_color['js'] as $path => $js) {
     if (!file_exists($path)) {
       $jquery_dematte_color_picker_enable = FALSE;
@@ -80,7 +80,7 @@ function color_field_field_widget_info() {
 
   // Check if jquery_eyecon_color_picker_enable is enable so widget can be used.
   $jquery_eyecon_color_picker_enable = TRUE;
-  $color_field_library_eyecon_color = drupal_get_library('color_field', 'eyecon_color_picker');
+  $color_field_library_eyecon_color = drupal_get_library('color_field', 'eyecon-color-picker');
   foreach ($color_field_library_eyecon_color['js'] as $path => $js) {
     if (!file_exists($path)) {
       $jquery_eyecon_color_picker_enable = FALSE;
