@@ -9,7 +9,7 @@
  */
 function color_field_library() {
   $path = libraries_get_path('jquery-simple-color');
-  $libraries['jquery-simple-color'] = array (
+  $libraries['jquery-simple-color'] = array(
     'title' => 'color_field_jquery_simple_color',
     'website' => 'http://recursive-design.com/projects/jquery-simple-color/',
     'version' => '1.0.1',
@@ -17,7 +17,7 @@ function color_field_library() {
       $path . '/jquery.simple-color.min.js' => array(),
     ),
   );
-  $libraries['dematte-color-picker'] = array (
+  $libraries['dematte-color-picker'] = array(
     'title' => 'color_field_dematte_color_picker',
     'website' => 'http://www.dematte.at/colorPicker/',
     'version' => '0.9',
@@ -25,7 +25,7 @@ function color_field_library() {
       $path . '/colorPicker.js' => array(),
     ),
   );
-  $libraries['eyecon-color-picker'] = array (
+  $libraries['eyecon-color-picker'] = array(
     'title' => 'color_field_eyecon_color_picker',
     'website' => 'http://www.eyecon.ro/colorpicker/',
     'version' => 'latest',
@@ -60,7 +60,7 @@ function color_field_field_info() {
  * @see color_field_field_widget_form()
  */
 function color_field_field_widget_info() {
-  // Check if jquery-simple-color is enable so widget can be used.
+  // If jquery-simple-color is enable so widget can be used.
   $jquery_simple_color_picker_enable = TRUE;
   $color_field_library_jquery_simple_color = drupal_get_library('color_field', 'jquery-simple-color');
   foreach ($color_field_library_jquery_simple_color['js'] as $path => $js) {
@@ -69,7 +69,7 @@ function color_field_field_widget_info() {
     }
   }
 
-  // Check if jquery_dematte_color_picker_enable is enable so widget can be used.
+  // If jquery_dematte_color_picker_enable is enable so widget can be used.
   $jquery_dematte_color_picker_enable = TRUE;
   $color_field_library_dematte_color = drupal_get_library('color_field', 'dematte-color-picker');
   foreach ($color_field_library_dematte_color['js'] as $path => $js) {
@@ -78,7 +78,7 @@ function color_field_field_widget_info() {
     }
   }
 
-  // Check if jquery_eyecon_color_picker_enable is enable so widget can be used.
+  // If jquery_eyecon_color_picker_enable is enable so widget can be used.
   $jquery_eyecon_color_picker_enable = TRUE;
   $color_field_library_eyecon_color = drupal_get_library('color_field', 'eyecon-color-picker');
   foreach ($color_field_library_eyecon_color['js'] as $path => $js) {
@@ -261,7 +261,7 @@ function color_field_field_formatter_info() {
         'width' => '50',
         'height' => '50',
       ),
-    ),    
+    ),
   );
 }
 
@@ -320,7 +320,7 @@ function color_field_field_formatter_settings_form($field, $instance, $view_mode
         '#default_value' => $settings['height'],
         '#required' => TRUE,
       );
-      break;      
+      break; 
   }
 
   return $element;
@@ -389,7 +389,7 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
         $rgb = $item['rgb'];
         $width = $settings['width'];
         $height = $settings['height'];
-        $element[$delta]['#markup'] = '<div style="background: ' . $rgb . '; width: ' . $width . 'px; height: ' . $height .'px;"></div>';
+        $element[$delta]['#markup'] = '<div style="background: ' . $rgb . '; width: ' . $width . 'px; height: ' . $height . 'px;"></div>';
       }
       break;
   }
@@ -412,7 +412,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
     case 'color_field_simple_widget':
       // Add library.
       drupal_add_library('color_field', 'jquery-simple-color');
-      
+
       $field_id = $field['field_name'] . '-' . $langcode . '-' . $delta;
       // Support field collection module.
       (isset($element['#field_parents']) && !empty($element['#field_parents'])) ? $bundle_id = '-' . implode('-', $element['#field_parents']) : $bundle_id = '';
