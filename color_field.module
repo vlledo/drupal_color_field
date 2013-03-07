@@ -415,8 +415,8 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       
       $field_id = $field['field_name'] . '-' . $langcode . '-' . $delta;
       // Support field collection module.
-      isset($element['#field_parents']) ? $bundle_id = implode('-', $element['#field_parents']) : $bundle_id = '';
-      $id = str_replace("_", "-", 'edit-' . $bundle_id . '-' . $field_id . '-rgb');
+      (isset($element['#field_parents']) && !empty($element['#field_parents'])) ? $bundle_id = '-' . implode('-', $element['#field_parents']) : $bundle_id = '';
+      $id = str_replace("_", "-", 'edit' . $bundle_id . '-' . $field_id . '-rgb');
 
       $settings['cell_width'] = (isset($field['settings']['cell_width']) && $field['settings']['cell_width'] != '') ? (int) $field['settings']['cell_width'] : 10;
       $settings['cell_height'] = (isset($field['settings']['cell_height']) && $field['settings']['cell_height'] != '') ? (int) $field['settings']['cell_height'] : 10;
@@ -511,7 +511,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       $settings['value'] = $value;
       $settings['id'] = $id;
 
-      $default_colors = $field['settings']['default_colors'];
+      $default_colors = (isset($field['settings']['default_colors'])) ? $field['settings']['default_colors'] : '';
       preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
       foreach ($default_colors as $color) {
         $settings['colors'][] = $color[0];
