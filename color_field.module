@@ -170,6 +170,7 @@ function color_field_field_settings_form($field, $instance, $has_data) {
   $settings = $field['settings'];
   $form = array();
   switch ($instance['widget']['type']) {
+    case 'color_field_simple_color':
     case 'color_field_simple_widget':
       $form['cell_width'] = array(
         '#type' => 'textfield',
@@ -409,6 +410,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
   $value = isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : $default_value;
 
   switch ($instance['widget']['type']) {
+    case 'color_field_simple_color':
     case 'color_field_simple_widget':
       // Add library.
       drupal_add_library('color_field', 'jquery-simple-color');
