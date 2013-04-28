@@ -17,6 +17,7 @@ function color_field_library() {
       $path . '/jquery.simple-color.min.js' => array(),
     ),
   );
+  $path = libraries_get_path('dematte-color-picker');
   $libraries['dematte-color-picker'] = array(
     'title' => 'color_field_dematte_color_picker',
     'website' => 'http://www.dematte.at/colorPicker/',
@@ -25,6 +26,19 @@ function color_field_library() {
       $path . '/colorPicker.js' => array(),
     ),
   );
+  $path = libraries_get_path('bgrins-spectrum');
+  $libraries['bgrins-spectrum'] = array(
+    'title' => 'color_field_spectrum_color_picker',
+    'website' => 'http://bgrins.github.io/spectrum/',
+    'version' => '1.1.0',
+    'js' => array(
+      $path . '/spectrum.js' => array(),
+    ),
+    'css' => array(
+      $path . '/spectrum.css' => array(),
+    ),
+  );
+  $path = libraries_get_path('eyecon-color-picker');
   $libraries['eyecon-color-picker'] = array(
     'title' => 'color_field_eyecon_color_picker',
     'website' => 'http://www.eyecon.ro/colorpicker/',
@@ -87,6 +101,20 @@ function color_field_field_widget_info() {
     }
   }
 
+  // If jquery_spectrum_color_picker_enable is enable so widget can be used.
+  $jquery_spectrum_color_picker_enable = TRUE;
+  $color_field_library_spectrum_color = drupal_get_library('color_field', 'bgrins-spectrum');
+  foreach ($color_field_library_spectrum_color['js'] as $path => $js) {
+    if (!file_exists($path)) {
+      $jquery_spectrum_color_picker_enable = FALSE;
+    }
+  }
+  foreach ($color_field_library_spectrum_color['css'] as $path => $js) {
+    if (!file_exists($path)) {
+      $jquery_spectrum_color_picker_enable = FALSE;
+    }
+  }
+
   $widgets = array();
 
   $widgets['color_field_default_widget'] = array(
@@ -123,6 +151,14 @@ function color_field_field_widget_info() {
       'field types' => array('color_field_rgb'),
     );
   }*/
+
+  // color_field_eyecon_widget need more work before release.
+  if ($jquery_spectrum_color_picker_enable) {
+   $widgets['color_field_spectrum_widget'] = array(
+     'label' => t('Spectrum Color-Picker'),
+     'field types' => array('color_field_rgb'),
+   );
+  }
 
   $widgets['color_field_plain_text'] = array(
     'label' => t('Plain text (RGB value as #ffffff)'),
@@ -231,6 +267,58 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#description' => t('Default colors for pre-selected color boxes'),
       );
       break;
+
+    case 'color_field_spectrum_widget':
+      $form['show_input'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Input'),
+        '#default_value' => isset($settings['show_input']) ? $settings['show_input'] : FALSE,
+        '#description' => t('Add an input to allow free form typing.'),
+      );
+      $form['show_alpha'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Alpha'),
+        '#default_value' => isset($settings['show_alpha']) ? $settings['show_alpha'] : FALSE,
+        '#description' => t('Give users the Option to Add Transparency to selected colors'),
+      );
+      /*$form['show_buttons'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Text'),
+        '#default_value' => isset($settings['show_buttons']) ? $settings['show_buttons'] : TRUE,
+        '#description' => t('Show Cancel Button and Text in Spectrum Widget'),
+      );
+      $form['choose_text'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Add Text'),
+        '#default_value' => isset($settings['choose_text']) ? $settings['choose_text'] : "",
+        '#required' => FALSE,
+        '#description' => t('Add Helper Text inside opened Spectrum Widget'),
+      );
+      $form['cancel_text'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Cancel Text'),
+        '#default_value' => isset($settings['ccncel_text']) ? $settings['ccncel_text'] : "cancel",
+        '#description' => t('Change text of Spectrum Widget cancel button'),
+      );
+      $form['class_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Add Classes'),
+        '#default_value' => isset($settings['class_name']) ? $settings['class_name'] : "",
+        '#description' => t('Optionally Add a Class to your Spectrum Widget'),
+      );
+      $form['show_palette'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Palette'),
+        '#default_value' => isset($settings['show_palette']) ? $settings['show_palette'] : FALSE,
+        '#description' => t('Show or hide Palette in Spectrum Widget'),
+      );
+      $form['palette'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Color Palette'),
+        '#default_value' => isset($settings['palette']) ? $settings['palette'] : implode(',', _color_field_default_colors),
+        '#description' => t('Selectable color palette to accompany the Spectrum Widget'),
+      );*/
+    break;      
   }
   return $form;
 }
