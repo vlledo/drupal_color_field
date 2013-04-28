@@ -275,12 +275,6 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#default_value' => isset($settings['show_input']) ? $settings['show_input'] : FALSE,
         '#description' => t('Allow free form typing.'),
       );
-      $form['show_alpha'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Show Alpha'),
-        '#default_value' => isset($settings['show_alpha']) ? $settings['show_alpha'] : FALSE,
-        '#description' => t('Allow alpha transparency selection.'),
-      );
       $form['show_palette'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show Palette'),
@@ -596,7 +590,6 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       $id = str_replace("_", "-", 'edit' . $bundle_id . '-' . $field_id . '-rgb');
       $settings['id'] = $id;
       $settings['show_input'] = (isset($field['settings']['show_input']) && $field['settings']['show_input'] == 1) ? TRUE: FALSE;
-      $settings['show_alpha'] = (isset($field['settings']['show_alpha']) && $field['settings']['show_alpha'] == 1) ? TRUE: FALSE;
       $settings['show_palette'] = (isset($field['settings']['show_palette']) && $field['settings']['show_palette'] == 1) ? TRUE: FALSE;
       $settings['show_palette_only'] = (isset($field['settings']['show_palette_only']) && $field['settings']['show_palette_only'] == 1) ? TRUE: FALSE;
       $settings['palette'] = (isset($field['settings']['palette']) && $field['settings']['palette'] != '') ? $field['settings']['palette'] : '';
