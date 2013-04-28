@@ -273,38 +273,13 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#type' => 'checkbox',
         '#title' => t('Show Input'),
         '#default_value' => isset($settings['show_input']) ? $settings['show_input'] : FALSE,
-        '#description' => t('Add an input to allow free form typing.'),
+        '#description' => t('Allow free form typing.'),
       );
       $form['show_alpha'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show Alpha'),
         '#default_value' => isset($settings['show_alpha']) ? $settings['show_alpha'] : FALSE,
-        '#description' => t('Give users the Option to Add Transparency to selected colors'),
-      );
-      /*$form['show_buttons'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Show Text'),
-        '#default_value' => isset($settings['show_buttons']) ? $settings['show_buttons'] : TRUE,
-        '#description' => t('Show Cancel Button and Text in Spectrum Widget'),
-      );
-      $form['choose_text'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Add Text'),
-        '#default_value' => isset($settings['choose_text']) ? $settings['choose_text'] : "",
-        '#required' => FALSE,
-        '#description' => t('Add Helper Text inside opened Spectrum Widget'),
-      );
-      $form['cancel_text'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Cancel Text'),
-        '#default_value' => isset($settings['ccncel_text']) ? $settings['ccncel_text'] : "cancel",
-        '#description' => t('Change text of Spectrum Widget cancel button'),
-      );
-      $form['class_name'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Add Classes'),
-        '#default_value' => isset($settings['class_name']) ? $settings['class_name'] : "",
-        '#description' => t('Optionally Add a Class to your Spectrum Widget'),
+        '#description' => t('Allow alpha transparency selection.'),
       );
       $form['show_palette'] = array(
         '#type' => 'checkbox',
@@ -315,9 +290,31 @@ function color_field_field_settings_form($field, $instance, $has_data) {
       $form['palette'] = array(
         '#type' => 'textarea',
         '#title' => t('Color Palette'),
-        '#default_value' => isset($settings['palette']) ? $settings['palette'] : implode(',', _color_field_default_colors),
+        '#default_value' => isset($settings['palette']) ? $settings['palette'] : '',
         '#description' => t('Selectable color palette to accompany the Spectrum Widget'),
-      );*/
+        '#states' => array(
+          'visible' => array(
+            ':input[name="field[settings][show_palette]"]' => array('checked' => TRUE),
+          ),
+        ),
+      );
+      $form['show_palette_only'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Palette Only'),
+        '#default_value' => isset($settings['show_palette_only']) ? $settings['show_palette_only'] : FALSE,
+        '#description' => t('Only show thePalette in Spectrum Widget and nothing else'),
+        '#states' => array(
+          'visible' => array(
+            ':input[name="field[settings][show_palette]"]' => array('checked' => TRUE),
+          ),
+        ),
+      );
+      $form['show_buttons'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Buttons'),
+        '#default_value' => isset($settings['show_buttons']) ? $settings['show_buttons'] : FALSE,
+        '#description' => t('Add Cancel/Confirm Button.'),
+      );
     break;      
   }
   return $form;
@@ -598,16 +595,13 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       (isset($element['#field_parents']) && !empty($element['#field_parents'])) ? $bundle_id = '-' . implode('-', $element['#field_parents']) : $bundle_id = '';
       $id = str_replace("_", "-", 'edit' . $bundle_id . '-' . $field_id . '-rgb');
       $settings['id'] = $id;
-      $settings['show_input'] = (isset($field['settings']['show_input']) && $field['settings']['show_input'] != '') ? (int) $field['settings']['show_input'] : FALSE;
-      $settings['show_alpha'] = (isset($field['settings']['show_alpha']) && $field['settings']['show_alpha'] != '') ? (int) $field['settings']['show_alpha'] : FALSE;
-      /*
-      $settings['class_name'] = (isset($field['settings']['class_name']) && $field['settings']['class_name'] != '') ? (int) $field['settings']['class_name'] : "";
-      $settings['show_buttons'] = (isset($field['settings']['show_buttons']) && $field['settings']['show_buttons'] != '') ? (int) $field['settings']['show_buttons'] : TRUE;
-      $settings['choose_text'] = (isset($field['settings']['choose_text']) && $field['settings']['choose_text'] != '') ? $field['settings']['choose_text'] : '';
-      $settings['cancel_text'] = (isset($field['settings']['cancel_text']) && $field['settings']['cancel_text'] != '') ? $field['settings']['cancel_text'] : 'cancel';
-      $settings['show_palette'] = (isset($field['settings']['show_palette']) && $field['settings']['show_palette'] != '') ? $field['settings']['show_palette'] : FALSE ;
-      $settings['palette'] = (isset($field['settings']['palette']) && $field['settings']['palette'] != '') ? $field['settings']['palette'] : _color_field_default_colors();
-      */
+      $settings['show_input'] = (isset($field['settings']['show_input']) && $field['settings']['show_input'] == 1) ? TRUE: FALSE;
+      $settings['show_alpha'] = (isset($field['settings']['show_alpha']) && $field['settings']['show_alpha'] == 1) ? TRUE: FALSE;
+      $settings['show_palette'] = (isset($field['settings']['show_palette']) && $field['settings']['show_palette'] == 1) ? TRUE: FALSE;
+      $settings['show_palette_only'] = (isset($field['settings']['show_palette_only']) && $field['settings']['show_palette_only'] == 1) ? TRUE: FALSE;
+      $settings['palette'] = (isset($field['settings']['palette']) && $field['settings']['palette'] != '') ? $field['settings']['palette'] : '';
+      $settings['show_buttons'] = (isset($field['settings']['show_buttons']) && $field['settings']['show_buttons'] == 1) ? TRUE: FALSE;
+
       $widget += array(
         '#type' => 'textfield',
         '#description' => t('Format #FFFFFF'),
