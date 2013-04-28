@@ -354,7 +354,6 @@ function color_field_field_formatter_info() {
   );
 }
 
-
 /**
  * Implements hook_field_formatter_settings_form().
  */
@@ -590,6 +589,44 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
         '#maxlength' => 7,
       );
       break;
+
+    case 'color_field_spectrum_widget':
+      // Add library.
+      drupal_add_library('color_field', 'bgrins-spectrum');
+      $field_id = $field['field_name'] . '-' . $langcode . '-' . $delta;
+      // Support field collection module.
+      (isset($element['#field_parents']) && !empty($element['#field_parents'])) ? $bundle_id = '-' . implode('-', $element['#field_parents']) : $bundle_id = '';
+      $id = str_replace("_", "-", 'edit' . $bundle_id . '-' . $field_id . '-rgb');
+      $settings['id'] = $id;
+      $settings['show_input'] = (isset($field['settings']['show_input']) && $field['settings']['show_input'] != '') ? (int) $field['settings']['show_input'] : FALSE;
+      $settings['show_alpha'] = (isset($field['settings']['show_alpha']) && $field['settings']['show_alpha'] != '') ? (int) $field['settings']['show_alpha'] : FALSE;
+      /*
+      $settings['class_name'] = (isset($field['settings']['class_name']) && $field['settings']['class_name'] != '') ? (int) $field['settings']['class_name'] : "";
+      $settings['show_buttons'] = (isset($field['settings']['show_buttons']) && $field['settings']['show_buttons'] != '') ? (int) $field['settings']['show_buttons'] : TRUE;
+      $settings['choose_text'] = (isset($field['settings']['choose_text']) && $field['settings']['choose_text'] != '') ? $field['settings']['choose_text'] : '';
+      $settings['cancel_text'] = (isset($field['settings']['cancel_text']) && $field['settings']['cancel_text'] != '') ? $field['settings']['cancel_text'] : 'cancel';
+      $settings['show_palette'] = (isset($field['settings']['show_palette']) && $field['settings']['show_palette'] != '') ? $field['settings']['show_palette'] : FALSE ;
+      $settings['palette'] = (isset($field['settings']['palette']) && $field['settings']['palette'] != '') ? $field['settings']['palette'] : _color_field_default_colors();
+      */
+      $widget += array(
+        '#type' => 'textfield',
+        '#description' => t('Format #FFFFFF'),
+        '#default_value' => $value,
+        '#size' => 7,
+        '#maxlength' => 7,
+        '#attached' => array(
+          // Add Spectrum color picker.
+          'library' => array(array('color_field', 'spectrum')),
+          'js' => array(
+            drupal_get_path('module', 'color_field') . '/color_field_spectrum_color_picker/color_field_spectrum_color_picker.jquery.js',
+            array(
+              'data' => array('color_field_spectrum' => array('#' . $id => $settings)),
+              'type' => 'setting',
+            ),
+          ),
+        ),
+      );
+      break;      
 
     case 'color_field_default_widget':
       $field_id = str_replace("_", "-", $field['field_name']) . '-' . $langcode . '-' . $delta;
