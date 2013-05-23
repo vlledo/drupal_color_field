@@ -8,7 +8,7 @@
 /**
  * Implements hook_field_schema().
  */
-function datetime_field_schema($field) {
+function color_field_field_schema($field) {
   $columns = array();
   $columns['rgb'] = array(
     'description' => 'The 7-character value',
