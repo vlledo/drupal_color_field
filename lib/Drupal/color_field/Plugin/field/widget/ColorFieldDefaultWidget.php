@@ -2,31 +2,46 @@
 
 /**
  * @file
- * Contains \Drupal\telephone\Plugin\field\widget\TelephoneDefaultWidget.
+ * Contains \Drupal\color_field\Plugin\field\widget\ColorFieldDefaultWidget.
  */
 
-namespace Drupal\telephone\Plugin\field\widget;
+namespace Drupal\color_field\Plugin\field\widget;
 
 use Drupal\Component\Annotation\Plugin;
 use Drupal\Core\Annotation\Translation;
 use Drupal\field\Plugin\Type\Widget\WidgetBase;
 
 /**
- * Plugin implementation of the 'telephone_default' widget.
+ * Plugin implementation of the 'color_field_default' widget.
  *
  * @Plugin(
- *   id = "telephone_default",
- *   module = "telephone",
- *   label = @Translation("Telephone number"),
+ *   id = "color_field_default",
+ *   module = "color_field",
+ *   label = @Translation("Color field"),
  *   field_types = {
- *     "telephone"
+ *     "color_field"
  *   },
  *   settings = {
- *     "placeholder" = ""
+ *     "placeholder_title" = ""
  *   }
  * )
  */
-class TelephoneDefaultWidget extends WidgetBase {
+class ColorFieldDefaultWidget extends WidgetBase {
+
+  /**
+   * Implements \Drupal\field\Plugin\Type\Widget\WidgetInterface::formElement().
+   */
+  public function formElement(array $items, $delta, array $element, $langcode, array &$form, array &$form_state) {
+    $element['value'] = $element + array(
+      '#type' => 'textfield',
+      '#maxlength' => 6,
+      '#title' => t('Color Field'),
+      '#default_value' => isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL,
+      '#placeholder' => $this->getSetting('placeholder'),
+      '#required' => $element['#required'],
+    );
+    return $element;
+  }
 
   /**
    * Implements Drupal\field\Plugin\Type\Widget\WidgetInterface::settingsForm().
@@ -37,18 +52,6 @@ class TelephoneDefaultWidget extends WidgetBase {
       '#title' => t('Placeholder'),
       '#default_value' => $this->getSetting('placeholder'),
       '#description' => t('Text that will be shown inside the field until a value is entered. This hint is usually a sample value or a brief description of the expected format.'),
-    );
-    return $element;
-  }
-
-  /**
-   * Implements \Drupal\field\Plugin\Type\Widget\WidgetInterface::formElement().
-   */
-  public function formElement(array $items, $delta, array $element, $langcode, array &$form, array &$form_state) {
-    $element['value'] = $element + array(
-      '#type' => 'tel',
-      '#default_value' => isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL,
-      '#placeholder' => $this->getSetting('placeholder'),
     );
     return $element;
   }

@@ -10,14 +10,14 @@ namespace Drupal\color_field\Type;
 use Drupal\Core\Entity\Field\FieldItemBase;
 
 /**
- * Defines the 'email_field' entity field item.
+ * Defines the 'color_field' entity field item.
  */
 class ColorFieldItem extends FieldItemBase {
 
   /**
    * Definitions of the contained properties.
    *
-   * @see EmailItem::getPropertyDefinitions()
+   * @see ColorFieldItem::getPropertyDefinitions()
    *
    * @var array
    */

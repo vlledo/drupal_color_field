@@ -24,7 +24,7 @@ function color_field_help($path, $arg) {
  */
 function color_field_field_info() {
   $types['color_field'] = array(
-    'label' => t('Link'),
+    'label' => t('Color Field'),
     'description' => t('Field using a hexadecimal notation.'),
     'instance_settings' => array(
       'title' => DRUPAL_OPTIONAL,
@@ -52,9 +52,9 @@ function color_field_field_instance_settings_form($field, $instance) {
     '#title' => t('Allow link title'),
     '#default_value' => isset($instance['settings']['title']) ? $instance['settings']['title'] : DRUPAL_OPTIONAL,
     '#options' => array(
-        DRUPAL_DISABLED => t('Disabled'),
-        DRUPAL_OPTIONAL => t('Optional'),
-        DRUPAL_REQUIRED => t('Required'),
+      DRUPAL_DISABLED => t('Disabled'),
+      DRUPAL_OPTIONAL => t('Optional'),
+      DRUPAL_REQUIRED => t('Required'),
     ),
   );
   return $form;
