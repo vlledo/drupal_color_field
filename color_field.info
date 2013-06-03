@@ -2,5 +2,6 @@ name = Color Field
 description = Color Field using a hexadecimal notation (HEX)
 package = Fields
 core = 7.x
+files[] = color_field.test
 
 dependencies[] = libraries
