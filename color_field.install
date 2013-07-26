@@ -16,6 +16,12 @@ function color_field_field_schema($field) {
     'length' => 7,
     'not null' => FALSE,
   );
+  $columns['alfa'] = array(
+    'description' => 'The 7-character value',
+    'type' => 'float',
+    'size' => 'tiny',
+    'not null' => FALSE,
+  );
   $indexes = array(
     'rgb' => array('rgb'),
   );
