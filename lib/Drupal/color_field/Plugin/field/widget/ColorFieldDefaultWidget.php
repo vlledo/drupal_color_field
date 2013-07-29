@@ -48,7 +48,6 @@ class ColorFieldDefaultWidget extends WidgetBase {
       //'#placeholder' => $this->getSetting('placeholder'),
       '#required' => $element['#required'],
     );*/
-    dpm($element);
     return $element;
   }
 
