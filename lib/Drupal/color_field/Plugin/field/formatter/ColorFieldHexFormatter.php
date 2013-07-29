@@ -2,12 +2,12 @@
 
 /**
  * @file
- * Contains \Drupal\color_field\Plugin\field\formatter\ColorFieldHexFormatter.
+ * Definition of Drupal\color_field\Plugin\field\formatter\MailToFormatter.
  */
 
 namespace Drupal\color_field\Plugin\field\formatter;
 
-use Drupal\Component\Annotation\Plugin;
+use Drupal\field\Annotation\FieldFormatter;
 use Drupal\Core\Annotation\Translation;
 use Drupal\field\Plugin\Type\Formatter\FormatterBase;
 use Drupal\Core\Entity\EntityInterface;
@@ -15,10 +15,10 @@ use Drupal\Core\Entity\EntityInterface;
 /**
  * Plugin implementation of the 'color_field_hex' formatter.
  *
- * @Plugin(
- *   id = "color_field_default",
+ * @FieldFormatter(
+ *   id = "color_field_hex",
  *   module = "color_field",
- *   label = @Translation("Color HEX"),
+ *   label = @Translation("Color Hex"),
  *   field_types = {
  *     "color_field"
  *   }
@@ -33,11 +33,9 @@ class ColorFieldHexFormatter extends FormatterBase {
     $elements = array();
 
     foreach ($items as $delta => $item) {
-      $elements[$delta] = array(
-        '#type' => 'link',
-        '#title' => $item['value'],
-        '#href' => 'mailto:' . $item['value'],
-      );
+      // The text value has no text format assigned to it, so the user input
+      // should equal the output, including newlines.
+      $elements[$delta] = array('#markup' => $item['rgb']);
     }
 
     return $elements;

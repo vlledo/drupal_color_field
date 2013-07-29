@@ -32,21 +32,30 @@ class ColorFieldDefaultWidget extends WidgetBase {
    * Implements \Drupal\field\Plugin\Type\Widget\WidgetInterface::formElement().
    */
   public function formElement(array $items, $delta, array $element, $langcode, array &$form, array &$form_state) {
-    $element['value'] = $element + array(
+    $element['rgb'] = $element + array(
       '#type' => 'textfield',
-      '#maxlength' => 6,
+      '#maxlength' => 7,
       '#title' => t('Color Field'),
-      '#default_value' => isset($items[$delta]['value']) ? $items[$delta]['value'] : NULL,
-      '#placeholder' => $this->getSetting('placeholder'),
+      '#default_value' => isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : NULL,
+      //'#placeholder' => $this->getSetting('placeholder'),
       '#required' => $element['#required'],
     );
+    /*$element['alfa'] = $element + array(
+      '#type' => 'textfield',
+      '#maxlength' => 7,
+      '#title' => t('Color Field'),
+      '#default_value' => isset($items[$delta]['alfa']) ? $items[$delta]['alfa'] : NULL,
+      //'#placeholder' => $this->getSetting('placeholder'),
+      '#required' => $element['#required'],
+    );*/
+    dpm($element);
     return $element;
   }
 
   /**
    * Implements Drupal\field\Plugin\Type\Widget\WidgetInterface::settingsForm().
    */
-  public function settingsForm(array $form, array &$form_state) {
+  /*public function settingsForm(array $form, array &$form_state) {
     $element['placeholder'] = array(
       '#type' => 'textfield',
       '#title' => t('Placeholder'),
@@ -54,6 +63,6 @@ class ColorFieldDefaultWidget extends WidgetBase {
       '#description' => t('Text that will be shown inside the field until a value is entered. This hint is usually a sample value or a brief description of the expected format.'),
     );
     return $element;
-  }
+  }*/
 
 }

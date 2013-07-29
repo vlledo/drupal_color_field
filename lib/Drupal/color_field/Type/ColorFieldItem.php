@@ -29,11 +29,16 @@ class ColorFieldItem extends FieldItemBase {
   public function getPropertyDefinitions() {
 
     if (!isset(static::$propertyDefinitions)) {
-      static::$propertyDefinitions['value'] = array(
-        'type' => 'color_field',
+      static::$propertyDefinitions['rgb'] = array(
+        'type' => 'string',
         'label' => t('Color value'),
+      );
+      static::$propertyDefinitions['alfa'] = array(
+        'type' => 'float',
+        'label' => t('Alfa value'),
       );
     }
     return static::$propertyDefinitions;
+
   }
 }

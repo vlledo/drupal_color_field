@@ -27,7 +27,7 @@ function color_field_field_info() {
     'label' => t('Color Field'),
     'description' => t('Field using a hexadecimal notation.'),
     'instance_settings' => array(
-      'title' => DRUPAL_OPTIONAL,
+      'alfa' => TRUE,
     ),
     'default_widget' => 'color_field_default',
     'default_formatter' => 'color_field_hex',
@@ -47,15 +47,13 @@ function color_field_field_is_empty($item, $field) {
  * Implements hook_field_instance_settings_form().
  */
 function color_field_field_instance_settings_form($field, $instance) {
-  $form['title'] = array(
-    '#type' => 'radios',
-    '#title' => t('Allow link title'),
-    '#default_value' => isset($instance['settings']['title']) ? $instance['settings']['title'] : DRUPAL_OPTIONAL,
-    '#options' => array(
-      DRUPAL_DISABLED => t('Disabled'),
-      DRUPAL_OPTIONAL => t('Optional'),
-      DRUPAL_REQUIRED => t('Required'),
-    ),
+  $settings = $instance['settings'];
+
+  $form['alfa'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Alfa'),
+    '#default_value' => $settings['alfa'],
+    '#description' => t('This allows authors to provide alfa value for the color'),
   );
   return $form;
 }
@@ -63,7 +61,7 @@ function color_field_field_instance_settings_form($field, $instance) {
 /**
  * Implements hook_field_load().
  */
-function color_field_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+/*function color_field_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
   foreach ($entities as $id => $entity) {
     foreach ($items[$id] as $delta => &$item) {
       // Unserialize the attributes into an array. The value stored in the
@@ -76,34 +74,34 @@ function color_field_field_load($entity_type, $entities, $field, $instances, $la
       }
     }
   }
-}
+}*/
 
 /**
  * Implements hook_field_presave().
  */
-function color_field_field_presave(EntityInterface $entity, $field, $instance, $langcode, &$items) {
+/*function color_field_field_presave(EntityInterface $entity, $field, $instance, $langcode, &$items) {
   foreach ($items as $delta => &$item) {
     // Trim any spaces around the rgb.
     $item['rgb'] = trim($item['rgb']);
-    $item['title'] = trim($item['title']);
+    //$item['title'] = trim($item['title']);
   }
-}
+}*/
 
 /**
  * Implements hook_theme().
  */
-function color_field_theme() {
+/*function color_field_theme() {
   return array(
     'color_field_formatter_color_field_separate' => array(
       'variables' => array('title' => NULL, 'url_title' => NULL, 'href' => NULL, 'options' => array()),
     ),
   );
-}
+}*/
 
 /**
  * Formats a link as separate title and URL elements.
  */
-function theme_color_field_formatter_color_field_separate($vars) {
+/*function theme_color_field_formatter_color_field_separate($vars) {
   $output = '';
   $output .= '<div class="link-item">';
   if (!empty($vars['title'])) {
@@ -112,7 +110,7 @@ function theme_color_field_formatter_color_field_separate($vars) {
   $output .= '<div class="link-url">' . l($vars['url_title'], $vars['href'], $vars['options']) . '</div>';
   $output .= '</div>';
   return $output;
-}
+}*/
 
 /**
  * Helper: Convert RGB to HEX6
