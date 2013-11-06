@@ -2,18 +2,15 @@
 
 /**
  * @file
- * Definition of Drupal\color_field\Plugin\field\formatter\MailToFormatter.
+ * Definition of Drupal\color_field\Plugin\Field\FieldFormatter\ColorFieldSwatchFormatter.
  */
 
-namespace Drupal\color_field\Plugin\field\formatter;
+namespace Drupal\color_field\Plugin\Field\FieldFormatter;
 
-use Drupal\field\Annotation\FieldFormatter;
-use Drupal\Core\Annotation\Translation;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\field\Plugin\Type\Formatter\FormatterBase;
+use Drupal\Core\Field\FormatterBase;
 
 /**
- * Plugin implementation of the 'color_field_hex' formatter.
+ * Plugin implementation of the 'color_field_swatch' formatter.
  *
  * @FieldFormatter(
  *   id = "color_field_swatch",
@@ -46,6 +43,9 @@ class ColorFieldSwatchFormatter extends FormatterBase {
     return $summary;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function settingsForm(array $form, array &$form_state) {
     $elements = parent::settingsForm($form, $form_state);
 
@@ -68,7 +68,7 @@ class ColorFieldSwatchFormatter extends FormatterBase {
   }
 
   /**
-   * Implements Drupal\field\Plugin\Type\Formatter\FormatterInterface::viewElements().
+   * {@inheritdoc}
    */
   public function viewElements(EntityInterface $entity, $langcode, array $items) {
     $elements = array();

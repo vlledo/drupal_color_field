@@ -2,14 +2,13 @@
 
 /**
  * @file
- * Contains \Drupal\color_field\Plugin\field\widget\ColorFieldDefaultWidget.
+ * Contains \Drupal\color_field\Plugin\Field\FieldWidget\ColorFieldDefaultWidget.
  */
 
-namespace Drupal\color_field\Plugin\field\widget;
+namespace Drupal\color_field\Plugin\Field\FieldWidget;
 
-use Drupal\Component\Annotation\Plugin;
-use Drupal\Core\Annotation\Translation;
-use Drupal\field\Plugin\Type\Widget\WidgetBase;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\WidgetBase;
 
 /**
  * Plugin implementation of the 'color_field_default' widget.
@@ -17,7 +16,7 @@ use Drupal\field\Plugin\Type\Widget\WidgetBase;
  * @Plugin(
  *   id = "color_field_default",
  *   module = "color_field",
- *   label = @Translation("Color field"),
+ *   label = @Translation("Color field default"),
  *   field_types = {
  *     "color_field"
  *   },
@@ -31,7 +30,7 @@ class ColorFieldDefaultWidget extends WidgetBase {
   /**
    * Implements \Drupal\field\Plugin\Type\Widget\WidgetInterface::formElement().
    */
-  public function formElement(array $items, $delta, array $element, $langcode, array &$form, array &$form_state) {
+  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, array &$form_state) {
     $element['rgb'] = $element + array(
       '#type' => 'textfield',
       '#maxlength' => 7,
