@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\color_field\Plugin\Field\FieldType\ColorFieldType.
+ * Contains \Drupal\color_field\Plugin\Field\FieldType\ColorFieldItem.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldType;

@@ -13,7 +13,7 @@ use Drupal\Core\Field\WidgetBase;
 /**
  * Plugin implementation of the 'color_field_default' widget.
  *
- * @Plugin(
+ * @FieldWidget(
  *   id = "color_field_default",
  *   module = "color_field",
  *   label = @Translation("Color field default"),
@@ -31,22 +31,13 @@ class ColorFieldDefaultWidget extends WidgetBase {
    * Implements \Drupal\field\Plugin\Type\Widget\WidgetInterface::formElement().
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, array &$form_state) {
-    $element['rgb'] = $element + array(
+    $element['rgb'] = array(
+      '#title' => t('Color Field'),
       '#type' => 'textfield',
       '#maxlength' => 7,
-      '#title' => t('Color Field'),
-      '#default_value' => isset($items[$delta]['rgb']) ? $items[$delta]['rgb'] : NULL,
-      //'#placeholder' => $this->getSetting('placeholder'),
       '#required' => $element['#required'],
+      '#default_value' => isset($items[$delta]->rgb) ? $items[$delta]->rgb : NULL,
     );
-    /*$element['alfa'] = $element + array(
-      '#type' => 'textfield',
-      '#maxlength' => 7,
-      '#title' => t('Color Field'),
-      '#default_value' => isset($items[$delta]['alfa']) ? $items[$delta]['alfa'] : NULL,
-      //'#placeholder' => $this->getSetting('placeholder'),
-      '#required' => $element['#required'],
-    );*/
     return $element;
   }
 
