@@ -21,14 +21,44 @@ use Drupal\Core\Field\WidgetBase;
  *     "color_field"
  *   },
  *   settings = {
- *     "placeholder_title" = ""
+ *     "placeholder" = ""
  *   }
  * )
  */
 class ColorFieldDefaultWidget extends WidgetBase {
 
   /**
-   * Implements \Drupal\field\Plugin\Type\Widget\WidgetInterface::formElement().
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, array &$form_state) {
+    $element['placeholder'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Placeholder'),
+      '#default_value' => $this->getSetting('placeholder'),
+      '#description' => t('Text that will be shown inside the field until a value is entered. This hint is usually a sample value or a brief description of the expected format.'),
+    );
+    return $element;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $summary = array();
+
+    $placeholder = $this->getSetting('placeholder');
+    if (!empty($placeholder)) {
+      $summary[] = t('Placeholder: @placeholder', array('@placeholder' => $placeholder));
+    }
+    else {
+      $summary[] = t('No placeholder');
+    }
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, array &$form_state) {
     $element['rgb'] = array(
@@ -38,20 +68,16 @@ class ColorFieldDefaultWidget extends WidgetBase {
       '#required' => $element['#required'],
       '#default_value' => isset($items[$delta]->rgb) ? $items[$delta]->rgb : NULL,
     );
+    if ($this->getFieldSetting('alfa')) {
+      $element['alfa'] = array(
+        '#title' => t('Alfa'),
+        '#type' => 'textfield',
+        '#maxlength' => 3,
+        '#required' => $element['#required'],
+        '#default_value' => isset($items[$delta]->alfa) ? $items[$delta]->alfa : NULL,
+      );
+    }
     return $element;
   }
-
-  /**
-   * Implements Drupal\field\Plugin\Type\Widget\WidgetInterface::settingsForm().
-   */
-  /*public function settingsForm(array $form, array &$form_state) {
-    $element['placeholder'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Placeholder'),
-      '#default_value' => $this->getSetting('placeholder'),
-      '#description' => t('Text that will be shown inside the field until a value is entered. This hint is usually a sample value or a brief description of the expected format.'),
-    );
-    return $element;
-  }*/
 
 }

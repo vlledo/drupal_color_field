@@ -77,4 +77,20 @@ class ColorFieldItem extends ConfigFieldItemBase {
     $value = $this->get('rgb')->getValue();
     return $value === NULL || $value === '';
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsForm(array $form, array &$form_state, $has_data) {
+    $element = array();
+
+    $element['alfa'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Record Alfa'),
+      '#default_value' => $this->getFieldSetting('alfa'),
+    );
+
+    return $element;
+  }
+
 }
