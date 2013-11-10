@@ -2,12 +2,13 @@
 
 /**
  * @file
- * Definition of Drupal\color_field\Plugin\Field\FieldFormatter\ColorFieldSwatchFormatter.
+ * Contains \Drupal\color_field\Plugin\Field\FieldFormatter\ColorFieldSwatchFormatter.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\Field\FieldItemListInterface;
 
 /**
  * Plugin implementation of the 'color_field_swatch' formatter.
@@ -26,22 +27,6 @@ use Drupal\Core\Field\FormatterBase;
  * )
  */
 class ColorFieldSwatchFormatter extends FormatterBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function settingsSummary() {
-    $summary = array();
-
-    $settings = $this->getSettings();
-
-    $summary[] = t('Width: @width Height: @height px', array(
-      '@width' => $settings['width'],
-      '@height' => $settings['height']
-    ));
-
-    return $summary;
-  }
 
   /**
    * {@inheritdoc}
@@ -70,9 +55,25 @@ class ColorFieldSwatchFormatter extends FormatterBase {
   /**
    * {@inheritdoc}
    */
-  public function viewElements(EntityInterface $entity, $langcode, array $items) {
-    $elements = array();
+  public function settingsSummary() {
+    $summary = array();
+
     $settings = $this->getSettings();
+
+    $summary[] = t('Width: @width Height: @height px', array(
+      '@width' => $settings['width'],
+      '@height' => $settings['height']
+    ));
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function viewElements(FieldItemListInterface $items) {
+    $elements = array();
+    $settings = $this->getFieldSettings();
 
     foreach ($items as $delta => $item) {
       $elements[$delta] = array('#markup' => '<div style="background: ' . $item['rgb'] . '; width: ' . $settings['width'] . 'px; height: ' . $settings['height'] . 'px;"></div>');
