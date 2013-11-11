@@ -65,16 +65,21 @@ class ColorFieldDefaultWidget extends WidgetBase {
       '#title' => t('Color Field'),
       '#type' => 'textfield',
       '#maxlength' => 7,
+      '#size' => 7,
       '#required' => $element['#required'],
       '#default_value' => isset($items[$delta]->rgb) ? $items[$delta]->rgb : NULL,
     );
     if ($this->getFieldSetting('alfa')) {
+      $element['rgb']['#prefix'] = '<div class="container-inline">';
+
       $element['alfa'] = array(
         '#title' => t('Alfa'),
         '#type' => 'textfield',
         '#maxlength' => 3,
+        '#size' => 3,
         '#required' => $element['#required'],
         '#default_value' => isset($items[$delta]->alfa) ? $items[$delta]->alfa : NULL,
+        '#suffix' => '</div>',
       );
     }
     return $element;
