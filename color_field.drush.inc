@@ -18,21 +18,21 @@ define('COLOR_FIELD_DEMATTE_COLOR_PICKER_DOWNLOAD_URI', 'http://www.dematte.at/c
 function color_field_drush_command() {
   $items = array();
 
-  $items['color_fied-plugin-scp'] = array(
+  $items['color_field-plugin-scp'] = array(
     'description' => dt("Downloads the Simple Color Picker plugin."),
     'arguments' => array(
       'path' => dt('Optional. A path where to install the Simple Color Picker plugin. If omitted Drush will use the default location.'),
     ),
   );
 
-  $items['color_fied-plugin-ecp'] = array(
+  $items['color_field-plugin-ecp'] = array(
     'description' => dt("Downloads the EyeCon Color Picker plugin."),
     'arguments' => array(
       'path' => dt('Optional. A path where to install the EyeCon Color Picker plugin. If omitted Drush will use the default location.'),
     ),
   );
 
-  $items['color_fied-plugin-dcp'] = array(
+  $items['color_field-plugin-dcp'] = array(
     'description' => dt("Downloads the Dematte Color Picker plugin."),
     'arguments' => array(
       'path' => dt('Optional. A path where to install the Dematte Color Picker plugin. If omitted Drush will use the default location.'),
@@ -47,13 +47,13 @@ function color_field_drush_command() {
  */
 function color_field_drush_help($section) {
   switch ($section) {
-    case 'drush:color_fied-plugin-scp':
+    case 'drush:color_field-plugin-scp':
       return dt("Downloads the Simple Color Picker plugin, default location is sites/all/libraries.");
       break;
-    case 'drush:color_fied-plugin-ecp':
+    case 'drush:color_field-plugin-ecp':
       return dt("Downloads the EyeCon Color Picker plugin, default location is sites/all/libraries.");
       break;
-    case 'drush:color_fied-plugin-dcp':
+    case 'drush:color_field-plugin-dcp':
       return dt("Downloads the Dematte Color Picker plugin, default location is sites/all/libraries.");
       break;
   }
@@ -101,7 +101,7 @@ function drush_color_field_color_fied_plugin_scp($path = 'sites/all/libraries') 
     drush_shell_exec('unzip -qq -o ' . $filename);
     // Remove the zip archive.
     drush_op('unlink', $filename);
-  } else {
+  }else {
     drush_log(dt('Simple Color Picker plugin could not been downloaded from @url', array('@url' => COLOR_FIELD_SIMPLE_COLOR_PICKER_DOWNLOAD_URI)), 'error');
   }
 
