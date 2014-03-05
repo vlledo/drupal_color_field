@@ -122,13 +122,13 @@ function color_field_field_widget_info() {
     'field types' => array('color_field_rgb'),
   );
 
-  // color_field_farbtastic_widget need more work before release.
+  // Color_field_farbtastic_widget need more work before release.
   /*$widgets['color_field_farbtastic_widget'] = array(
     'label' => t('Farbtastic Color-Picker'),
     'field types' => array('color_field_rgb'),
   );*/
 
-  // check if color_field_simple_color can become color_field_simple_widget
+  // Check if color_field_simple_color can become color_field_simple_widget
   if ($jquery_simple_color_picker_enable) {
     $widgets['color_field_simple_widget'] = array(
       'label' => t('Simple Color-Picker'),
@@ -136,7 +136,7 @@ function color_field_field_widget_info() {
     );
   }
 
-  // color_field_dematte_widget need more work before release.
+  // Color_field_dematte_widget need more work before release.
   /*if ($jquery_dematte_color_picker_enable) {
     $widgets['color_field_dematte_widget'] = array(
       'label' => t('Dematte Color-Picker'),
@@ -152,7 +152,7 @@ function color_field_field_widget_info() {
     );
   }*/
 
-  // color_field_eyecon_widget need more work before release.
+  // Color_field_eyecon_widget need more work before release.
   if ($jquery_spectrum_color_picker_enable) {
     $widgets['color_field_spectrum_widget'] = array(
       'label' => t('Spectrum Color-Picker'),
@@ -309,7 +309,7 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#default_value' => isset($settings['show_buttons']) ? $settings['show_buttons'] : FALSE,
         '#description' => t('Add Cancel/Confirm Button.'),
       );
-    break;
+      break;
   }
   return $form;
 }
@@ -680,8 +680,8 @@ function color_field_widget_error($element, $error, $form, &$form_state) {
 }
 
 /**
- * Helper: Convert RGB to HEX6
- * 
+ * Helper: Convert RGB to HEX6.
+ *
  * @param $rgb Must be an array indexed on r, g and b.
  */
 function color_field_rgb2hex($rgb = FALSE) {
@@ -689,12 +689,12 @@ function color_field_rgb2hex($rgb = FALSE) {
   $hex .= str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
   $hex .= str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
   $hex .= str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
-  return $hex; // returns the hex value including the number sign (#)
+  return $hex;
 }
 
 /**
- * Helper: Convert HEX6 to RGB
- * 
+ * Helper: Convert HEX6 to RGB.
+ *
  * @param $hex.
  */
 function color_field_hex2rgb($hex = FALSE) {
