@@ -309,6 +309,12 @@ function color_field_field_settings_form($field, $instance, $has_data) {
         '#default_value' => isset($settings['show_buttons']) ? $settings['show_buttons'] : FALSE,
         '#description' => t('Add Cancel/Confirm Button.'),
       );
+      $form['allow_empty'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Allow Empty'),
+        '#default_value' => isset($settings['allow_empty']) ? $settings['allow_empty'] : FALSE,
+        '#description' => t('Allow empty value.'),
+      );
       break;
   }
   return $form;
@@ -578,6 +584,7 @@ function color_field_field_widget_form(&$form, &$form_state, $field, $instance, 
       $settings['show_palette'] = (isset($field['settings']['show_palette']) && $field['settings']['show_palette'] == 1) ? TRUE : FALSE;
       $settings['show_palette_only'] = (isset($field['settings']['show_palette_only']) && $field['settings']['show_palette_only'] == 1) ? TRUE : FALSE;
       $settings['show_buttons'] = (isset($field['settings']['show_buttons']) && $field['settings']['show_buttons'] == 1) ? TRUE : FALSE;
+      $settings['allow_empty'] = (isset($field['settings']['allow_empty']) && $field['settings']['allow_empty'] == 1) ? TRUE : FALSE;
 
       $default_colors = (isset($field['settings']['palette']) && $field['settings']['palette'] != '') ? $field['settings']['palette'] : '';
       preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
