@@ -55,3 +55,9 @@ Maintainer and developer: targoo
 
 Development sponsored by Marique Calcus and written by Calcus David. 
 For professional support and development services contact targoo@gmail.com.
+
+-----------------------------------------------------------------------------
+More info
+-----------------------------------------------------------------------------
+http://www.w3.org/TR/css3-color/#color
+https://github.com/mikeemoo/ColorJizz-PHP
