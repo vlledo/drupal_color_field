@@ -438,6 +438,18 @@ function color_field_field_formatter_settings_summary($field, $instance, $view_m
 }
 
 /**
+ * Implements hook_theme().
+ */
+function color_field_theme($existing, $type, $theme, $path) {
+  return array(
+    'color_swatch' => array(
+      'variables' => array('color' => '', 'width' => 50, 'height' => 50),
+    ),
+  );
+}
+
+
+/**
  * Implements hook_field_formatter_view().
  *
  * Two formatters are implemented.
@@ -474,7 +486,13 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
         $rgb = $item['rgb'];
         $width = $settings['width'];
         $height = $settings['height'];
-        $element[$delta]['#markup'] = '<div style="background: ' . $rgb . '; width: ' . $width . 'px; height: ' . $height . 'px;"></div>';
+
+        $element[$delta] = array(
+          '#theme' => 'color_swatch',
+          '#color' => $rgb,
+          '#width' => $width,
+          '#height' => $height,
+        );
       }
       break;
   }
@@ -694,4 +712,12 @@ function color_field_hex2rgb($hex = FALSE) {
   $g = hexdec(substr($hex,2,2));
   $b = hexdec(substr($hex,-2));
   return compact('r', 'g', 'b');
+}
+
+function theme_color_swatch($variables) {
+  $color = $variables['color'];
+  $width = $variables['width'];
+  $height = $variables['height'];
+
+  return '<div class="color-swatch" style="background-color: ' . $color .  '; width: ' . $width . 'px; height: ' . $height . 'px;"></div>';
 }
