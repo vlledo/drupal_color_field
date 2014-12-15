@@ -8,7 +8,7 @@
 /**
  * The color plugin URI.
  */
-define('COLOR_FIELD_SIMPLE_COLOR_PICKER_DOWNLOAD_URI', 'http://recursive-design.com/projects/jquery-simple-color/jquery-simple-color.1.0.1.zip');
+define('COLOR_FIELD_SIMPLE_COLOR_PICKER_DOWNLOAD_URI', 'https://github.com/recurser/jquery-simple-color/archive/master.zip');
 define('COLOR_FIELD_EYECON_COLOR_PICKER_DOWNLOAD_URI', 'http://www.eyecon.ro/colorpicker/colorpicker.zip');
 define('COLOR_FIELD_DEMATTE_COLOR_PICKER_DOWNLOAD_URI', 'http://www.dematte.at/colorPicker/cP_v0.91.zip');
 
@@ -62,8 +62,9 @@ function color_field_drush_help($section) {
 /**
  * Commands to download the Simple Color Picker plugin.
  */
-function drush_color_field_color_fied_plugin_scp($path = 'sites/all/libraries') {
-  $filename = 'jquery-simple-color.1.0.1.zip';
+function drush_color_field_plugin_scp($path = 'sites/all/libraries') {
+  $filename = 'master.zip';
+  $unzipfilename = 'jquery-simple-color-master';
   $dirname = 'jquery-simple-color';
 
   if (!drush_shell_exec('type unzip')) {
@@ -96,13 +97,17 @@ function drush_color_field_color_fied_plugin_scp($path = 'sites/all/libraries') 
     drush_shell_exec('curl -kOL ' . COLOR_FIELD_SIMPLE_COLOR_PICKER_DOWNLOAD_URI);
   }
 
+  // If file has been downloaded.
   if (is_file($filename)) {
+    // Remove old library.
+    if (is_dir($dirname)) {
+      drush_shell_exec('rm -rf ' . $dirname);
+    }
     // Decompress the zip archive.
     drush_shell_exec('unzip -qq -o ' . $filename);
+    drush_shell_exec('mv ' . $unzipfilename . ' ' . $dirname);
     // Remove the zip archive.
     drush_op('unlink', $filename);
-  }else {
-    drush_log(dt('Simple Color Picker plugin could not been downloaded from @url', array('@url' => COLOR_FIELD_SIMPLE_COLOR_PICKER_DOWNLOAD_URI)), 'error');
   }
 
   // Set working directory back to the previous working directory.
@@ -119,10 +124,9 @@ function drush_color_field_color_fied_plugin_scp($path = 'sites/all/libraries') 
 /**
  * Commands to download the EyeCon Color Picker plugin.
  */
-function drush_color_field_color_fied_plugin_ecp($path = 'sites/all/libraries') {
+function drush_color_field_plugin_ecp($path = 'sites/all/libraries') {
   $filename = 'colorpicker.zip';
-  $unzipfilename = 'cP_v0.91';
-  $dirname = 'eyecon_colorpicker';
+  $dirname = 'eyecon-color-picker';
 
   if (!drush_shell_exec('type unzip')) {
     return drush_set_error(dt('Missing dependency: unzip. Install it before using this command.'));
@@ -154,12 +158,16 @@ function drush_color_field_color_fied_plugin_ecp($path = 'sites/all/libraries') 
   }
 
   if (is_file($filename)) {
+    drush_shell_exec('mkdir ' . $dirname);
     // Decompress the zip archive.
     drush_shell_exec('unzip -qq -o ' . $filename);
     // Remove old librairy.
     // Remove the zip archive.
-    //drush_op('unlink', $filename);
-
+    drush_op('unlink', $filename);
+    drush_shell_exec('mv css ' . $dirname);
+    drush_shell_exec('mv images ' . $dirname);
+    drush_shell_exec('mv js ' . $dirname);
+    drush_shell_exec('mv index.html ' . $dirname);
   }
 
   // Set working directory back to the previous working directory.
@@ -176,7 +184,7 @@ function drush_color_field_color_fied_plugin_ecp($path = 'sites/all/libraries') 
 /**
  * Commands to download the Dematte Color Picker plugin.
  */
-function drush_color_field_color_fied_plugin_dcp($path = 'sites/all/libraries') {
+function drush_color_field_plugin_dcp($path = 'sites/all/libraries') {
   $filename = 'cP_v0.91.zip';
   $unzipfilename = 'cP_v0.91';
   $dirname = 'dematte_colorpicker';

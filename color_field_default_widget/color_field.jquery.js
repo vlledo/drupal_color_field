@@ -2,20 +2,23 @@
  * @file
  * Javascript for Color Field.
  */
+
 (function ($) {
   Drupal.behaviors.color_field = {
     attach: function (context) {
       $.each(Drupal.settings.color_field, function (selector) {
-        var id = selector.replace("#div","edit");
-        var value = $('#' + id).val();
+        // selector is the textfield.
+
+        // Try to get the current selected value so we don't lose the value
+        // if the form si submitted but not valid.
+        var value = $(selector).val();
         if (value == '') value = this.value;
-        $(selector).empty().addColorPicker({
+
+        $('#' + this.divid).empty().addColorPicker({
           currentColor:value,
           colors:this.colors,
           clickCallback: function(c) {
-            id = selector;
-            id = id.replace("#div","edit");
-            $('#' + id).val(c);
+            $(selector).val(c);
           }
         });
       });
