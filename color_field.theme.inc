@@ -8,6 +8,63 @@
 /**
  * Formats a default color field widget.
  */
+function theme_color_field_spectrum_widget($vars) {
+  $element = $vars['element'];
+
+  // Javascript settings.
+  $settings = array();
+  $settings['id'] = $element['rgb']['#id'];
+  $settings['show_input'] = (isset($field['settings']['show_input']) && $field['settings']['show_input'] == 1) ? TRUE : FALSE;
+  $settings['show_palette'] = (isset($field['settings']['show_palette']) && $field['settings']['show_palette'] == 1) ? TRUE : FALSE;
+  $settings['show_palette_only'] = (isset($field['settings']['show_palette_only']) && $field['settings']['show_palette_only'] == 1) ? TRUE : FALSE;
+  $settings['show_buttons'] = (isset($field['settings']['show_buttons']) && $field['settings']['show_buttons'] == 1) ? TRUE : FALSE;
+  $settings['allow_empty'] = (isset($field['settings']['allow_empty']) && $field['settings']['allow_empty'] == 1) ? TRUE : FALSE;
+
+  // Enable or not opacity.
+  if (isset($element['opacity'])) {
+    $settings['show_alpha'] = TRUE;
+    $element['opacity']['#attributes']['class'] = array('element-invisible');
+    unset($element['opacity']['#title']);
+    unset($element['opacity']['#description']);
+  } else {
+    $settings['show_alpha'] = FALSE;
+  }
+
+  $default_colors = (isset($field['settings']['palette']) && $field['settings']['palette'] != '') ? $field['settings']['palette'] : '';
+  preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
+  foreach ($default_colors as $color) {
+    $settings['palette'][] = $color[0];
+  }
+
+  // Attach javascript and style.
+  $element['rgb']['#attached'] = array(
+    // Add Spectrum color picker.
+    'library' => array(array('color_field', 'bgrins-spectrum')),
+    'js' => array(
+      drupal_get_path('module', 'color_field') . '/color_field_spectrum_color_picker/color_field_spectrum_color_picker.jquery.js',
+      array(
+        'data' => array('color_field_spectrum' => array('#' . $element['rgb']['#id'] => $settings)),
+        'type' => 'setting',
+      ),
+    ),
+  );
+
+  $output = '';
+  $output .= '<div class="link-field-subrow clearfix">';
+  $output .= '<div class="link-field-title color-field-column">' . drupal_render($element['rgb']) . '</div>';
+
+  if (isset($element['opacity'])) {
+    $output .= '<div class="link-field-title color-field-column">' . drupal_render($element['opacity']) . '</div>';
+  }
+
+  $output .= '</div>';
+  $output .= drupal_render_children($element);
+  return $output;
+}
+
+/**
+ * Formats a default color field widget.
+ */
 function theme_color_field_simple_widget($vars) {
   $element = $vars['element'];
 

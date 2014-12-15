@@ -21,16 +21,6 @@ function color_field_library() {
     ),
   );
 
-  $path = libraries_get_path('dematte-color-picker');
-  $libraries['dematte-color-picker'] = array(
-    'title' => 'color_field_dematte_color_picker',
-    'website' => 'http://www.dematte.at/colorPicker/',
-    'version' => '0.9',
-    'js' => array(
-      $path . '/colorPicker.js' => array(),
-    ),
-  );
-
   $path = libraries_get_path('bgrins-spectrum');
   $libraries['bgrins-spectrum'] = array(
     'title' => 'color_field_spectrum_color_picker',
@@ -44,6 +34,16 @@ function color_field_library() {
     ),
   );
 
+  $path = libraries_get_path('dematte-color-picker');
+  $libraries['dematte-color-picker'] = array(
+    'title' => 'color_field_dematte_color_picker',
+    'website' => 'http://www.dematte.at/colorPicker/',
+    'version' => '0.9',
+    'js' => array(
+      $path . '/colorPicker.js' => array(),
+    ),
+  );
+
   $path = libraries_get_path('eyecon-color-picker');
   $libraries['eyecon-color-picker'] = array(
     'title' => 'color_field_eyecon_color_picker',
@@ -51,9 +51,6 @@ function color_field_library() {
     'version' => 'latest',
     'js' => array(
       $path . '/js/colorpicker.js' => array(),
-      $path . '/js/utils.js' => array(),
-      $path . '/js/layout.js' => array(),
-      $path . '/js/eye.js' => array(),
     ),
   );
   return $libraries;
@@ -77,6 +74,10 @@ function color_field_theme($existing, $type, $theme, $path) {
       'file' => 'color_field.theme.inc',
     ),
     'color_field_simple_widget' => array(
+      'render element' => 'element',
+      'file' => 'color_field.theme.inc',
+    ),
+    'color_field_spectrum_widget' => array(
       'render element' => 'element',
       'file' => 'color_field.theme.inc',
     ),
@@ -110,4 +111,20 @@ function color_field_hex2rgb($hex = FALSE) {
   $g = hexdec(substr($hex,2,2));
   $b = hexdec(substr($hex,-2));
   return compact('r', 'g', 'b');
+}
+
+/**
+ * Helper: Convert HEX6 to RGBA.
+ *
+ * @param $hex.
+ * @param $alpha.
+ *
+ * @return $rgba
+ */
+function color_field_hex2rgba($hex, $alpha = 1) {
+  $r = hexdec(substr($hex,0,2));
+  $g = hexdec(substr($hex,2,2));
+  $b = hexdec(substr($hex,-2));
+  $a = $alpha;
+  return 'rgba(' . implode(compact('r', 'g', 'b', 'a'),',') . ')';
 }

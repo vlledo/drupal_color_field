@@ -25,12 +25,20 @@ function color_field_field_info() {
 #92E1C0,#9FE1E7,#9FC6E7,#4986E7,#9A9CFF
 #B99AFF,#C2C2C2,#CABDBF,#CCA6AC,#F691B2
 #CD74E6,#A47AE2',
+        // Simple color.
         'cell_width' => 10,
         'cell_height' => 10,
         'cell_margin' => 1,
         'box_width' => 115,
         'box_height' => 20,
         'columns' => 16,
+        // Spectrum.
+        'show_input' => FALSE,
+        'show_palette' => FALSE,
+        'palette' => '',
+        'show_palette_only' => TRUE,
+        'show_buttons' => FALSE,
+        'allow_empty' => FALSE,
       ),
       'default_widget' => 'color_field_default_widget',
       'default_formatter' => 'color_field_default_formatter',
@@ -150,6 +158,11 @@ function color_field_element_info() {
   $elements['color_field_simple_widget'] = array(
     '#input' => TRUE,
     '#theme' => 'color_field_simple_widget',
+    '#theme_wrappers' => array('form_element'),
+  );
+  $elements['color_field_spectrum_widget'] = array(
+    '#input' => TRUE,
+    '#theme' => 'color_field_spectrum_widget',
     '#theme_wrappers' => array('form_element'),
   );
   return $elements;

@@ -15,6 +15,52 @@ function _color_field_field_instance_settings_form($field, $instance) {
   $form = array();
 
   switch ($widget['type']) {
+    // Spectrum widget.
+    case 'color_field_spectrum_widget':
+      $form['show_input'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Input'),
+        '#default_value' => $settings['show_input'],
+        '#description' => t('Allow free form typing.'),
+      );
+      $form['show_palette'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Palette'),
+        '#default_value' => $settings['show_palette'],
+        '#description' => t('Show or hide Palette in Spectrum Widget'),
+      );
+      $form['palette'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Color Palette'),
+        '#default_value' => $settings['palette'],
+        '#description' => t('Selectable color palette to accompany the Spectrum Widget'),
+        '#states' => array(
+          'visible' => array(
+            ':input[name="field[settings][show_palette]"]' => array('checked' => TRUE),
+          ),
+        ),
+      );
+      $form['show_palette_only'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Palette Only'),
+        '#default_value' => $settings['show_palette_only'],
+        '#description' => t('Only show thePalette in Spectrum Widget and nothing else'),
+      );
+      $form['show_buttons'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show Buttons'),
+        '#default_value' => $settings['show_buttons'],
+        '#description' => t('Add Cancel/Confirm Button.'),
+      );
+      $form['allow_empty'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Allow Empty'),
+        '#default_value' => $settings['allow_empty'],
+        '#description' => t('Allow empty value.'),
+      );
+      break;
+
+    // Spectrum default widget.
     case 'color_field_default_widget':
       $form['default_colors'] = array(
         '#type' => 'textarea',
@@ -24,6 +70,10 @@ function _color_field_field_instance_settings_form($field, $instance) {
         '#description' => t('Default colors for pre-selected color boxes'),
       );
       break;
+
+    // Spectrum simple widget.
+    // Use to be color_field_simple_color.
+    case 'color_field_simple_color':
     case 'color_field_simple_widget':
       $form['cell_width'] = array(
         '#type' => 'textfield',
