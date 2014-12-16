@@ -9,10 +9,10 @@
 
         $(selector).spectrum({
 
+          showInitial: true,
           preferredFormat: "hex",
           showInput: this.show_input,
           showAlpha: this.show_alpha,
-          showInitial: true,
           showPalette: this.show_palette,
           showPaletteOnly: this.show_palette_only,
           palette:[this.palette],
@@ -29,11 +29,12 @@
 
         });
 
-        // Set alpha value.
+        // Set alpha value on load.
         if (this.show_alpha) {
           var tinycolor = $(selector).spectrum("get");
           var opacity_selector = selector.replace("-rgb","-opacity");
           var alpha = $(opacity_selector).val();
+          // If alpha is set only.
           if (alpha > 0) {
             tinycolor.setAlpha(alpha);
             $(selector).spectrum("set", tinycolor);

@@ -2,38 +2,44 @@
 
 /**
  * @file
- * Theme functions.
+ * Theming functions.
  */
 
 /**
- * Formats a default color field widget.
+ * Formats a spectrum color field widget.
  */
 function theme_color_field_spectrum_widget($vars) {
   $element = $vars['element'];
+  $field_settings = $element['#field_settings'];
+  $instance_settings = $element['#instance_settings'];
 
   // Javascript settings.
   $settings = array();
   $settings['id'] = $element['rgb']['#id'];
-  $settings['show_input'] = (isset($field['settings']['show_input']) && $field['settings']['show_input'] == 1) ? TRUE : FALSE;
-  $settings['show_palette'] = (isset($field['settings']['show_palette']) && $field['settings']['show_palette'] == 1) ? TRUE : FALSE;
-  $settings['show_palette_only'] = (isset($field['settings']['show_palette_only']) && $field['settings']['show_palette_only'] == 1) ? TRUE : FALSE;
-  $settings['show_buttons'] = (isset($field['settings']['show_buttons']) && $field['settings']['show_buttons'] == 1) ? TRUE : FALSE;
-  $settings['allow_empty'] = (isset($field['settings']['allow_empty']) && $field['settings']['allow_empty'] == 1) ? TRUE : FALSE;
+  $settings['show_input'] = ($instance_settings['show_input']) ? TRUE : FALSE;
+  $settings['show_palette'] = ($instance_settings['show_palette']) ? TRUE : FALSE;
+  $settings['show_palette_only'] = ($instance_settings['show_palette_only']) ? TRUE : FALSE;
+  $settings['show_buttons'] = ($instance_settings['show_buttons']) ? TRUE : FALSE;
+  $settings['allow_empty'] = ($instance_settings['allow_empty']) ? TRUE : FALSE;
 
-  // Enable or not opacity.
-  if (isset($element['opacity'])) {
+  $default_colors = $instance_settings['palette'];
+  preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
+  if (!empty($default_colors)) {
+    foreach ($default_colors as $color) {
+      $settings['palette'][] = $color[0];
+    }
+  }
+
+  // Enable or not opacity capture.
+  if ($field_settings['opacity']) {
     $settings['show_alpha'] = TRUE;
+    // Hide the opacity field.
+    // @todo find a better way.
     $element['opacity']['#attributes']['class'] = array('element-invisible');
     unset($element['opacity']['#title']);
     unset($element['opacity']['#description']);
   } else {
     $settings['show_alpha'] = FALSE;
-  }
-
-  $default_colors = (isset($field['settings']['palette']) && $field['settings']['palette'] != '') ? $field['settings']['palette'] : '';
-  preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
-  foreach ($default_colors as $color) {
-    $settings['palette'][] = $color[0];
   }
 
   // Attach javascript and style.
@@ -53,7 +59,7 @@ function theme_color_field_spectrum_widget($vars) {
   $output .= '<div class="link-field-subrow clearfix">';
   $output .= '<div class="link-field-title color-field-column">' . drupal_render($element['rgb']) . '</div>';
 
-  if (isset($element['opacity'])) {
+  if ($field_settings['opacity']) {
     $output .= '<div class="link-field-title color-field-column">' . drupal_render($element['opacity']) . '</div>';
   }
 

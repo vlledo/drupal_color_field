@@ -148,6 +148,8 @@ function _color_field_field_settings_form($field, $instance, $has_data) {
 function _color_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   // Current widget.
   $widget = $instance['widget'];
+  $field_settings = $field['settings'];
+  $instance_settings = $instance['settings'];
 
   // Default value.
   $default_value = isset($instance['default_value'][0]['rgb']) ? $instance['default_value'][0]['rgb'] : '';
@@ -183,9 +185,11 @@ function _color_field_field_widget_form(&$form, &$form_state, $field, $instance,
   }
 
   $element += array(
-    '#settings' => $instance['settings'],
+    '#field_settings' => $field_settings,
+    '#instance_settings' => $instance_settings,
     '#type' => $widget['type'],
     '#default_value' => isset($items[$delta]) ? $items[$delta] : NULL,
   );
+
   return $element;
 }
