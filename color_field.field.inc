@@ -51,7 +51,7 @@ function color_field_field_info() {
 /**
  * Implements hook_field_validate().
  *
- * We want to verify that the items only contain RGB hex values like
+ * We want to verify that the color items only contain RGB hex values like
  * this: #RRGGBB. If the item validates, we do nothing. If it doesn't
  * validate, we add our own error notification to the $errors parameter.
  *
@@ -60,31 +60,44 @@ function color_field_field_info() {
 function color_field_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
   foreach ($items as $delta => $item) {
     // Test rgb field.
-    if (!empty($item['rgb'])) {
-      if (!preg_match('@^#[0-9a-fA-F]{6}$@', $item['rgb'])) {
-        $errors[$field['field_name']][$langcode][$delta][] = array(
-          'error' => 'color_field_invalid',
-          'message' => t('Color must be in the hexadecimal format #abcdef.'),
-        );
-      }
+    $regexp = '@^#[0-9a-fA-F]{6}$@';
+    if (!preg_match($regexp, $item['rgb'])) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'color_invalid',
+        'message' => t('The value %value provided for %field is not a valid color.', array(
+          '%value' => trim($item['rgb']),
+          '%field' => $instance['label'],
+        )),
+        'error_element' => array('rgb' => TRUE, 'opacity' => FALSE),
+      );
     }
     // Test opacity field.
-    if (!empty($item['opacity']) && filter_var(
-        $item['opacity'],
-        FILTER_VALIDATE_FLOAT,
-        array(
-          'options' => array(
-            'min_range' => 0,
-            'max_range' => 1
-          )
-        )
-      ) === false) {
-        $errors[$field['field_name']][$langcode][$delta][] = array(
-          'error' => 'color_field_invalid',
-          'message' => t('Opacity need to be a float value'),
-        );
-      
+    $regexp = '@^[0]?(\.)(\d)*$|^[01]$@';
+    if (!preg_match($regexp, $item['opacity'])) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'opacity_invalid',
+        'message' => t('The value %value provided for %field is not a valid opacity.', array(
+          '%value' => trim($item['opacity']),
+          '%field' => $instance['label'],
+        )),
+        'error_element' => array('rgb' => FALSE, 'opacity' => TRUE),
+      );
     }
+  }
+}
+
+/**
+ * Implements hook_field_widget_error().
+ *
+ * @see color_field_validate()
+ * @see form_error()
+ */
+function color_field_field_widget_error($element, $error, $form, &$form_state) {
+  if ($error['error_element']['rgb']) {
+    form_error($element['rgb'], $error['message']);
+  }
+  if ($error['error_element']['opacity']) {
+    form_error($element['opacity'], $error['message']);
   }
 }
 
@@ -102,20 +115,6 @@ function color_field_field_is_empty($item, $field) {
     return TRUE;
   }
   return FALSE;
-}
-
-/**
- * Implements hook_field_widget_error().
- *
- * @see color_field_validate()
- * @see form_error()
- */
-function color_field_widget_error($element, $error, $form, &$form_state) {
-  switch ($error['error']) {
-    case 'color_field_invalid':
-      form_error($element, $error['message']);
-      break;
-  }
 }
 
 /**
