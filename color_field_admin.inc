@@ -157,14 +157,14 @@ function _color_field_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $element['rgb'] = array(
     '#type' => 'textfield',
-    '#title' => t('Color'),
     '#description' => t('Format #FFFFFF'),
     '#default_value' => $value,
     '#size' => 7,
     '#maxlength' => 7,
   );
 
-  if (isset($field['settings']['opacity']) && $field['settings']['opacity']) {
+  if ($field_settings['opacity']) {
+    $element['rgb']['#title'] = 'Color';
     $element['opacity'] = array(
       '#type' => 'textfield',
       '#title' => t('Opacity'),
@@ -173,12 +173,6 @@ function _color_field_field_widget_form(&$form, &$form_state, $field, $instance,
       '#size' => 4,
       '#maxlength' => 4,
     );
-  }
-
-  switch ($widget['type']) {
-    case 'color_field_default_widgett':
-      $element['rgb']['#type'] = 'token';
-      break;
   }
 
   $element += array(
