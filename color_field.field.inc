@@ -59,9 +59,31 @@ function color_field_field_info() {
  */
 function color_field_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
   foreach ($items as $delta => $item) {
-    // Test rgb field.
+    // Test required color fields.
+    if($instance['required'] && empty($item['rgb'])) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'color_required',
+        'message' => t('The color for %field is required.', array(
+          '%value' => trim($item['rgb']),
+          '%field' => $instance['label'],
+        )),
+        'error_element' => array('rgb' => TRUE, 'opacity' => FALSE),
+      );
+    }
+    // Test required opacity fields is opacity need to be recorded.
+    if($field['settings']['opacity'] && $instance['required'] && empty($item['opacity'])) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'color_required',
+        'message' => t('The opacity for %field is required.', array(
+          '%value' => trim($item['rgb']),
+          '%field' => $instance['label'],
+        )),
+        'error_element' => array('rgb' => FALSE, 'opacity' => TRUE),
+      );
+    }
+    // Test rgb field format.
     $regexp = '@^#[0-9a-fA-F]{6}$@';
-    if (!preg_match($regexp, $item['rgb'])) {
+    if (!empty($item['rgb']) && !preg_match($regexp, $item['rgb'])) {
       $errors[$field['field_name']][$langcode][$delta][] = array(
         'error' => 'color_invalid',
         'message' => t('The value %value provided for %field is not a valid color.', array(
@@ -73,7 +95,7 @@ function color_field_field_validate($entity_type, $entity, $field, $instance, $l
     }
     // Test opacity field.
     $regexp = '@^[0]?(\.)(\d)*$|^[01]$@';
-    if (!preg_match($regexp, $item['opacity'])) {
+    if (!empty($item['opacity']) && !preg_match($regexp, $item['opacity'])) {
       $errors[$field['field_name']][$langcode][$delta][] = array(
         'error' => 'opacity_invalid',
         'message' => t('The value %value provided for %field is not a valid opacity.', array(
