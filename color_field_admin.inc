@@ -6,11 +6,28 @@
  */
 
 /**
+ * Helper function for color_field_field_settings_form().
+ */
+function _color_field_field_settings_form($field, $instance, $has_data) {
+  $field_settings = $field['settings'];
+
+  $form = array();
+
+  $form['opacity'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Record opacity'),
+    '#default_value' => $field_settings['opacity'],
+    '#description' => t('If checked, the opacity will be recorded.'),
+  );
+  return $form;
+}
+
+/**
  * Helper function for color_field_field_instance_settings_form().
  */
 function _color_field_field_instance_settings_form($field, $instance) {
   $widget = $instance['widget'];
-  $settings = $instance['settings'];
+  $instance_settings = $instance['settings'];
 
   $form = array();
 
@@ -20,19 +37,19 @@ function _color_field_field_instance_settings_form($field, $instance) {
       $form['show_input'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show Input'),
-        '#default_value' => $settings['show_input'],
+        '#default_value' => $instance_settings['show_input'],
         '#description' => t('Allow free form typing.'),
       );
       $form['show_palette'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show Palette'),
-        '#default_value' => $settings['show_palette'],
+        '#default_value' => $instance_settings['show_palette'],
         '#description' => t('Show or hide Palette in Spectrum Widget'),
       );
       $form['palette'] = array(
         '#type' => 'textarea',
         '#title' => t('Color Palette'),
-        '#default_value' => $settings['palette'],
+        '#default_value' => $instance_settings['palette'],
         '#description' => t('Selectable color palette to accompany the Spectrum Widget'),
         '#states' => array(
           'visible' => array(
@@ -43,19 +60,19 @@ function _color_field_field_instance_settings_form($field, $instance) {
       $form['show_palette_only'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show Palette Only'),
-        '#default_value' => $settings['show_palette_only'],
+        '#default_value' => $instance_settings['show_palette_only'],
         '#description' => t('Only show thePalette in Spectrum Widget and nothing else'),
       );
       $form['show_buttons'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show Buttons'),
-        '#default_value' => $settings['show_buttons'],
+        '#default_value' => $instance_settings['show_buttons'],
         '#description' => t('Add Cancel/Confirm Button.'),
       );
       $form['allow_empty'] = array(
         '#type' => 'checkbox',
         '#title' => t('Allow Empty'),
-        '#default_value' => $settings['allow_empty'],
+        '#default_value' => $instance_settings['allow_empty'],
         '#description' => t('Allow empty value.'),
       );
       break;
@@ -65,7 +82,7 @@ function _color_field_field_instance_settings_form($field, $instance) {
       $form['default_colors'] = array(
         '#type' => 'textarea',
         '#title' => t('Default colors'),
-        '#default_value' => $settings['default_colors'],
+        '#default_value' => $instance_settings['default_colors'],
         '#required' => TRUE,
         '#description' => t('Default colors for pre-selected color boxes'),
       );
@@ -78,42 +95,42 @@ function _color_field_field_instance_settings_form($field, $instance) {
       $form['cell_width'] = array(
         '#type' => 'textfield',
         '#title' => t('Cell width'),
-        '#default_value' => $settings['cell_width'],
+        '#default_value' => $instance_settings['cell_width'],
         '#required' => TRUE,
         '#description' => t('Width of each individual color cell.'),
       );
       $form['cell_height'] = array(
         '#type' => 'textfield',
         '#title' => t('Height width'),
-        '#default_value' => $settings['cell_height'],
+        '#default_value' => $instance_settings['cell_height'],
         '#required' => TRUE,
         '#description' => t('Height of each individual color cell.'),
       );
       $form['cell_margin'] = array(
         '#type' => 'textfield',
         '#title' => t('Cell margin'),
-        '#default_value' => $settings['cell_margin'],
+        '#default_value' => $instance_settings['cell_margin'],
         '#required' => TRUE,
         '#description' => t('Margin of each individual color cell.'),
       );
       $form['box_width'] = array(
         '#type' => 'textfield',
         '#title' => t('Box width'),
-        '#default_value' => $settings['box_width'],
+        '#default_value' => $instance_settings['box_width'],
         '#required' => TRUE,
         '#description' => t('Width of the color display box.'),
       );
       $form['box_height'] = array(
         '#type' => 'textfield',
         '#title' => t('Box height'),
-        '#default_value' => $settings['box_height'],
+        '#default_value' => $instance_settings['box_height'],
         '#required' => TRUE,
         '#description' => t('Height of the color display box.'),
       );
       $form['columns'] = array(
         '#type' => 'textfield',
         '#title' => t('Columns number'),
-        '#default_value' => $settings['columns'],
+        '#default_value' => $instance_settings['columns'],
         '#required' => TRUE,
         '#description' => t('Number of columns to display. Color order may look strange if this is altered.'),
       );
@@ -126,27 +143,7 @@ function _color_field_field_instance_settings_form($field, $instance) {
 /**
  * Helper function for color_field_field_settings_form().
  */
-function _color_field_field_settings_form($field, $instance, $has_data) {
-  $widget = $instance['widget'];
-
-  $settings = $field['settings'];
-
-  $form = array();
-
-  $form['opacity'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Record opacity'),
-    '#default_value' => $settings['opacity'],
-    '#description' => t('If checked, the opacity will be recorded.'),
-  );
-  return $form;
-}
-
-/**
- * Helper function for color_field_field_settings_form().
- */
 function _color_field_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  // Current widget.
   $widget = $instance['widget'];
   $field_settings = $field['settings'];
   $instance_settings = $instance['settings'];
