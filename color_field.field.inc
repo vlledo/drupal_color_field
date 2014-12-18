@@ -19,6 +19,7 @@ function color_field_field_info() {
       ),
       // These settings apply to the color field instance.
       'instance_settings' => array(
+        // Simple widget.
         'default_colors' => '
 #AC725E,#D06B64,#F83A22,#FA573C,#FF7537,#FFAD46
 #42D692,#16A765,#7BD148,#B3DC6C,#FBE983
@@ -42,10 +43,62 @@ function color_field_field_info() {
       ),
       'default_widget' => 'color_field_default_widget',
       'default_formatter' => 'color_field_default_formatter',
-      // @todo Support hook_entity_property_info() from contrib "Entity API".
-      'property_type' => 'color_field_rgb',
+      // Support hook_entity_property_info() from contrib "Entity API".
+      'property_type' => 'color_field',
+      'property_callbacks' => array('color_field_property_info_callback'),
     ),
   );
+}
+
+/**
+ * Additional callback to adapt the property info of link fields.
+ *
+ * @see entity_metadata_field_entity_property_info()
+ */
+function color_field_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $field_settings = $field['settings'];
+
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
+  // Define a data structure so it's possible to deal with both the color
+  // and opacity.
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+
+  // Auto-create the field item as soon as a property is set.
+  $property['auto creation'] = 'color_field_item_create';
+
+  $property['property info'] = color_field_item_property_info();
+
+  if (!$field_settings['opacity']) {
+    unset($property['property info']['opacity']);
+  }
+  unset($property['query callback']);
+}
+
+/**
+ * Callback for creating a new, empty link field item.
+ *
+ * @see color_field_property_info_callback()
+ */
+function color_field_item_create() {
+  return array('rgb' => NULL, 'opacity' => NULL);
+}
+
+/**
+ * Defines info for the properties of the link-field item data structure.
+ */
+function color_field_item_property_info() {
+  $properties['rgb'] = array(
+    'type' => 'text',
+    'label' => t('The color of the color field.'),
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $properties['opacity'] = array(
+    'type' => 'float',
+    'label' => t('The opacity of the color field.'),
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  return $properties;
 }
 
 /**
