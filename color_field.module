@@ -25,7 +25,7 @@ function color_field_library() {
   $libraries['bgrins-spectrum'] = array(
     'title' => 'color_field_spectrum_color_picker',
     'website' => 'http://bgrins.github.io/spectrum/',
-    'version' => '1.1.0',
+    'version' => '1.6.0',
     'js' => array(
       $path . '/spectrum.js' => array(),
     ),
