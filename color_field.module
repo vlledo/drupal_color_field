@@ -10,27 +10,19 @@
 function color_field_library() {
   $path = libraries_get_path('jquery-simple-color');
   $libraries['jquery-simple-color'] = array(
-    'title' => 'color_field_jquery_simple_color',
-    'website' => 'http://recursive-design.com/projects/jquery-simple-color/',
-    'version' => '1.0.1',
+    'title' => 'recurser jquery simple color',
+    'website' => 'https://github.com/recurser/jquery-simple-color',
+    'version' => '1.2.1',
     'js' => array(
       $path . '/jquery.simple-color.min.js' => array(),
     ),
   );
-  $path = libraries_get_path('dematte-color-picker');
-  $libraries['dematte-color-picker'] = array(
-    'title' => 'color_field_dematte_color_picker',
-    'website' => 'http://www.dematte.at/colorPicker/',
-    'version' => '0.9',
-    'js' => array(
-      $path . '/colorPicker.js' => array(),
-    ),
-  );
+
   $path = libraries_get_path('bgrins-spectrum');
   $libraries['bgrins-spectrum'] = array(
-    'title' => 'color_field_spectrum_color_picker',
+    'title' => 'bgrins spectrum color picker',
     'website' => 'http://bgrins.github.io/spectrum/',
-    'version' => '1.1.0',
+    'version' => '1.6.0',
     'js' => array(
       $path . '/spectrum.js' => array(),
     ),
@@ -38,16 +30,24 @@ function color_field_library() {
       $path . '/spectrum.css' => array(),
     ),
   );
+
+  $path = libraries_get_path('dematte-color-picker');
+  $libraries['dematte-color-picker'] = array(
+    'title' => 'dematte color picker',
+    'website' => 'http://www.dematte.at/colorPicker/',
+    'version' => '0.9',
+    'js' => array(
+      $path . '/colorPicker.js' => array(),
+    ),
+  );
+
   $path = libraries_get_path('eyecon-color-picker');
   $libraries['eyecon-color-picker'] = array(
-    'title' => 'color_field_eyecon_color_picker',
+    'title' => 'eyecon color picker',
     'website' => 'http://www.eyecon.ro/colorpicker/',
     'version' => 'latest',
     'js' => array(
       $path . '/js/colorpicker.js' => array(),
-      $path . '/js/utils.js' => array(),
-      $path . '/js/layout.js' => array(),
-      $path . '/js/eye.js' => array(),
     ),
   );
   return $libraries;
