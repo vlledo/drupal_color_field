@@ -122,7 +122,7 @@ function theme_color_field_default_widget($vars) {
   $settings = array();
   $settings['id'] = $element['rgb']['#id'];
   $settings['divid'] = 'div-' . $element['rgb']['#id'];
-  $settings['value'] = $element['#value']['rgb'];
+  $settings['value'] = (isset($element['#value']['rgb'])) ? $element['#value']['rgb'] : '';
   $default_colors = (isset($element['#settings']['default_colors'])) ? $element['#settings']['default_colors'] : '';
   preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
   foreach ($default_colors as $color) {
@@ -142,6 +142,7 @@ function theme_color_field_default_widget($vars) {
     'css' => array(drupal_get_path('module', 'color_field') . '/color_field_default_widget/color_field.css'),
   );
 
+  $element['rgb']['#title'] = (isset($element['rgb']['#title'])) ? $element['rgb']['#title'] : '';
   $element['rgb']['#suffix'] = '<label> ' . $element['rgb']['#title'] . ' </label><div id=div-' . $settings['id'] . '></div><div class="description">' . $element['rgb']['#description'] . '</div>';
   unset($element['rgb']['#title']);
   unset($element['rgb']['#description']);
