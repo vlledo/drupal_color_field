@@ -18,7 +18,7 @@
           currentColor:value,
           colors:this.colors,
           clickCallback: function(c) {
-            $(selector).val(c);
+            $(selector).val(c).trigger('change');
           }
         });
       });
