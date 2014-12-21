@@ -505,35 +505,55 @@ function color_field_field_formatter_settings_summary($field, $instance, $view_m
  */
 function color_field_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  $settings = $display['settings'];
+  $field_settings = $field['settings'];
+  $display_settings = $display['settings'];
 
   switch ($display['type']) {
     case 'color_field_default_formatter':
       foreach ($items as $delta => $item) {
-        $element[$delta]['#markup'] = $item['rgb'];
+        if ($field_settings['opacity']) {
+          $value = color_field_hex2rgba($item['rgb'], $item['opacity']);
+        }
+        else {
+          $value = $item['rgb'];
+        }
+        $element[$delta]['#markup'] = $value;
       }
       break;
 
     case 'color_field_css_declaration':
       foreach ($items as $delta => $item) {
-        $selector = token_replace($settings['selector'], array($entity_type => $entity), array('clear' => TRUE));
-        $important = ($settings['important']) ? ' !important' : '';
-        $inline_css = $settings['selector'] . '{' . $settings['property'] . ':' . $item['rgb'] . $important . '}';
-        $inline_css = $selector . '{ ' . $settings['property'] . ': ' . $item['rgb'] . $important . '; }';
+        if ($field_settings['opacity']) {
+          $value = color_field_hex2rgba($item['rgb'], $item['opacity']);
+        }
+        else {
+          $value = $item['rgb'];
+        }
+
+        $selector = token_replace($display_settings['selector'], array($entity_type => $entity), array('clear' => TRUE));
+        $important = ($display_settings['important']) ? ' !important' : '';
+
+        $inline_css = $display_settings['selector'] . '{' . $display_settings['property'] . ':' . $value . $important . '}';
+        $inline_css = $selector . '{ ' . $display_settings['property'] . ': ' . $value . $important . '; }';
+
         drupal_add_css($inline_css, 'inline');
       }
       break;
 
     case 'color_field_swatch':
       foreach ($items as $delta => $item) {
-        $rgb = $item['rgb'];
-        $opacity = $item['opacity'];
-        $width = $settings['width'];
-        $height = $settings['height'];
+        if ($field_settings['opacity']) {
+          $value = color_field_hex2rgba($item['rgb'], $item['opacity']);
+        }
+        else {
+          $value = $item['rgb'];
+        }
+        $width = $display_settings['width'];
+        $height = $display_settings['height'];
 
         $element[$delta] = array(
           '#theme' => 'color_swatch',
-          '#color' => $rgb,
+          '#color' => $value,
           '#width' => $width,
           '#height' => $height,
         );
