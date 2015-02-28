@@ -29,6 +29,15 @@ class ColorFieldItem extends FieldItemBase {
   /**
    * {@inheritdoc}
    */
+  public static function defaultFieldSettings() {
+    return array(
+      'opacity' => TRUE,
+    ) + parent::defaultFieldSettings();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     return array(
       'columns' => array(
