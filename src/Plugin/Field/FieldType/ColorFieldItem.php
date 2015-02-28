@@ -29,15 +29,6 @@ class ColorFieldItem extends FieldItemBase {
   /**
    * {@inheritdoc}
    */
-  public static function defaultFieldSettings() {
-    return array(
-      'opacity' => TRUE,
-    ) + parent::defaultFieldSettings();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     return array(
       'columns' => array(
@@ -58,6 +49,15 @@ class ColorFieldItem extends FieldItemBase {
         'color' => array('color'),
       ),
     );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function defaultFieldSettings() {
+    return array(
+      'opacity' => TRUE,
+    ) + parent::defaultFieldSettings();
   }
 
   /**
@@ -95,6 +95,26 @@ class ColorFieldItem extends FieldItemBase {
 
     return $element;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  /*public function getConstraints() {
+    $constraint_manager = \Drupal::typedDataManager()->getValidationConstraintManager();
+    $constraints = parent::getConstraints();
+
+    $max_length = 256;
+    $constraints[] = $constraint_manager->create('ComplexData', array(
+      'value' => array(
+        'Length' => array(
+          'max' => $max_length,
+          'maxMessage' => t('%name: the color may not be longer than @max characters.', array('%name' => $this->getFieldDefinition()->getLabel(), '@max' => $max_length)),
+        )
+      ),
+    ));
+
+    return $constraints;
+  }*/
 
   /**
    * {@inheritdoc}
