@@ -1,0 +1,15 @@
+# Custom js and dependencies.
+simpleWidget:
+  remote: https://github.com/targoo/Respond
+  version: 1.0.0
+  js:
+    js/color_field.js: {}
+    js/color_field.jquery.js: {}
+  css:
+    css/color_field.css: {}
+  license:
+    name: MIT
+    url: https://github.com/scottjehl/Respond/blob/master/LICENSE-MIT
+    gpl-compatible: true
+  dependencies:
+    - core/jquery
