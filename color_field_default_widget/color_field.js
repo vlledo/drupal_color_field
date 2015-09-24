@@ -2,6 +2,9 @@
  * Color Field jQuery
  */
 (function ($) {
+
+  "use strict";
+
   jQuery.fn.addColorPicker = function (props) {
     if (!props) { props = []; }
 
