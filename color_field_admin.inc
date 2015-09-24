@@ -44,13 +44,13 @@ function _color_field_field_instance_settings_form($field, $instance) {
         '#type' => 'checkbox',
         '#title' => t('Show Palette'),
         '#default_value' => $instance_settings['show_palette'],
-        '#description' => t('Show or hide Palette in Spectrum Widget'),
+        '#description' => t('Show or hide the palette.'),
       );
       $form['palette'] = array(
         '#type' => 'textarea',
         '#title' => t('Color Palette'),
         '#default_value' => $instance_settings['palette'],
-        '#description' => t('Selectable color palette to accompany the Spectrum Widget'),
+        '#description' => t('Selectable color palette to accompany the Spectrum widget.'),
         '#states' => array(
           'visible' => array(
             ':input[name="field[settings][show_palette]"]' => array('checked' => TRUE),
@@ -61,13 +61,13 @@ function _color_field_field_instance_settings_form($field, $instance) {
         '#type' => 'checkbox',
         '#title' => t('Show Palette Only'),
         '#default_value' => $instance_settings['show_palette_only'],
-        '#description' => t('Only show thePalette in Spectrum Widget and nothing else'),
+        '#description' => t('Only show the palette in Spectrum widget and nothing else.'),
       );
       $form['show_buttons'] = array(
         '#type' => 'checkbox',
         '#title' => t('Show Buttons'),
         '#default_value' => $instance_settings['show_buttons'],
-        '#description' => t('Add Cancel/Confirm Button.'),
+        '#description' => t('Add Cancel/Confirm buttons.'),
       );
       $form['allow_empty'] = array(
         '#type' => 'checkbox',
