@@ -95,44 +95,44 @@ function _color_field_field_instance_settings_form($field, $instance) {
       $form['cell_width'] = array(
         '#type' => 'textfield',
         '#title' => t('Cell width'),
+        '#description' => t('Width of each individual color cell.'),
         '#default_value' => $instance_settings['cell_width'],
         '#required' => TRUE,
-        '#description' => t('Width of each individual color cell.'),
       );
       $form['cell_height'] = array(
         '#type' => 'textfield',
         '#title' => t('Height width'),
+        '#description' => t('Height of each individual color cell.'),
         '#default_value' => $instance_settings['cell_height'],
         '#required' => TRUE,
-        '#description' => t('Height of each individual color cell.'),
       );
       $form['cell_margin'] = array(
         '#type' => 'textfield',
         '#title' => t('Cell margin'),
+        '#description' => t('Margin of each individual color cell.'),
         '#default_value' => $instance_settings['cell_margin'],
         '#required' => TRUE,
-        '#description' => t('Margin of each individual color cell.'),
       );
       $form['box_width'] = array(
         '#type' => 'textfield',
         '#title' => t('Box width'),
+        '#description' => t('Width of the color display box.'),
         '#default_value' => $instance_settings['box_width'],
         '#required' => TRUE,
-        '#description' => t('Width of the color display box.'),
       );
       $form['box_height'] = array(
         '#type' => 'textfield',
         '#title' => t('Box height'),
+        '#description' => t('Height of the color display box.'),
         '#default_value' => $instance_settings['box_height'],
         '#required' => TRUE,
-        '#description' => t('Height of the color display box.'),
       );
       $form['columns'] = array(
         '#type' => 'textfield',
         '#title' => t('Columns number'),
+        '#description' => t('Number of columns to display. Color order may look strange if this is altered.'),
         '#default_value' => $instance_settings['columns'],
         '#required' => TRUE,
-        '#description' => t('Number of columns to display. Color order may look strange if this is altered.'),
       );
       break;
   }
@@ -157,6 +157,7 @@ function _color_field_field_widget_form(&$form, &$form_state, $field, $instance,
 
   $element['rgb'] = array(
     '#type' => 'textfield',
+    '#title' => '',
     '#description' => t('Format #FFFFFF'),
     '#default_value' => $value,
     '#size' => 7,
@@ -164,7 +165,7 @@ function _color_field_field_widget_form(&$form, &$form_state, $field, $instance,
   );
 
   if ($field_settings['opacity']) {
-    $element['rgb']['#title'] = 'Color';
+    $element['rgb']['#title'] = t('Color');
     $element['opacity'] = array(
       '#type' => 'textfield',
       '#title' => t('Opacity'),
