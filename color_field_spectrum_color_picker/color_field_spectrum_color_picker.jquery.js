@@ -3,6 +3,8 @@
  * Javascript for Color Field.
  */
 (function ($) {
+  "use strict";
+
   Drupal.behaviors.color_field_spectrum = {
     attach: function (context) {
       $.each(Drupal.settings.color_field_spectrum, function (selector) {

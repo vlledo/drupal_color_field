@@ -4,6 +4,8 @@
  */
 
 (function ($) {
+  "use strict";
+
   Drupal.behaviors.color_field = {
     attach: function (context) {
       $.each(Drupal.settings.color_field, function (selector) {
