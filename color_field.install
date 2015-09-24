@@ -16,7 +16,7 @@
 function color_field_field_schema($field) {
   $columns = array(
     'rgb' => array(
-      'description' => 'The RGB hex values',
+      'description' => 'The RGB hex values prefix with #',
       'type' => 'varchar',
       'length' => 7,
       'not null' => FALSE,
@@ -99,9 +99,9 @@ function color_field_update_7000(array &$sandbox) {
 /**
  * Add opacity column to a specific table.
  *
- * @param $table
+ * @param string $table
  *   The name of the database table to be updated.
- * @param $field_name
+ * @param string $field_name
  *   Keyed array of columns this table is supposed to have.
  */
 function _color_field_update_7000_add_opacity_column($table, $field_name) {
@@ -124,9 +124,9 @@ function _color_field_update_7000_add_opacity_column($table, $field_name) {
 /**
  * Populate color field opacity in a specific table.
  *
- * @param $table
+ * @param string $table
  *   The name of the database table to be updated.
- * @param $field_name
+ * @param string $field_name
  *   Keyed array of columns this table is supposed to have.
  */
 function _color_field_update_7000_populate_opacity($table, $field_name) {
