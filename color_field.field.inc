@@ -512,7 +512,7 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
     case 'color_field_default_formatter':
       foreach ($items as $delta => $item) {
         if ($field_settings['opacity']) {
-          $value = color_field_hex2rgba($item['rgb'], $item['opacity']);
+          $value = color_field_hex2rgba(drupal_substr($item['rgb'], 1, 6), $item['opacity']);
         }
         else {
           $value = $item['rgb'];
@@ -524,7 +524,7 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
     case 'color_field_css_declaration':
       foreach ($items as $delta => $item) {
         if ($field_settings['opacity']) {
-          $value = color_field_hex2rgba($item['rgb'], $item['opacity']);
+          $value = color_field_hex2rgba(drupal_substr($item['rgb'], 1, 6), $item['opacity']);
         }
         else {
           $value = $item['rgb'];
@@ -543,7 +543,7 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
     case 'color_field_swatch':
       foreach ($items as $delta => $item) {
         if ($field_settings['opacity']) {
-          $value = color_field_hex2rgba($item['rgb'], $item['opacity']);
+          $value = color_field_hex2rgba(drupal_substr($item['rgb'], 1, 6), $item['opacity']);
         }
         else {
           $value = $item['rgb'];
