@@ -87,9 +87,11 @@ function color_field_theme($existing, $type, $theme, $path) {
 /**
  * Helper: Convert RGB to HEX6.
  *
- * @param $rgb Must be an array indexed on r, g and b.
+ * @param array $rgb
+ *   The colors specified as an RGB triplet.
  *
- * @return $hex
+ * @return string $hex
+ *   The colors specified as an hexadecimal format (a hex triplet) (#134E1A).
  */
 function color_field_rgb2hex($rgb = FALSE) {
   $hex = '';
@@ -102,9 +104,11 @@ function color_field_rgb2hex($rgb = FALSE) {
 /**
  * Helper: Convert HEX6 to RGB.
  *
- * @param $hex.
+ * @param string $hex
+ *   The colors specified as an hexadecimal format (a hex triplet) (134E1A).
  *
- * @return $rgb
+ * @return string $rgba
+ *   The colors specified as an RGB triplet.
  */
 function color_field_hex2rgb($hex = FALSE) {
   $r = hexdec(substr($hex,0,2));
@@ -116,10 +120,14 @@ function color_field_hex2rgb($hex = FALSE) {
 /**
  * Helper: Convert HEX6 to RGBA.
  *
- * @param $hex.
- * @param $alpha.
+ * @param string $hex
+ *   The colors specified as an hexadecimal format (a hex triplet) (134E1A).
  *
- * @return $rgba
+ * @param float $alpha
+ *   The opacity value ranging for 0 to 1.
+ *
+ * @return string $rgba
+ *   The colors specified as an RGB triplet plus the opacity.
  */
 function color_field_hex2rgba($hex, $alpha = 1) {
   $r = hexdec(substr($hex,0,2));
