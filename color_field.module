@@ -163,7 +163,7 @@ function color_field_field_widget_info() {
   $widgets = array();
 
   $widgets['color_field_default_widget'] = array(
-    'label' => t('Pre-selected Color Boxes'),
+    'label' => t('Pre-selected color boxes'),
     'field types' => array('color_field_rgb'),
     'weight' => 2,
   );
@@ -177,7 +177,7 @@ function color_field_field_widget_info() {
   // Check if color_field_simple_color can become color_field_simple_widget
   if ($jquery_simple_color_picker_enable) {
     $widgets['color_field_simple_widget'] = array(
-      'label' => t('Simple Color-Picker'),
+      'label' => t('Simple color picker'),
       'field types' => array('color_field_rgb'),
       'weight' => 3,
     );
@@ -202,7 +202,7 @@ function color_field_field_widget_info() {
   // Color_field_eyecon_widget need more work before release.
   if ($jquery_spectrum_color_picker_enable) {
     $widgets['color_field_spectrum_widget'] = array(
-      'label' => t('Spectrum Color-Picker'),
+      'label' => t('Spectrum color picker'),
       'field types' => array('color_field_rgb'),
       'weight' => 4,
     );
