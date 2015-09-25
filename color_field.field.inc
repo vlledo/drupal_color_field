@@ -393,6 +393,7 @@ function color_field_field_formatter_info() {
         'selector' => 'body',
         'property' => 'background-color',
         'important' => TRUE,
+        'opacity_disabled' => FALSE,
       ),
     ),
     'color_field_swatch' => array(
@@ -445,6 +446,14 @@ function color_field_field_formatter_settings_form($field, $instance, $view_mode
         '#default_value' => $settings['important'],
         '#description' => t('Whenever this declaration is more important than others.'),
       );
+      if ($field['settings']['opacity'] === 1) {
+        $element['opacity_disabled'] = array(
+          '#title' => t('Disable opacity'),
+          '#type' => 'checkbox',
+          '#default_value' => $settings['opacity_disabled'],
+          '#description' => t('Disable the color opacity.'),
+        );
+      }
       break;
 
     case 'color_field_swatch':
@@ -478,14 +487,17 @@ function color_field_field_formatter_settings_summary($field, $instance, $view_m
 
   switch ($display['type']) {
     case 'color_field_css_declaration':
-      $summary[] = t('CSS selector') . ': ' . $settings['selector'];
-      $summary[] = t('CSS property') . ': ' . $settings['property'];
-      $summary[] = t('!important declaration') . ': ' . (($settings['important']) ? t('Yes') : t('No'));
+      $summary[] = t('CSS selector : @css_selector', array('@css_selector' => $settings['selector']));
+      $summary[] = t('CSS property : @css_property', array('@css_property' => $settings['property']));
+      $summary[] = t('!important declaration : @important_declaration', array('@important_declaration' => (($settings['important']) ? t('Yes') : t('No'))));
+      if ($field['settings']['opacity'] === 1) {
+        $summary[] = t('Disable opacity : @opacity_disabled', array('@opacity_disabled' => ($settings['opacity_disabled']) ? t('Yes') : t('No')));
+      }
       break;
 
     case 'color_field_swatch':
-      $summary[] = t('Width') . ': ' . $settings['width'];
-      $summary[] = t('Height') . ': ' . $settings['height'];
+      $summary[] = t('Width : @width', array('@width' => $settings['width']));
+      $summary[] = t('Height : @height', array('@height' => $settings['height']));
       break;
   }
 
@@ -523,7 +535,7 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
 
     case 'color_field_css_declaration':
       foreach ($items as $delta => $item) {
-        if ($field_settings['opacity']) {
+        if ($field_settings['opacity'] && $display_settings['opacity_disabled'] === 0) {
           $value = color_field_hex2rgba(drupal_substr($item['rgb'], 1, 6), $item['opacity']);
         }
         else {
@@ -533,7 +545,6 @@ function color_field_field_formatter_view($entity_type, $entity, $field, $instan
         $selector = token_replace($display_settings['selector'], array($entity_type => $entity), array('clear' => TRUE));
         $important = ($display_settings['important']) ? ' !important' : '';
 
-        $inline_css = $display_settings['selector'] . '{' . $display_settings['property'] . ':' . $value . $important . '}';
         $inline_css = $selector . '{ ' . $display_settings['property'] . ': ' . $value . $important . '; }';
 
         drupal_add_css($inline_css, 'inline');
