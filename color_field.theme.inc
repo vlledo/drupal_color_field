@@ -123,7 +123,7 @@ function theme_color_field_default_widget($vars) {
   $settings['id'] = $element['rgb']['#id'];
   $settings['divid'] = 'div-' . $element['rgb']['#id'];
   $settings['value'] = (isset($element['#value']['rgb'])) ? $element['#value']['rgb'] : '';
-  $default_colors = (isset($element['#settings']['default_colors'])) ? $element['#settings']['default_colors'] : '';
+  $default_colors = (isset($element['#instance_settings']['default_colors'])) ? $element['#instance_settings']['default_colors'] : '';
   preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
   foreach ($default_colors as $color) {
     $settings['colors'][] = $color[0];
