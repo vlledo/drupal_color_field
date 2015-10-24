@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorFieldDefaultWidget.
+ * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorWidgetDefault.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldWidget;
@@ -12,18 +12,18 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'color_field_default' widget.
+ * Plugin implementation of the 'color_widget_default' widget.
  *
  * @FieldWidget(
- *   id = "color_field_default",
+ *   id = "color_widget_default",
  *   module = "color_field",
  *   label = @Translation("Color field default"),
  *   field_types = {
- *     "color_field"
+ *     "color_type"
  *   }
  * )
  */
-class ColorFieldDefaultWidget extends WidgetBase {
+class ColorWidgetDefault extends WidgetBase {
 
   /**
    * {@inheritdoc}
@@ -82,12 +82,15 @@ class ColorFieldDefaultWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    $element = [];
+
     $element['color'] = array(
       '#title' => t('Color'),
       '#type' => 'textfield',
-      '#maxlength' => 6,
-      '#size' => 6,
+      '#maxlength' => 7,
+      '#size' => 7,
       '#required' => $element['#required'],
+      '#placeholder' => $this->getSetting('placeholder_color'),
       '#default_value' => isset($items[$delta]->color) ? $items[$delta]->color : NULL,
     );
 
@@ -97,9 +100,10 @@ class ColorFieldDefaultWidget extends WidgetBase {
       $element['opacity'] = array(
         '#title' => t('Opacity'),
         '#type' => 'textfield',
-        '#maxlength' => 3,
+        '#maxlength' => 4,
         '#size' => 3,
         '#required' => $element['#required'],
+        '#placeholder' => $this->getSetting('placeholder_opacity'),
         '#default_value' => isset($items[$delta]->opacity) ? $items[$delta]->opacity : NULL,
         '#suffix' => '</div>',
       );

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * An color field with a custom color picker using the Field Types API.
+ * A color field with a custom color picker using the Field Types API.
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -33,26 +33,34 @@ function color_field_help($route_name, RouteMatchInterface $route_match) {
 }
 
 /**
- * Helper: Convert RGB to HEX6
- * 
- * @param $rgb Must be an array indexed on r, g and b.
+ * Implements hook_theme().
  */
-function color_field_rgb2hex($rgb = FALSE) {
-  $hex = '';
-  $hex .= str_pad(dechex($rgb[0]), 2, "0", STR_PAD_LEFT);
-  $hex .= str_pad(dechex($rgb[1]), 2, "0", STR_PAD_LEFT);
-  $hex .= str_pad(dechex($rgb[2]), 2, "0", STR_PAD_LEFT);
-  return $hex; // returns the hex value including the number sign (#)
+function color_field_theme() {
+  $theme = [];
+
+  $theme['color_field_swatch'] = array(
+      'variables' => array(
+        'color' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+      ),
+  );
+
+  return $theme;
 }
 
 /**
- * Helper: Convert HEX6 to RGB
- * 
- * @param $hex.
+ * Prepares variables for the color swatch templates.
+ *
+ * This template outputs a separate title and link.
+ *
+ * Default template: link-formatter-link-separate.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *     - color: The color background.
+ *     - width: The width of the color swatch.
+ *     - height: The height of the color swatch.
  */
-function color_field_hex2rgb($hex = FALSE) {
-  $r = hexdec(substr($hex,0,2));
-  $g = hexdec(substr($hex,2,2));
-  $b = hexdec(substr($hex,-2));
-  return compact('r', 'g', 'b');
+function template_preprocess_color_field_swatch(&$variables) {
 }
