@@ -84,8 +84,10 @@ class ColorWidgetDefault extends WidgetBase {
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element = [];
 
+    $label = $this->fieldDefinition->getLabel();
+
     $element['color'] = array(
-      '#title' => t('Color'),
+      '#title' => t($label),
       '#type' => 'textfield',
       '#maxlength' => 7,
       '#size' => 7,
