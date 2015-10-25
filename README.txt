@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------
 CURRENT FEATURES
 -----------------------------------------------------------------------------
-Formater
+Formatter
 
   Plain text HEX code (#FFFFFF)
   Css Declaration (color/background-color)
