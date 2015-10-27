@@ -12,7 +12,7 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'color_field_default' widget.
+ * Plugin implementation of the 'color_widget_box' widget.
  *
  * @FieldWidget(
  *   id = "color_widget_box",
