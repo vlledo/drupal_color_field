@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorFieldTargooWidget.
+ * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorWidgetBox.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldWidget;
@@ -15,15 +15,15 @@ use Drupal\Core\Form\FormStateInterface;
  * Plugin implementation of the 'color_field_default' widget.
  *
  * @FieldWidget(
- *   id = "color_field_targoo",
+ *   id = "color_widget_box",
  *   module = "color_field",
- *   label = @Translation("Color field Targoo"),
+ *   label = @Translation("Color boxes"),
  *   field_types = {
- *     "color_field"
+ *     "color_type"
  *   }
  * )
  */
-class ColorFieldTargooWidget extends WidgetBase {
+class ColorWidgetBox extends WidgetBase {
 
   /**
    * {@inheritdoc}
@@ -57,9 +57,8 @@ class ColorFieldTargooWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    $summary = array();
+    $summary = [];
 
-    $colors = array();
     $default_colors = $this->getSetting('default_colors');
 
     if (!empty($default_colors)) {
@@ -81,32 +80,35 @@ class ColorFieldTargooWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    $element = [];
+
+    $element['#title'] = $this->fieldDefinition->getLabel();;
+    $element['#description'] = $this->fieldDefinition->getDescription();
+    $element['#required'] = TRUE;
+
+    $element['#attributes']['class'][] = 'container-inline';
+    $element['#theme_wrappers'] = array('color_widget_box');
+
+    $element['#attached']['library'][] = 'color_field/color-field-box';
+    $element['drupalSettings']['color_field']['color_widget_box']['settings'] = $this->getSettings();
+
     $element['color'] = array(
-      '#title' => t('Color'),
+      '#maxlength' => 7,
+      '#size' => 7,
       '#type' => 'textfield',
-      '#maxlength' => 6,
-      '#size' => 6,
-      '#required' => $element['#required'],
       '#default_value' => isset($items[$delta]->color) ? $items[$delta]->color : NULL,
     );
 
     if ($this->getFieldSetting('opacity')) {
-      $element['color']['#prefix'] = '<div class="container-inline">';
-
       $element['opacity'] = array(
         '#title' => t('Opacity'),
         '#type' => 'textfield',
         '#maxlength' => 3,
         '#size' => 3,
-        '#required' => $element['#required'],
         '#default_value' => isset($items[$delta]->opacity) ? $items[$delta]->opacity : NULL,
-        '#suffix' => '</div>',
+        '#placeholder' => $this->getSetting('placeholder_opacity'),
       );
     }
-
-    // Attach library containing css and js files.
-    $element['#attached']['library'][] = 'color_field/simpleWidget';
-    $element['#attached']['drupalSettings']['color_field_targoo']['settings'] = $this->getSettings();
 
     return $element;
   }

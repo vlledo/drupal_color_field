@@ -46,6 +46,10 @@ function color_field_theme() {
       ),
   );
 
+  $theme['color_widget_box'] = array(
+    'render element' => 'element',
+  );
+
   return $theme;
 }
 
@@ -63,4 +67,37 @@ function color_field_theme() {
  *     - height: The height of the color swatch.
  */
 function template_preprocess_color_field_swatch(&$variables) {
+}
+
+
+/**
+ * Prepares variables for color widget box wrapper templates.
+ *
+ * Default template: color-widget-box.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - element: An associative array containing the properties of the element.
+ *     Properties used: #title, #children, #required, #attributes.
+ */
+function template_preprocess_color_widget_box(&$variables) {
+  $element = $variables['element'];
+
+  if (!empty($element['#title'])) {
+    $variables['title'] = $element['#title'];
+  }
+
+  // Suppress error messages.
+  $variables['errors'] = NULL;
+
+  if (!empty($element['#description'])) {
+    $variables['description'] = $element['#description'];
+  }
+
+  $variables['required'] = FALSE;
+  if (!empty($element['#required'])) {
+    $variables['required'] = TRUE;
+  }
+
+  $variables['content'] = $element['#children'];
 }

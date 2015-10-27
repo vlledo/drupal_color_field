@@ -58,7 +58,7 @@ class ColorWidgetDefault extends WidgetBase {
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    $summary = array();
+    $summary = [];
 
     $placeholder_color = $this->getSetting('placeholder_color');
     $placeholder_opacity = $this->getSetting('placeholder_opacity');
