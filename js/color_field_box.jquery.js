@@ -19,9 +19,10 @@
      * Does not discriminate based on element type, so allows you to set the active
      * class on any element: a, li…
      */
-    Drupal.behaviors.colorfield = {
-        attach: function (context) {
-
+    Drupal.behaviors.color_field = {
+        attach: function (context, settings) {
+            console.log(context);
+            console.log(settings);
             console.log(drupalSettings);
 
             // Start by finding all potentially active links.

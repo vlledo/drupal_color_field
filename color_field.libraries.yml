@@ -2,11 +2,11 @@ color-field-box:
   remote: https://github.com/targoo/color_field_box
   version: 1.0.0
   js:
-    js/color_field.js: {}
-    js/color_field.jquery.js: {}
+    js/color_field_box.js: {}
+    js/color_field_box.jquery.js: {}
   css:
-   theme:
-     css/color_field.css: {}
+    component:
+      css/color_field_box.css: {}
   license:
     name: MIT
     url: https://github.com/targoo/color_field_box/LICENSE-MIT

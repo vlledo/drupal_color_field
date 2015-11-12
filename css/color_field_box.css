@@ -27,12 +27,10 @@
 .hide_input {
   diplay: none;
 }
-
 .color-field-column {
     float: left;
     width: 48%;
 }
-
 .color-field-column .form-text {
     width: 95%;
 }

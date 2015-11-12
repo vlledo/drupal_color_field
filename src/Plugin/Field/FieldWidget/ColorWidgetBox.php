@@ -82,15 +82,16 @@ class ColorWidgetBox extends WidgetBase {
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element = [];
 
+    // Retrieve field label and description.
     $element['#title'] = $this->fieldDefinition->getLabel();;
     $element['#description'] = $this->fieldDefinition->getDescription();
-    $element['#required'] = TRUE;
 
-    $element['#attributes']['class'][] = 'container-inline';
-    $element['#theme_wrappers'] = array('color_widget_box');
+    // Theme.
+    $element['#theme_wrappers'] = array('color_field_widget_box');
 
+    // Attached js.
     $element['#attached']['library'][] = 'color_field/color-field-box';
-    $element['drupalSettings']['color_field']['color_widget_box']['settings'] = $this->getSettings();
+    $element['#attached']['drupalSettings']['color_field']['color_widget_box']['settings'] = $this->getSettings();
 
     $element['color'] = array(
       '#maxlength' => 7,

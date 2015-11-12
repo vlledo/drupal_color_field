@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation of a datetime form wrapper.
+ * Default theme implementation of a color box form wrapper.
  *
  * Available variables:
  * - content: The form element to be output, usually a datelist, or datetime.
@@ -10,7 +10,8 @@
  * - description: Description text for the form element.
  * - required: An indicator for whether the associated form element is required.
  *
- * @see template_preprocess_color_widget_box()
+ * @see template_preprocess()
+ * @see template_preprocess_color_field_widget_box()
  *
  * @ingroup themeable
  */
@@ -25,10 +26,16 @@ required ? 'form-required',
 {% if title %}
   <h4{{ title_attributes.addClass(title_classes) }}>{{ title }}</h4>
 {% endif %}
-{{ content }}
+
+<div class="container-inline">
+  {{ color }}
+  {{ opacity }}
+</div>
+
 {% if errors %}
   <div>
     {{ errors }}
   </div>
 {% endif %}
+
 {{ description }}

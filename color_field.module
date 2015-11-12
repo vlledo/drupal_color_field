@@ -38,15 +38,16 @@ function color_field_help($route_name, RouteMatchInterface $route_match) {
 function color_field_theme() {
   $theme = [];
 
-  $theme['color_field_swatch'] = array(
+  $theme['color_field_formatter_swatch'] = array(
       'variables' => array(
+        'shape' => NULL,
         'color' => NULL,
         'width' => NULL,
         'height' => NULL,
       ),
   );
 
-  $theme['color_widget_box'] = array(
+  $theme['color_field_widget_box'] = array(
     'render element' => 'element',
   );
 
@@ -54,11 +55,11 @@ function color_field_theme() {
 }
 
 /**
- * Prepares variables for the color swatch templates.
+ * Prepares variables for the color formatter swatch template.
  *
- * This template outputs a separate title and link.
+ * This template outputs a color swatch.
  *
- * Default template: link-formatter-link-separate.html.twig.
+ * Default template: color-field-formatter-swatch.html.twig.
  *
  * @param array $variables
  *   An associative array containing:
@@ -66,26 +67,35 @@ function color_field_theme() {
  *     - width: The width of the color swatch.
  *     - height: The height of the color swatch.
  */
-function template_preprocess_color_field_swatch(&$variables) {
+function template_preprocess_color_field_formatter_swatch(&$variables) {
 }
 
 
 /**
- * Prepares variables for color widget box wrapper templates.
+ * Prepares variables for color widget box wrapper template.
  *
- * Default template: color-widget-box.html.twig.
+ * Default template: color-field-widget-box.html.twig.
  *
  * @param array $variables
  *   An associative array containing:
  *   - element: An associative array containing the properties of the element.
  *     Properties used: #title, #children, #required, #attributes.
  */
-function template_preprocess_color_widget_box(&$variables) {
+function template_preprocess_color_field_widget_box(&$variables) {
   $element = $variables['element'];
 
   if (!empty($element['#title'])) {
     $variables['title'] = $element['#title'];
   }
+
+  if (!empty($element['#description'])) {
+    $variables['description'] = $element['#description'];
+  }
+
+  $variables['color'] = $element['color'];
+
+  $element['opacity']['#attributes']['class'][] = 'visually-hidden';
+  $variables['opacity'] = $element['opacity'];
 
   // Suppress error messages.
   $variables['errors'] = NULL;
@@ -99,5 +109,53 @@ function template_preprocess_color_widget_box(&$variables) {
     $variables['required'] = TRUE;
   }
 
-  $variables['content'] = $element['#children'];
+  //$variables['content'] = $element['#children'];
+
+
+  /*
+  // Javascript settings.
+  $settings = array();
+  $settings['id'] = $element['rgb']['#id'];
+  $settings['divid'] = 'div-' . $element['rgb']['#id'];
+  $settings['value'] = (isset($element['#value']['rgb'])) ? $element['#value']['rgb'] : '';
+  $default_colors = (isset($element['#instance_settings']['default_colors'])) ? $element['#instance_settings']['default_colors'] : '';
+  preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
+  foreach ($default_colors as $color) {
+    $settings['colors'][] = $color[0];
+  }
+
+  // Attach javascript and style.
+  $element['rgb']['#attached'] = array(
+    'js' => array(
+      drupal_get_path('module', 'color_field') . '/color_field_default_widget/color_field.js',
+      drupal_get_path('module', 'color_field') . '/color_field_default_widget/color_field.jquery.js',
+      array(
+        'data' => array('color_field' => array('#' . $settings['id'] => $settings)),
+        'type' => 'setting',
+      ),
+    ),
+    'css' => array(drupal_get_path('module', 'color_field') . '/color_field_default_widget/color_field.css'),
+  );
+
+  $element['rgb']['#title'] = (isset($element['rgb']['#title'])) ? $element['rgb']['#title'] : '';
+  $element['rgb']['#suffix'] = '<label> ' . $element['rgb']['#title'] . ' </label><div id=div-' . $settings['id'] . '></div><div class="description">' . $element['rgb']['#description'] . '</div>';
+  unset($element['rgb']['#title']);
+  unset($element['rgb']['#description']);
+
+  // Hide the input field.
+  $element['rgb']['#attributes']['class'] = array('element-invisible');
+
+  $output = '';
+  $output .= '<div class="link-field-subrow clearfix">';
+  $output .= '<div class="link-field-title color-field-column">' . drupal_render($element['rgb']) . '</div>';
+
+  if (isset($element['opacity'])) {
+    $output .= '<div class="link-field-title color-field-column">' . drupal_render($element['opacity']) . '</div>';
+  }
+
+  $output .= '</div>';
+  $output .= drupal_render_children($element);
+  return $output;
+
+  */
 }
