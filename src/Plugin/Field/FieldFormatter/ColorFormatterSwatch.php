@@ -46,6 +46,13 @@ class ColorFormatterSwatch extends FormatterBase {
 
     $elements = [];
 
+    $elements['shape'] = array(
+      '#type' => 'select',
+      '#title' => t('Shape'),
+      '#options' => $this->getShape(),
+      '#default_value' => $this->getSetting('shape'),
+      '#description' => t(''),
+    );
     $elements['width'] = array(
       '#type' => 'number',
       '#title' => t('Width'),
@@ -73,6 +80,22 @@ class ColorFormatterSwatch extends FormatterBase {
   }
 
   /**
+   * @param string $shape
+   * @return array|string
+   */
+  protected function getShape($shape = NULL) {
+    $formats = [];
+    $formats['square'] = $this->t('Square');
+    $formats['circle'] = $this->t('Circle');
+    $formats['parallelogram'] = $this->t('Parallelogram');
+
+    if ($shape) {
+      return $formats[$shape];
+    }
+    return $formats;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function settingsSummary() {
@@ -80,6 +103,10 @@ class ColorFormatterSwatch extends FormatterBase {
     $settings = $this->getSettings();
 
     $summary = [];
+
+    $summary[] = t('@shape', array(
+      '@shape' => $this->getShape($settings['shape']),
+    ));
 
     $summary[] = t('Width: @width Height: @height', array(
       '@width' => $settings['width'],
@@ -101,10 +128,13 @@ class ColorFormatterSwatch extends FormatterBase {
 
     $elements = [];
 
+    $elements['#attached']['library'][] = 'color_field/color-field-formater-swatch';
+
     foreach ($items as $delta => $item) {
       $elements[$delta] = array(
-        '#theme' => 'color_field_swatch',
+        '#theme' => 'color_field_formatter_swatch',
         '#color' => $this->viewValue($item),
+        '#shape' => $settings['shape'],
         '#width' => $settings['width'],
         '#height' => $settings['height'],
       );

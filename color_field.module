@@ -64,6 +64,7 @@ function color_field_theme() {
  * @param array $variables
  *   An associative array containing:
  *     - color: The color background.
+ *     - shape: The shape of the color swatch.
  *     - width: The width of the color swatch.
  *     - height: The height of the color swatch.
  */
