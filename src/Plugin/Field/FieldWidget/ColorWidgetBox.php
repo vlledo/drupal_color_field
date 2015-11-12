@@ -80,25 +80,38 @@ class ColorWidgetBox extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-    $element = [];
+    // We are nesting some sub-elements inside the parent, so we need a wrapper.
+    // We also need to add another #title attribute at the top level for ease in
+    // identifying this item in error messages. We do not want to display this
+    // title because the actual title display is handled at a higher level by
+    // the Field module.
+
+    $element['#theme_wrappers'] = array('color_field_widget_box');
+    $element['#attributes']['class'][] = 'container-inline';
+
+    $element['#attached']['library'][] = 'color_field/color-field-box';
+
+    // Set Drupal settings.
+    $settings = [];
+    $default_colors = $this->getSetting('default_colors');
+    preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
+    foreach ($default_colors as $color) {
+      $settings['palette'][] = $color[0];
+    }
+    $element['#attached']['drupalSettings']['color_field']['color_widget_box']['settings'] = $settings;
 
     // Retrieve field label and description.
     $element['#title'] = $this->fieldDefinition->getLabel();;
     $element['#description'] = $this->fieldDefinition->getDescription();
-
-    // Theme.
-    $element['#theme_wrappers'] = array('color_field_widget_box');
-
-    // Attached js.
-    $element['#attached']['library'][] = 'color_field/color-field-box';
-    $element['#attached']['drupalSettings']['color_field']['color_widget_box']['settings'] = $this->getSettings();
 
     $element['color'] = array(
       '#maxlength' => 7,
       '#size' => 7,
       '#type' => 'textfield',
       '#default_value' => isset($items[$delta]->color) ? $items[$delta]->color : NULL,
-    );
+      '#attributes' => array('class' => array('visually-hidden')),
+   );
+    $element['color']['#suffix'] = "<div class='color-field-widget-box-form'>" . 111 . "</div>";
 
     if ($this->getFieldSetting('opacity')) {
       $element['opacity'] = array(
