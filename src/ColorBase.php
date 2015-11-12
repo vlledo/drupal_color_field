@@ -45,7 +45,17 @@ abstract class ColorBase implements ColorInterface {
    *  The opacity value between 0 and 1.
    */
   public function getOpacity() {
-    return $this->opacity | 1;
+    return $this->opacity;;
+  }
+
+  /**
+   * Set the opacity
+   *
+   * @return float
+   *  The opacity value between 0 and 1.
+   */
+  public function setOpacity($opacity) {
+    $this->opacity = $opacity;
   }
 
   static $patterns = array(

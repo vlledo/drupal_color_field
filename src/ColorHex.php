@@ -45,7 +45,7 @@ class ColorHex extends ColorBase {
     }
 
     $this->color = hexdec($color);
-    $this->opacity = floatval($opacity);
+    $this->setOpacity(floatval($opacity));
 
     return $this;
   }
@@ -85,7 +85,8 @@ class ColorHex extends ColorBase {
     $red = (($this->color & 0xFF0000) >> 16);
     $green = (($this->color & 0x00FF00) >> 8);
     $blue = (($this->color & 0x0000FF));
-    return new ColorRGB($red, $green, $blue, $this->getOpacity());
+    $opacity = $this->getOpacity();
+    return new ColorRGB($red, $green, $blue, $opacity);
   }
 
 }

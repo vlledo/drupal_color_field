@@ -128,15 +128,17 @@ class ColorFormatterText extends FormatterBase {
 
     switch ($settings['format']) {
       case 'hex':
-        $output = $color_hex->toString(FALSE);
         if ($opacity && $settings['opacity']) {
           $output = $color_hex->toString(TRUE);
+        } else {
+          $output = $color_hex->toString(FALSE);
         }
         break;
 
       case 'rgb':
-        $output = $color_hex->toRGB()->toString(FALSE);
         if ($opacity && $settings['opacity']) {
+          $output = $color_hex->toRGB()->toString(TRUE);
+        } else {
           $output = $color_hex->toRGB()->toString(FALSE);
         }
         break;
