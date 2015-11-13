@@ -117,8 +117,8 @@ class ColorFieldWidgetBox extends WidgetBase {
       $element['opacity'] = array(
         '#title' => t('Opacity'),
         '#type' => 'textfield',
-        '#maxlength' => 3,
-        '#size' => 3,
+        '#maxlength' => 4,
+        '#size' => 4,
         '#default_value' => isset($items[$delta]->opacity) ? $items[$delta]->opacity : NULL,
         '#placeholder' => $this->getSetting('placeholder_opacity'),
       );

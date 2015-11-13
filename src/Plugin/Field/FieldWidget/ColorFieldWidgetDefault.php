@@ -103,7 +103,7 @@ class ColorFieldWidgetDefault extends WidgetBase {
         '#title' => t('Opacity'),
         '#type' => 'textfield',
         '#maxlength' => 4,
-        '#size' => 3,
+        '#size' => 4,
         '#required' => $element['#required'],
         '#placeholder' => $this->getSetting('placeholder_opacity'),
         '#default_value' => isset($items[$delta]->opacity) ? $items[$delta]->opacity : NULL,

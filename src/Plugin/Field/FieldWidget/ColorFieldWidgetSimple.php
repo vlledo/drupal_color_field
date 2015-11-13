@@ -151,8 +151,8 @@ class ColorFieldSimpleWidget extends WidgetBase {
       $element['opacity'] = array(
         '#title' => t('Opacity'),
         '#type' => 'textfield',
-        '#maxlength' => 3,
-        '#size' => 3,
+        '#maxlength' => 4,
+        '#size' => 4,
         '#required' => $element['#required'],
         '#default_value' => isset($items[$delta]->opacity) ? $items[$delta]->opacity : NULL,
         '#suffix' => '</div>',
