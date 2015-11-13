@@ -20,6 +20,8 @@
                 $element.empty().addColorPicker({
                     currentColor: $input.val(),
                     colors: default_colors,
+                    blotchClass:'color_field_widget_box__square',
+                    blotchTransparentClass:'color_field_widget_box__square--transparent',
                     clickCallback: function(color) {
                         $input.val(color).trigger('change');
                     }

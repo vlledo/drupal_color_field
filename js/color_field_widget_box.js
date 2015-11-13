@@ -9,6 +9,7 @@ jQuery.fn.addColorPicker = function (props) {
     currentColor:'',
     blotchElemType: 'span',
     blotchClass:'colorBox',
+    blotchTransparentClass:'transparentBox',
     clickCallback: function(ignoredColor) {},
     iterationCallback: null,
     fillString: '&nbsp;',
@@ -35,7 +36,7 @@ jQuery.fn.addColorPicker = function (props) {
     }
     if (props.clickCallback) {
       elem.click(function() {
-        jQuery(this).parent().children('.colorBox').removeClass('active');
+        jQuery(this).parent().children('.' + props.blotchClass).removeClass('active');
         jQuery(this).addClass('active');
         props.clickCallback(jQuery(this).attr('color'));
       });
@@ -47,15 +48,17 @@ jQuery.fn.addColorPicker = function (props) {
   }
 
   var elem = jQuery('<' + props.blotchElemType + '/>')
-    .addClass('transparentBox')
+    .addClass(props.blotchTransparentClass)
     .attr('color', '')
     .css('background-color', '');
+
   if (props.currentColor == '') {
     elem.addClass('active');
   }
+
   if (props.clickCallback) {
     elem.click(function() {
-      jQuery(this).parent().children('.colorBox').removeClass('active');
+      jQuery(this).parent().children('.' + props.blotchClass).removeClass('active');
       jQuery(this).addClass('active');
       props.clickCallback(jQuery(this).attr('color'));
     });
