@@ -32,6 +32,23 @@ color-field-widget-spectrum:
     - core/jquery
     - core/drupalSettings
 
+color-field-widget-grid:
+  remote: https://github.com/recurser/jquery-simple-color
+  version: 1.2.1
+  js:
+    /libraries/jquery-simple-color/jquery.simple-color.min.js: {}
+    js/color_field_widget_grid.jquery.js: {}
+  css:
+    component:
+      css/color_field_widget_grid.css: {}
+  license:
+    name: MIT
+    url: https://github.com/bgrins/spectrum/blob/master/LICENSE
+    gpl-compatible: true
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
 color-field-formatter-swatch:
   css:
     component:

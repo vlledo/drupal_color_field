@@ -17,7 +17,7 @@ use Drupal\Core\Form\FormStateInterface;
  * @FieldWidget(
  *   id = "color_field_widget_default",
  *   module = "color_field",
- *   label = @Translation("Color field default"),
+ *   label = @Translation("Color default"),
  *   field_types = {
  *     "color_field_type"
  *   }

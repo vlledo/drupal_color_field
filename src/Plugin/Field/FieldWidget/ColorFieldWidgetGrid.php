@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorFieldSimpleWidget.
+ * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorFieldWidgetGrid.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldWidget;
@@ -15,15 +15,15 @@ use Drupal\Core\Form\FormStateInterface;
  * Plugin implementation of the 'color_field_default' widget.
  *
  * @FieldWidget(
- *   id = "color_field_simple",
+ *   id = "color_field_widget_grid",
  *   module = "color_field",
- *   label = @Translation("Color field simple"),
+ *   label = @Translation("Color grid"),
  *   field_types = {
- *     "color_field"
+ *     "color_field_type"
  *   }
  * )
  */
-class ColorFieldSimpleWidget extends WidgetBase {
+class ColorFieldWidgetGrid extends WidgetBase {
 
   /**
    * {@inheritdoc}
@@ -92,7 +92,7 @@ class ColorFieldSimpleWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    $summary = array();
+    $summary = [];
 
     $cell_width = $this->getSetting('cell_width');
     $cell_height = $this->getSetting('cell_height');
@@ -136,13 +136,28 @@ class ColorFieldSimpleWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    // We are nesting some sub-elements inside the parent, so we need a wrapper.
+    // We also need to add another #title attribute at the top level for ease in
+    // identifying this item in error messages. We do not want to display this
+    // title because the actual title display is handled at a higher level by
+    // the Field module.
+
+    //$element['#theme_wrappers'] = array('color_field_widget_grid');
+
+    $element['#attached']['library'][] = 'color_field/color-field-widget-grid';
+
+    // Set Drupal settings.
+    $settings = $this->getSettings();
+    $element['#attached']['drupalSettings']['color_field']['color_field_widget_grid'] = $settings;
+
     $element['color'] = array(
       '#title' => t('Color'),
       '#type' => 'textfield',
-      '#maxlength' => 6,
-      '#size' => 6,
+      '#maxlength' => 7,
+      '#size' => 7,
       '#required' => $element['#required'],
       '#default_value' => isset($items[$delta]->color) ? $items[$delta]->color : NULL,
+      '#attributes' => array('class' => array('js-color-field-widget-grid__color')),
     );
 
     if ($this->getFieldSetting('opacity')) {
@@ -158,10 +173,6 @@ class ColorFieldSimpleWidget extends WidgetBase {
         '#suffix' => '</div>',
       );
     }
-
-    // Attach library containing css and js files.
-    $element['#attached']['library'][] = 'color_field/simpleWidget';
-    $element['#attached']['drupalSettings']['color_field']['settings'] = $this->getSettings();
 
     return $element;
   }

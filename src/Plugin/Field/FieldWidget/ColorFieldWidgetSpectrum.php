@@ -17,7 +17,7 @@ use Drupal\Core\Form\FormStateInterface;
  * @FieldWidget(
  *   id = "color_field_widget_spectrum",
  *   module = "color_field",
- *   label = @Translation("Color Spectrum"),
+ *   label = @Translation("Color spectrum"),
  *   field_types = {
  *     "color_field_type"
  *   }
