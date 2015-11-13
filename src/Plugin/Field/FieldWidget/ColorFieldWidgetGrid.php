@@ -43,6 +43,8 @@ class ColorFieldWidgetGrid extends WidgetBase {
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
+    $element = [];
+
     $element['cell_width'] = array(
       '#type' => 'textfield',
       '#title' => t('Cell width'),

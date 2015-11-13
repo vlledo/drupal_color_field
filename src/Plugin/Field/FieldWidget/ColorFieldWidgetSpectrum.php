@@ -43,6 +43,8 @@ class ColorFieldWidgetSpectrum extends WidgetBase {
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
+    $element = [];
+
     $element['show_input'] = array(
       '#type' => 'checkbox',
       '#title' => t('Show Input'),
