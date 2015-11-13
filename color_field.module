@@ -51,6 +51,10 @@ function color_field_theme() {
     'render element' => 'element',
   );
 
+  $theme['color_field_widget_spectrum'] = array(
+    'render element' => 'element',
+  );
+
   return $theme;
 }
 
@@ -95,7 +99,50 @@ function template_preprocess_color_field_widget_box(&$variables) {
 
   $variables['color'] = $element['color'];
 
-  $variables['opacity'] = $element['opacity'];
+  if (!empty($element['opacity'])) {
+    $variables['opacity'] = $element['opacity'];
+  }
+
+  // Suppress error messages.
+  $variables['errors'] = NULL;
+
+  if (!empty($element['#description'])) {
+    $variables['description'] = $element['#description'];
+  }
+
+  $variables['required'] = FALSE;
+  if (!empty($element['#required'])) {
+    $variables['required'] = TRUE;
+  }
+
+}
+
+/**
+ * Prepares variables for color_field widget box wrapper template.
+ *
+ * Default template: color-field-widget-box.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - element: An associative array containing the properties of the element.
+ *     Properties used: #title, #children, #required, #attributes.
+ */
+function template_preprocess_color_field_widget_spectrum(&$variables) {
+  $element = $variables['element'];
+
+  if (!empty($element['#title'])) {
+    $variables['title'] = $element['#title'];
+  }
+
+  if (!empty($element['#description'])) {
+    $variables['description'] = $element['#description'];
+  }
+
+  $variables['color'] = $element['color'];
+
+  if (!empty($element['opacity'])) {
+    $variables['opacity'] = $element['opacity'];
+  }
 
   // Suppress error messages.
   $variables['errors'] = NULL;
