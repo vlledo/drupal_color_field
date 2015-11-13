@@ -11,7 +11,7 @@
   padding: 9px 16px;
 }
 .transparentBox {
-  background-image: url("../images/transparentBox16.gif");
+  background-image: url("../images/transparent_box16.gif");
   background-position: 0 3px;
   background-repeat: no-repeat;
   margin: 0 3px;
@@ -19,7 +19,7 @@
 }
 .transparentBox.active,
 .transparentBox:hover {
-  background-image: url(../images/transparentBox32.gif);
+  background-image: url(../images/transparent_box32.gif);
   background-position: 0 3px;
   background-repeat: no-repeat;
   padding: 10px 16px;
