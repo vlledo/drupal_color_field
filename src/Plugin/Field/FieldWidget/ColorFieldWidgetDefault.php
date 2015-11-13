@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorWidgetDefault.
+ * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorFieldWidgetDefault.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldWidget;
@@ -12,18 +12,18 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'color_widget_default' widget.
+ * Plugin implementation of the color_widget default input widget.
  *
  * @FieldWidget(
- *   id = "color_widget_default",
+ *   id = "color_field_widget_default",
  *   module = "color_field",
  *   label = @Translation("Color field default"),
  *   field_types = {
- *     "color_type"
+ *     "color_field_type"
  *   }
  * )
  */
-class ColorWidgetDefault extends WidgetBase {
+class ColorFieldWidgetDefault extends WidgetBase {
 
   /**
    * {@inheritdoc}

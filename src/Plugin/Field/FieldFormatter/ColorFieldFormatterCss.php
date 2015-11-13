@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldFormatter\ColorFormatterCss.
+ * Contains Drupal\color_field\Plugin\Field\FieldFormatter\ColorFieldFormatterCss.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldFormatter;
@@ -13,18 +13,18 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\color_field\ColorHex;
 
 /**
- * Plugin implementation of the 'color_field_swatch' formatter.
+ * Plugin implementation of the color_field css declaration formatter.
  *
  * @FieldFormatter(
- *   id = "color_formatter_css",
+ *   id = "color_field_formatter_css",
  *   module = "color_field",
  *   label = @Translation("Color CSS declaration"),
  *   field_types = {
- *     "color_type"
+ *     "color_field_type"
  *   }
  * )
  */
-class ColorFormatterCss extends FormatterBase {
+class ColorFieldFormatterCss extends FormatterBase {
 
   /**
    * {@inheritdoc}
@@ -139,13 +139,7 @@ class ColorFormatterCss extends FormatterBase {
   }
 
   /**
-   * Generate the output appropriate for one field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   One field item.
-   *
-   * @return string
-   *   The background color generated.
+   * {@inheritdoc}
    */
   protected function viewValue(FieldItemInterface $item) {
     $opacity = $this->getFieldSetting('opacity');

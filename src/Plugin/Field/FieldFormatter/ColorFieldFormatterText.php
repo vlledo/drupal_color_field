@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldFormatter\ColorFormatterText.
+ * Contains Drupal\color_field\Plugin\Field\FieldFormatter\ColorFieldFormatterText.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldFormatter;
@@ -14,18 +14,18 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\color_field\ColorHex;
 
 /**
- * Plugin implementation of the 'color_formatter_text' formatter.
+ * Plugin implementation of the color_field text formatter.
  *
  * @FieldFormatter(
- *   id = "color_formatter_text",
+ *   id = "color_field_formatter_text",
  *   module = "color_field",
  *   label = @Translation("Color Text"),
  *   field_types = {
- *     "color_type"
+ *     "color_field_type"
  *   }
  * )
  */
-class ColorFormatterText extends FormatterBase {
+class ColorFieldFormatterText extends FormatterBase {
 
   /**
    * {@inheritdoc}
@@ -112,13 +112,7 @@ class ColorFormatterText extends FormatterBase {
   }
 
   /**
-   * Generate the output appropriate for one field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   One field item.
-   *
-   * @return string
-   *   The textual output generated.
+   * {@inheritdoc}
    */
   protected function viewValue(FieldItemInterface $item) {
     $opacity = $this->getFieldSetting('opacity');

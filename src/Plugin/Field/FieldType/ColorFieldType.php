@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldType\ColorType.
+ * Contains Drupal\color_field\Plugin\Field\FieldType\ColorFieldType.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldType;
@@ -18,14 +18,15 @@ use Drupal\Core\TypedData\DataDefinition;
  * Plugin implementation of the 'color_type' field type.
  *
  * @FieldType(
- *   id = "color_type",
+ *   id = "color_field_type",
  *   label = @Translation("Color"),
  *   description = @Translation("Create and store color value."),
- *   default_widget = "color_widget_default",
- *   default_formatter = "color_formatter_text"
+ *   default_widget = "color_field_widget_default",
+ *   default_formatter = "color_field_formatter_text"
  * )
  */
-class ColorType extends FieldItemBase {
+class ColorFieldType extends FieldItemBase {
+
   /**
    * {@inheritdoc}
    */

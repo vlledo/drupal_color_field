@@ -12,7 +12,7 @@
 
             var $context = $(context);
 
-            var default_colors = settings.color_field.color_widget_box.settings.default_colors;
+            var default_colors = settings.color_field.color_field_widget_box.settings.default_colors;
 
             $context.find('.color-field-widget-box-form').each(function (index, element) {
                 var $element = $(element);

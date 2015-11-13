@@ -55,7 +55,7 @@ function color_field_theme() {
 }
 
 /**
- * Prepares variables for the color formatter swatch template.
+ * Prepares variables for the color_field formatter swatch template.
  *
  * This template outputs a color swatch.
  *
@@ -73,7 +73,7 @@ function template_preprocess_color_field_formatter_swatch(&$variables) {
 
 
 /**
- * Prepares variables for color widget box wrapper template.
+ * Prepares variables for color_field widget box wrapper template.
  *
  * Default template: color-field-widget-box.html.twig.
  *

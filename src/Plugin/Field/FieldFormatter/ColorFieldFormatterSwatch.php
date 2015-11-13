@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldFormatter\ColorFormatterSwatch.
+ * Contains Drupal\color_field\Plugin\Field\FieldFormatter\ColorFieldFormatterSwatch.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldFormatter;
@@ -13,18 +13,18 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\color_field\ColorHex;
 
 /**
- * Plugin implementation of the 'color_field_swatch' formatter.
+ * Plugin implementation of the color_field swatch formatter.
  *
  * @FieldFormatter(
- *   id = "color_formatter_swatch",
+ *   id = "color_field_formatter_swatch",
  *   module = "color_field",
  *   label = @Translation("Color Swatch"),
  *   field_types = {
- *     "color_type"
+ *     "color_field_type"
  *   }
  * )
  */
-class ColorFormatterSwatch extends FormatterBase {
+class ColorFieldFormatterSwatch extends FormatterBase {
 
   /**
    * {@inheritdoc}
@@ -128,7 +128,7 @@ class ColorFormatterSwatch extends FormatterBase {
 
     $elements = [];
 
-    $elements['#attached']['library'][] = 'color_field/color-field-formater-swatch';
+    $elements['#attached']['library'][] = 'color_field/color-field-formatter-swatch';
 
     foreach ($items as $delta => $item) {
       $elements[$delta] = array(
@@ -144,13 +144,7 @@ class ColorFormatterSwatch extends FormatterBase {
   }
 
   /**
-   * Generate the output appropriate for one field item.
-   *
-   * @param \Drupal\Core\Field\FieldItemInterface $item
-   *   One field item.
-   *
-   * @return string
-   *   The background color generated.
+   * {@inheritdoc}
    */
   protected function viewValue(FieldItemInterface $item) {
     $opacity = $this->getFieldSetting('opacity');

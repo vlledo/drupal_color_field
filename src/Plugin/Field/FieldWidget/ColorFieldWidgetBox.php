@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorWidgetBox.
+ * Contains Drupal\color_field\Plugin\Field\FieldWidget\ColorFieldWidgetBox.
  */
 
 namespace Drupal\color_field\Plugin\Field\FieldWidget;
@@ -12,18 +12,18 @@ use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Plugin implementation of the 'color_widget_box' widget.
+ * Plugin implementation of the color_field box widget.
  *
  * @FieldWidget(
- *   id = "color_widget_box",
+ *   id = "color_field_widget_box",
  *   module = "color_field",
  *   label = @Translation("Color boxes"),
  *   field_types = {
- *     "color_type"
+ *     "color_field_type"
  *   }
  * )
  */
-class ColorWidgetBox extends WidgetBase {
+class ColorFieldWidgetBox extends WidgetBase {
 
   /**
    * {@inheritdoc}
@@ -89,7 +89,7 @@ class ColorWidgetBox extends WidgetBase {
     $element['#theme_wrappers'] = array('color_field_widget_box');
     $element['#attributes']['class'][] = 'container-inline';
 
-    $element['#attached']['library'][] = 'color_field/color-field-box';
+    $element['#attached']['library'][] = 'color_field/color-field-widget-box';
 
     // Set Drupal settings.
     $settings = [];
@@ -98,7 +98,7 @@ class ColorWidgetBox extends WidgetBase {
     foreach ($default_colors as $color) {
       $settings['palette'][] = $color[0];
     }
-    $element['#attached']['drupalSettings']['color_field']['color_widget_box']['settings'] = $settings;
+    $element['#attached']['drupalSettings']['color_field']['color_field_widget_box']['settings'] = $settings;
 
     // Retrieve field label and description.
     $element['#title'] = $this->fieldDefinition->getLabel();;
@@ -111,7 +111,7 @@ class ColorWidgetBox extends WidgetBase {
       '#default_value' => isset($items[$delta]->color) ? $items[$delta]->color : NULL,
       '#attributes' => array('class' => array('visually-hidden')),
    );
-    $element['color']['#suffix'] = "<div class='color-field-widget-box-form'>" . 111 . "</div>";
+    $element['color']['#suffix'] = "<div class='color-field-widget-box-form'></div>";
 
     if ($this->getFieldSetting('opacity')) {
       $element['opacity'] = array(
