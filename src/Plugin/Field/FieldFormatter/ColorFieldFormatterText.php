@@ -19,7 +19,7 @@ use Drupal\color_field\ColorHex;
  * @FieldFormatter(
  *   id = "color_field_formatter_text",
  *   module = "color_field",
- *   label = @Translation("Color Text"),
+ *   label = @Translation("Color text"),
  *   field_types = {
  *     "color_field_type"
  *   }

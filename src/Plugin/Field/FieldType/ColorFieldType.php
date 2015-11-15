@@ -48,31 +48,54 @@ class ColorFieldType extends FieldItemBase {
   /**
    * {@inheritdoc}
    */
-  public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
-    // Prevent early t() calls by using the TranslationWrapper.
-    $properties['color'] = DataDefinition::create('string')
-      ->setLabel(new TranslationWrapper('Color'));
-    // ->setSetting('case_sensitive', $field_definition->getSetting('case_sensitive'))
-    // ->setRequired(TRUE);
+  public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data) {
+    $element = [];
 
-    $properties['opacity'] = DataDefinition::create('float')
-      ->setLabel(new TranslationWrapper('Opacity'));
-    // ->setSetting('case_sensitive', $field_definition->getSetting('case_sensitive'))
-    // ->setRequired(TRUE);
+    $element['format'] = array(
+      '#type' => 'select',
+      '#title' => t('Format storage'),
+      '#description' => t('Choose how to store the color.'),
+      '#default_value' => $this->getSetting('format'),
+      '#options' => array(
+        '#HEXHEX' => t('#123ABC'),
+        'HEXHEX' => t('123ABC'),
+        '#hexhex' => t('#123abc'),
+        'hexhex' => t('123abc'),
+      ),
+    );
 
-    return $properties;
+    return $element;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function fieldSettingsForm(array $form, FormStateInterface $form_state) {
+    $element = [];
+
+    $element['opacity'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Record opacity'),
+      '#description' => t('Whether or not to record.'),
+      '#default_value' => $this->getSetting('opacity'),
+    );
+
+    return $element;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
+    //$format = $field_definition->getSetting('format');
+    //$color_length = isset($format) ? strlen($format) : 7 ;
+    $color_length = 7;
     return array(
       'columns' => array(
         'color' => array(
-          'description' => 'The RGB hex values starting by the #',
+          'description' => 'The color value',
           'type' => 'varchar',
-          'length' => 7,
+          'length' => $color_length,
           'not null' => FALSE,
         ),
         'opacity' => array(
@@ -91,6 +114,24 @@ class ColorFieldType extends FieldItemBase {
   /**
    * {@inheritdoc}
    */
+  public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
+    // Prevent early t() calls by using the TranslationWrapper.
+    $properties['color'] = DataDefinition::create('string')
+      ->setLabel(new TranslationWrapper('Color'));
+    // ->setSetting('case_sensitive', $field_definition->getSetting('case_sensitive'))
+    // ->setRequired(TRUE);
+
+    $properties['opacity'] = DataDefinition::create('float')
+      ->setLabel(new TranslationWrapper('Opacity'));
+    // ->setSetting('case_sensitive', $field_definition->getSetting('case_sensitive'))
+    // ->setRequired(TRUE);
+
+    return $properties;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function isEmpty() {
     $value = $this->get('color')->getValue();
     return $value === NULL || $value === '';
@@ -102,6 +143,12 @@ class ColorFieldType extends FieldItemBase {
   public function getConstraints() {
     $constraint_manager = \Drupal::typedDataManager()->getValidationConstraintManager();
     $constraints = parent::getConstraints();
+
+    if ($format = $this->getSetting('format')) {
+    }
+
+    if ($opacity = $this->getSetting('opacity')) {
+    }
 
     $settings = $this->getSettings();
     $label = $this->getFieldDefinition()->getLabel();
@@ -151,29 +198,4 @@ class ColorFieldType extends FieldItemBase {
     return '';
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data) {
-    $element = array();
-    // Control the storage.
-    return $element;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function fieldSettingsForm(array $form, FormStateInterface $form_state) {
-    $element = array();
-    $settings = $this->getSettings();
-
-    $element['opacity'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Record opacity'),
-      '#description' => t('Whether or not to record.'),
-      '#default_value' => $settings['opacity'],
-    );
-
-    return $element;
-  }
 }

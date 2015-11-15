@@ -18,7 +18,7 @@ use Drupal\color_field\ColorHex;
  * @FieldFormatter(
  *   id = "color_field_formatter_swatch",
  *   module = "color_field",
- *   label = @Translation("Color Swatch"),
+ *   label = @Translation("Color swatch"),
  *   field_types = {
  *     "color_field_type"
  *   }
