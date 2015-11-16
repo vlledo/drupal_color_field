@@ -30,7 +30,7 @@ class ColorHex extends ColorBase {
    * @throws Exception
    */
   public function __construct($color, $opacity) {
-    $color = strtolower($color);
+    $color = trim(strtolower($color));
 
     if (substr($color, 0, 1) === '#') {
       $color = substr($color, 1);

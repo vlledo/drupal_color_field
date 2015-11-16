@@ -13,6 +13,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslationWrapper;
 use Drupal\Core\TypedData\DataDefinition;
+use Drupal\color_field\ColorHex;
 
 /**
  * Plugin implementation of the 'color_type' field type.
@@ -143,30 +144,13 @@ class ColorFieldType extends FieldItemBase {
 
     $label = $this->getFieldDefinition()->getLabel();
 
-    if ($format = $this->getSetting('format')) {
-      switch ($format) {
-        case '#HEXHEX':
-          $pattern = '/^#[A-F0-9]{6}$/i';
-          break;
-        case 'HEXHEX':
-          $pattern = '/^[a-fA-F0-9]{6}$/i';
-          break;
-        case '#hexhex':
-          $pattern = '/^#[a-f0-9]{6}$/i';
-          break;
-        case 'hexhex':
-          $pattern = '/^[a-f0-9]{6}$/i';
-          break;
-      }
-
-      $constraints[] = $constraint_manager->create('ComplexData', array(
-        'color' => array(
-          'Regex' => array(
-            'pattern' => $pattern,
-          )
-        ),
-      ));
-    }
+    $constraints[] = $constraint_manager->create('ComplexData', array(
+      'color' => array(
+        'Regex' => array(
+          'pattern' => '/^#?(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$/i',
+        )
+      ),
+    ));
 
     if ($opacity = $this->getSetting('opacity')) {
       $min = 0;
@@ -202,13 +186,13 @@ class ColorFieldType extends FieldItemBase {
     if ($format = $settings['format']) {
       switch ($format) {
         case '#HEXHEX':
-          $values['color'] = '111111';
+          $values['color'] = '#111AAA';
           break;
         case 'HEXHEX':
           $values['color'] = '111111';
           break;
         case '#hexhex':
-          $values['color'] = '111111';
+          $values['color'] = '#111aaa';
           break;
         case 'hexhex':
           $values['color'] = '111111';
@@ -219,6 +203,41 @@ class ColorFieldType extends FieldItemBase {
     $values['opacity'] = 1;
 
     return $values;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function preSave() {
+    parent::preSave();
+
+    $values = $this->values;
+
+    if ($format = $this->getSettings('format')) {
+      // Clean up data and format it.
+      $color = trim($values['color']);
+
+      if (substr($color, 0, 1) === '#') {
+        $color = substr($color, 1);
+      }
+
+      switch ($format) {
+        case '#HEXHEX':
+          $values['color'] = '#' . strtoupper($color);
+          break;
+        case 'HEXHEX':
+          $values['color'] = strtoupper($color);
+          break;
+        case '#hexhex':
+          $values['color'] = '#' . strtolower($color);
+          break;
+        case 'hexhex':
+          $values['color'] = strtolower($color);
+          break;
+      }
+    }
+
+    $this->values = $values;
   }
 
 }
