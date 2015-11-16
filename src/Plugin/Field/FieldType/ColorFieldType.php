@@ -64,6 +64,8 @@ class ColorFieldType extends FieldItemBase {
       ),
     );
 
+    $element += parent::storageSettingsForm($form, $form_state, $has_data);
+
     return $element;
   }
 
@@ -87,9 +89,8 @@ class ColorFieldType extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
-    //$format = $field_definition->getSetting('format');
-    //$color_length = isset($format) ? strlen($format) : 7 ;
-    $color_length = 7;
+    $format = $field_definition->getSetting('format');
+    $color_length = isset($format) ? strlen($format) : 7 ;
     return array(
       'columns' => array(
         'color' => array(
@@ -118,13 +119,9 @@ class ColorFieldType extends FieldItemBase {
     // Prevent early t() calls by using the TranslationWrapper.
     $properties['color'] = DataDefinition::create('string')
       ->setLabel(new TranslationWrapper('Color'));
-    // ->setSetting('case_sensitive', $field_definition->getSetting('case_sensitive'))
-    // ->setRequired(TRUE);
 
     $properties['opacity'] = DataDefinition::create('float')
       ->setLabel(new TranslationWrapper('Opacity'));
-    // ->setSetting('case_sensitive', $field_definition->getSetting('case_sensitive'))
-    // ->setRequired(TRUE);
 
     return $properties;
   }
@@ -144,16 +141,34 @@ class ColorFieldType extends FieldItemBase {
     $constraint_manager = \Drupal::typedDataManager()->getValidationConstraintManager();
     $constraints = parent::getConstraints();
 
+    $label = $this->getFieldDefinition()->getLabel();
+
     if ($format = $this->getSetting('format')) {
+      switch ($format) {
+        case '#HEXHEX':
+          $pattern = '/^#[A-F0-9]{6}$/i';
+          break;
+        case 'HEXHEX':
+          $pattern = '/^[a-fA-F0-9]{6}$/i';
+          break;
+        case '#hexhex':
+          $pattern = '/^#[a-f0-9]{6}$/i';
+          break;
+        case 'hexhex':
+          $pattern = '/^[a-f0-9]{6}$/i';
+          break;
+      }
+
+      $constraints[] = $constraint_manager->create('ComplexData', array(
+        'color' => array(
+          'Regex' => array(
+            'pattern' => $pattern,
+          )
+        ),
+      ));
     }
 
     if ($opacity = $this->getSetting('opacity')) {
-    }
-
-    $settings = $this->getSettings();
-    $label = $this->getFieldDefinition()->getLabel();
-
-    if (!empty($settings['opacity'])) {
       $min = 0;
       $constraints[] = $constraint_manager->create('ComplexData', array(
         'opacity' => array(
@@ -175,15 +190,6 @@ class ColorFieldType extends FieldItemBase {
       ));
     }
 
-    // @todo: Adapt constraint based on storage.
-    //$constraints[] = $constraint_manager->create('ComplexData', array(
-    //  'color' => array(
-    //    'Regex' => array(
-    //      'pattern' => '/^#(\d+)$/i',
-    //    )
-    //  ),
-    //));
-
     return $constraints;
   }
 
@@ -191,11 +197,28 @@ class ColorFieldType extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function generateSampleValue(FieldDefinitionInterface $field_definition) {
-    //$random = new Random();
-    //$values['color'] = $random->word(mt_rand(1, $field_definition->getSetting('max_length')));
-    //$values['opacity'] = $random->word(mt_rand(1, $field_definition->getSetting('max_length')));
-    //return $values;
-    return '';
+    $settings = $field_definition->getSettings();
+
+    if ($format = $settings['format']) {
+      switch ($format) {
+        case '#HEXHEX':
+          $values['color'] = '111111';
+          break;
+        case 'HEXHEX':
+          $values['color'] = '111111';
+          break;
+        case '#hexhex':
+          $values['color'] = '111111';
+          break;
+        case 'hexhex':
+          $values['color'] = '111111';
+          break;
+      }
+    }
+
+    $values['opacity'] = 1;
+
+    return $values;
   }
 
 }
