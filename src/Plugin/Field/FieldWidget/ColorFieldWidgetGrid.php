@@ -152,13 +152,22 @@ class ColorFieldWidgetGrid extends WidgetBase {
     $settings = $this->getSettings();
     $element['#attached']['drupalSettings']['color_field']['color_field_widget_grid'] = $settings;
 
+    // Prepare color.
+    $color = NULL;
+    if (isset($items[$delta]->color)) {
+      $color = $items[$delta]->color;
+      if (substr($color, 0, 1) !== '#') {
+        $color = '#' . $color;
+      }
+    }
+
     $element['color'] = array(
       '#title' => t('Color'),
       '#type' => 'textfield',
       '#maxlength' => 7,
       '#size' => 7,
       '#required' => $element['#required'],
-      '#default_value' => isset($items[$delta]->color) ? $items[$delta]->color : NULL,
+      '#default_value' => $color,
       '#attributes' => array('class' => array('js-color-field-widget-grid__color')),
     );
 

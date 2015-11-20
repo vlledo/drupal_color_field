@@ -211,11 +211,11 @@ class ColorFieldType extends FieldItemBase {
   public function preSave() {
     parent::preSave();
 
-    $values = $this->values;
+    if ($format = $this->getSetting('format')) {
+      $color = $this->color;
 
-    if ($format = $this->getSettings('format')) {
       // Clean up data and format it.
-      $color = trim($values['color']);
+      $color = trim($color);
 
       if (substr($color, 0, 1) === '#') {
         $color = substr($color, 1);
@@ -223,21 +223,21 @@ class ColorFieldType extends FieldItemBase {
 
       switch ($format) {
         case '#HEXHEX':
-          $values['color'] = '#' . strtoupper($color);
+          $color = '#' . strtoupper($color);
           break;
         case 'HEXHEX':
-          $values['color'] = strtoupper($color);
+          $color = strtoupper($color);
           break;
         case '#hexhex':
-          $values['color'] = '#' . strtolower($color);
+          $color = '#' . strtolower($color);
           break;
         case 'hexhex':
-          $values['color'] = strtolower($color);
+          $color = strtolower($color);
           break;
       }
-    }
 
-    $this->values = $values;
+      $this->color = $color;
+    }
   }
 
 }

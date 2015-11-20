@@ -55,13 +55,22 @@ class ColorFieldWidgetHTML5 extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+    // Prepare color.
+    $color = NULL;
+    if (isset($items[$delta]->color)) {
+      $color = $items[$delta]->color;
+      if (substr($color, 0, 1) !== '#') {
+        $color = '#' . $color;
+      }
+    }
+
     $element['color'] = array(
       '#title' => t('Color'),
       '#type' => 'color',
       '#maxlength' => 7,
       '#size' => 7,
       '#required' => $element['#required'],
-      '#default_value' => isset($items[$delta]->color) ? $items[$delta]->color : NULL,
+      '#default_value' => $color,
     );
 
     if ($this->getFieldSetting('opacity')) {
