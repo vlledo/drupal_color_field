@@ -2,10 +2,18 @@
  * @file
  * Javascript for Color Field.
  */
-(function ($) {
+(function ($, Drupal) {
 
-  "use strict";
+  'use strict';
 
+  /**
+   * Enables grid widget on color elements.
+   *
+   * @type {Drupal~behavior}
+   *
+   * @prop {Drupal~behaviorAttach} attach
+   *   Attaches a grid widget to a color input element.
+   */
   Drupal.behaviors.color_field_jquery_simple_color = {
     attach: function (context, settings) {
       var $context = $(context);
@@ -26,4 +34,5 @@
 
     }
   };
-})(jQuery);
+
+})(jQuery, Drupal);

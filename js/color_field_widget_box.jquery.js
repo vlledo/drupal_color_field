@@ -3,10 +3,18 @@
  * Attaches behaviors for Drupal's color field.
  */
 
-(function (Drupal, drupalSettings, $) {
+(function ($, Drupal) {
 
-    "use strict";
+    'use strict';
 
+    /**
+     * Enables box widget on color elements.
+     *
+     * @type {Drupal~behavior}
+     *
+     * @prop {Drupal~behaviorAttach} attach
+     *   Attaches a box widget to a color input element.
+     */
     Drupal.behaviors.color_field = {
         attach: function (context, settings) {
 
@@ -29,8 +37,6 @@
             });
 
         },
-        detach: function (context, settings, trigger) {
-        }
     };
 
-})(Drupal, drupalSettings, jQuery);
+})(jQuery, Drupal);
