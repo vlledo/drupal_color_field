@@ -8,6 +8,7 @@
 namespace Drupal\color_field\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FormatterBase;
+use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\color_field\ColorHex;
