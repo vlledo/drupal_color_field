@@ -1,0 +1,6 @@
+{
+  "name": "drupal/color_field",
+  "description": "Provides a color field type to store the color value and opacity",
+  "type": "drupal-module",
+  "license": "GPL-2.0+"
+}
