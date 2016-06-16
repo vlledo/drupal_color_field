@@ -20,22 +20,23 @@
 
             var $context = $(context);
 
-            var default_colors = settings.color_field.color_field_widget_box.settings.default_colors;
-
-            $context.find('.color-field-widget-box-form').each(function (index, element) {
-                var $element = $(element);
-                var $input = $element.prev().find('input');
-                $element.empty().addColorPicker({
-                    currentColor: $input.val(),
-                    colors: default_colors,
-                    blotchClass:'color_field_widget_box__square',
-                    blotchTransparentClass:'color_field_widget_box__square--transparent',
-                    clickCallback: function(color) {
-                        $input.val(color).trigger('change');
-                    }
+            for(var unique_id in settings.color_field.color_field_widget_box.settings.default_colors) {
+                var element_default_colors = settings.color_field.color_field_widget_box.settings.default_colors[unique_id];
+                
+                $context.find('#container-' + unique_id).each(function (index, element) {
+                    var $element = $(element);
+                    var $input = $element.prev().find('input');
+                    $element.empty().addColorPicker({
+                        currentColor: $input.val(),
+                        colors: element_default_colors,
+                        blotchClass:'color_field_widget_box__square',
+                        blotchTransparentClass:'color_field_widget_box__square--transparent',
+                        clickCallback: function(color) {
+                            $input.val(color).trigger('change');
+                        }
+                    });
                 });
-            });
-
+            }
         },
     };
 

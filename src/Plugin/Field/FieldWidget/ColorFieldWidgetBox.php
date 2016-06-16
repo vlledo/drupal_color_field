@@ -86,9 +86,11 @@ class ColorFieldWidgetBox extends WidgetBase {
     // title because the actual title display is handled at a higher level by
     // the Field module.
 
+    $unique_id = rand();
+    
     $element['#theme_wrappers'] = array('color_field_widget_box');
     $element['#attributes']['class'][] = 'container-inline';
-
+    
     $element['#attached']['library'][] = 'color_field/color-field-widget-box';
 
     // Set Drupal settings.
@@ -96,10 +98,11 @@ class ColorFieldWidgetBox extends WidgetBase {
     $default_colors = $this->getSetting('default_colors');
     preg_match_all("/#[0-9a-fA-F]{6}/", $default_colors, $default_colors, PREG_SET_ORDER);
     foreach ($default_colors as $color) {
-      $settings['palette'][] = $color[0];
+      $settings['default_colors'][$unique_id][] = $color[0];
     }
+    
     $element['#attached']['drupalSettings']['color_field']['color_field_widget_box']['settings'] = $settings;
-
+    
     // Retrieve field label and description.
     $element['#title'] = $this->fieldDefinition->getLabel();;
     $element['#description'] = $this->fieldDefinition->getDescription();
@@ -120,7 +123,7 @@ class ColorFieldWidgetBox extends WidgetBase {
       '#default_value' => $color,
       '#attributes' => array('class' => array('visually-hidden')),
    );
-    $element['color']['#suffix'] = "<div class='color-field-widget-box-form'></div>";
+    $element['color']['#suffix'] = "<div class='color-field-widget-box-form' id='container-".$unique_id."'></div>";
 
     if ($this->getFieldSetting('opacity')) {
       $element['opacity'] = array(
